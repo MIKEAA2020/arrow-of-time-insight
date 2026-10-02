@@ -1,0 +1,176 @@
+VERIFICATION LOG -- adjudicated audit of "The Opfibration Ontology: Quantum Instruments,
+Irreversibility, and the Epistemic Asymptote" (A. Abaee) and of its six reviews.
+Generated: 2026-10-02T15:22:29Z  |  Python 3.13.14  |  numpy/scipy/sympy
+Script: verification/verify_claims.py    Commit-hash of repo at generation: 9a01a02
+================================================================================
+
+==============================================================================
+A. PROPOSITION 3.1 -- affine dimension of the instrument slices
+==============================================================================
+[PASS] Prop 3.1: dim_aff Instr_1(A,B) = d_A^2(n d_B^2-1)  [dA=1,dB=1,n=1]   -- rank=1 (=d_A^2), aff.dim=0, formula=0
+[PASS] Prop 3.1: dim_aff Instr_2(A,B) = d_A^2(n d_B^2-1)  [dA=1,dB=1,n=2]   -- rank=1 (=d_A^2), aff.dim=1, formula=1
+[PASS] Prop 3.1: dim_aff Instr_3(A,B) = d_A^2(n d_B^2-1)  [dA=1,dB=1,n=3]   -- rank=1 (=d_A^2), aff.dim=2, formula=2
+[PASS] Prop 3.1: dim_aff Instr_4(A,B) = d_A^2(n d_B^2-1)  [dA=1,dB=1,n=4]   -- rank=1 (=d_A^2), aff.dim=3, formula=3
+[PASS] Prop 3.1: dim_aff Instr_1(A,B) = d_A^2(n d_B^2-1)  [dA=1,dB=2,n=1]   -- rank=1 (=d_A^2), aff.dim=3, formula=3
+[PASS] Prop 3.1: dim_aff Instr_2(A,B) = d_A^2(n d_B^2-1)  [dA=1,dB=2,n=2]   -- rank=1 (=d_A^2), aff.dim=7, formula=7
+[PASS] Prop 3.1: dim_aff Instr_3(A,B) = d_A^2(n d_B^2-1)  [dA=1,dB=2,n=3]   -- rank=1 (=d_A^2), aff.dim=11, formula=11
+[PASS] Prop 3.1: dim_aff Instr_4(A,B) = d_A^2(n d_B^2-1)  [dA=1,dB=2,n=4]   -- rank=1 (=d_A^2), aff.dim=15, formula=15
+[PASS] Prop 3.1: dim_aff Instr_1(A,B) = d_A^2(n d_B^2-1)  [dA=1,dB=3,n=1]   -- rank=1 (=d_A^2), aff.dim=8, formula=8
+[PASS] Prop 3.1: dim_aff Instr_2(A,B) = d_A^2(n d_B^2-1)  [dA=1,dB=3,n=2]   -- rank=1 (=d_A^2), aff.dim=17, formula=17
+[PASS] Prop 3.1: dim_aff Instr_3(A,B) = d_A^2(n d_B^2-1)  [dA=1,dB=3,n=3]   -- rank=1 (=d_A^2), aff.dim=26, formula=26
+[PASS] Prop 3.1: dim_aff Instr_4(A,B) = d_A^2(n d_B^2-1)  [dA=1,dB=3,n=4]   -- rank=1 (=d_A^2), aff.dim=35, formula=35
+[PASS] Prop 3.1: dim_aff Instr_1(A,B) = d_A^2(n d_B^2-1)  [dA=2,dB=1,n=1]   -- rank=4 (=d_A^2), aff.dim=0, formula=0
+[PASS] Prop 3.1: dim_aff Instr_2(A,B) = d_A^2(n d_B^2-1)  [dA=2,dB=1,n=2]   -- rank=4 (=d_A^2), aff.dim=4, formula=4
+[PASS] Prop 3.1: dim_aff Instr_3(A,B) = d_A^2(n d_B^2-1)  [dA=2,dB=1,n=3]   -- rank=4 (=d_A^2), aff.dim=8, formula=8
+[PASS] Prop 3.1: dim_aff Instr_4(A,B) = d_A^2(n d_B^2-1)  [dA=2,dB=1,n=4]   -- rank=4 (=d_A^2), aff.dim=12, formula=12
+[PASS] Prop 3.1: dim_aff Instr_1(A,B) = d_A^2(n d_B^2-1)  [dA=2,dB=2,n=1]   -- rank=4 (=d_A^2), aff.dim=12, formula=12
+[PASS] Prop 3.1: dim_aff Instr_2(A,B) = d_A^2(n d_B^2-1)  [dA=2,dB=2,n=2]   -- rank=4 (=d_A^2), aff.dim=28, formula=28
+[PASS] Prop 3.1: dim_aff Instr_3(A,B) = d_A^2(n d_B^2-1)  [dA=2,dB=2,n=3]   -- rank=4 (=d_A^2), aff.dim=44, formula=44
+[PASS] Prop 3.1: dim_aff Instr_4(A,B) = d_A^2(n d_B^2-1)  [dA=2,dB=2,n=4]   -- rank=4 (=d_A^2), aff.dim=60, formula=60
+[PASS] Prop 3.1: dim_aff Instr_1(A,B) = d_A^2(n d_B^2-1)  [dA=2,dB=3,n=1]   -- rank=4 (=d_A^2), aff.dim=32, formula=32
+[PASS] Prop 3.1: dim_aff Instr_2(A,B) = d_A^2(n d_B^2-1)  [dA=2,dB=3,n=2]   -- rank=4 (=d_A^2), aff.dim=68, formula=68
+[PASS] Prop 3.1: dim_aff Instr_3(A,B) = d_A^2(n d_B^2-1)  [dA=2,dB=3,n=3]   -- rank=4 (=d_A^2), aff.dim=104, formula=104
+[PASS] Prop 3.1: dim_aff Instr_4(A,B) = d_A^2(n d_B^2-1)  [dA=2,dB=3,n=4]   -- rank=4 (=d_A^2), aff.dim=140, formula=140
+[PASS] Prop 3.1: dim_aff Instr_1(A,B) = d_A^2(n d_B^2-1)  [dA=3,dB=1,n=1]   -- rank=9 (=d_A^2), aff.dim=0, formula=0
+[PASS] Prop 3.1: dim_aff Instr_2(A,B) = d_A^2(n d_B^2-1)  [dA=3,dB=1,n=2]   -- rank=9 (=d_A^2), aff.dim=9, formula=9
+[PASS] Prop 3.1: dim_aff Instr_3(A,B) = d_A^2(n d_B^2-1)  [dA=3,dB=1,n=3]   -- rank=9 (=d_A^2), aff.dim=18, formula=18
+[PASS] Prop 3.1: dim_aff Instr_4(A,B) = d_A^2(n d_B^2-1)  [dA=3,dB=1,n=4]   -- rank=9 (=d_A^2), aff.dim=27, formula=27
+[PASS] Prop 3.1: dim_aff Instr_1(A,B) = d_A^2(n d_B^2-1)  [dA=3,dB=2,n=1]   -- rank=9 (=d_A^2), aff.dim=27, formula=27
+[PASS] Prop 3.1: dim_aff Instr_2(A,B) = d_A^2(n d_B^2-1)  [dA=3,dB=2,n=2]   -- rank=9 (=d_A^2), aff.dim=63, formula=63
+[PASS] Prop 3.1: dim_aff Instr_3(A,B) = d_A^2(n d_B^2-1)  [dA=3,dB=2,n=3]   -- rank=9 (=d_A^2), aff.dim=99, formula=99
+[PASS] Prop 3.1: dim_aff Instr_4(A,B) = d_A^2(n d_B^2-1)  [dA=3,dB=2,n=4]   -- rank=9 (=d_A^2), aff.dim=135, formula=135
+[PASS] Prop 3.1: dim_aff Instr_1(A,B) = d_A^2(n d_B^2-1)  [dA=3,dB=3,n=1]   -- rank=9 (=d_A^2), aff.dim=72, formula=72
+[PASS] Prop 3.1: dim_aff Instr_2(A,B) = d_A^2(n d_B^2-1)  [dA=3,dB=3,n=2]   -- rank=9 (=d_A^2), aff.dim=153, formula=153
+[PASS] Prop 3.1: dim_aff Instr_3(A,B) = d_A^2(n d_B^2-1)  [dA=3,dB=3,n=3]   -- rank=9 (=d_A^2), aff.dim=234, formula=234
+[PASS] Prop 3.1: dim_aff Instr_4(A,B) = d_A^2(n d_B^2-1)  [dA=3,dB=3,n=4]   -- rank=9 (=d_A^2), aff.dim=315, formula=315
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=1,dB=1,n=1]   -- min eig=1
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=1,dB=1,n=2]   -- min eig=0.5
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=1,dB=1,n=3]   -- min eig=0.333
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=1,dB=2,n=1]   -- min eig=0.5
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=1,dB=2,n=2]   -- min eig=0.25
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=1,dB=2,n=3]   -- min eig=0.167
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=1,dB=3,n=1]   -- min eig=0.333
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=1,dB=3,n=2]   -- min eig=0.167
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=1,dB=3,n=3]   -- min eig=0.111
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=2,dB=1,n=1]   -- min eig=1
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=2,dB=1,n=2]   -- min eig=0.5
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=2,dB=1,n=3]   -- min eig=0.333
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=2,dB=2,n=1]   -- min eig=0.5
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=2,dB=2,n=2]   -- min eig=0.25
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=2,dB=2,n=3]   -- min eig=0.167
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=2,dB=3,n=1]   -- min eig=0.333
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=2,dB=3,n=2]   -- min eig=0.167
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=2,dB=3,n=3]   -- min eig=0.111
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=3,dB=1,n=1]   -- min eig=1
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=3,dB=1,n=2]   -- min eig=0.5
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=3,dB=1,n=3]   -- min eig=0.333
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=3,dB=2,n=1]   -- min eig=0.5
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=3,dB=2,n=2]   -- min eig=0.25
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=3,dB=2,n=3]   -- min eig=0.167
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=3,dB=3,n=1]   -- min eig=0.333
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=3,dB=3,n=2]   -- min eig=0.167
+[PASS] Prop 3.1 interior point: PSD-strict & sum_i Tr_B J_i = I_A  [dA=3,dB=3,n=3]   -- min eig=0.111
+[PASS] Thm 4.2 step: g |-> eps o (g (x) id_E) is AFFINE (indeed linear) on Choi operators   -- verified on a genuine affine combination of Kraus lists
+[PASS] Chan(B,B) interior point exists (depolarising Choi PD)  [dB=1]   -- min eig=1
+[PASS] Chan(B,B) interior point exists (depolarising Choi PD)  [dB=2]   -- min eig=0.5
+[PASS] Chan(B,B) interior point exists (depolarising Choi PD)  [dB=3]   -- min eig=0.333
+
+==============================================================================
+B. Missing lemma -- affine bijection implies equal affine dimension
+==============================================================================
+[PASS] Lemma: hypothesis 'convex' is essential (parabola: L injective on set, dim drops)   -- graph of x^2 is injectively mapped to the line, dim 2 -> 1
+[PASS] Lemma mechanism: ker-L direction moves an interior point inside C [k=3,m=2]
+[PASS] Lemma mechanism: ker-L direction moves an interior point inside C [k=4,m=2]
+[PASS] Lemma mechanism: ker-L direction moves an interior point inside C [k=4,m=3]
+
+==============================================================================
+C. The Diophantine gap in [1] and the square-gap (Chan, B = E)
+==============================================================================
+[PASS] Diophantine family (k, 2k, 2k^2-1) solves d_R^2 = d_E^2(d_B^2-1)+1
+[PASS] Example (4,8,31) satisfies the equation   -- 8^2*(4^2-1)+1 = 31^2
+[PASS] Example (2,4,7) satisfies the equation   -- 4^2*(2^2-1)+1 = 7^2
+[PASS] Example (8,16,127) satisfies the equation   -- 16^2*(8^2-1)+1 = 127^2
+[PASS] Pell branch d_B=2 (sonnet2/grok3): (d_R,d_E) = (2,1),(7,4),(26,15) all solve
+[PASS] grok2's example (d_B=1 -> d_R=1, any d_E) is the trivial solution only
+[PASS] meta-review's '70 solutions with d_E<400, d_B<60' -- reproduced exactly once the trivial d_B=1 family is excluded: 70   -- with d_B=1 included: 468 (the 398 extra are the trivial d_B=1, d_R=1 solutions); first non-trivial: [(2, 4, 7), (2, 15, 26), (2, 56, 97)]
+       (with d_E=1 included the box gives 527 solutions)
+[PASS] SQUARE-GAP: d_E^4-d_E^2+1 is never a perfect square for 2 <= d_E < 200000   -- counterexamples: []
+[PASS] SQUARE-GAP (symbolic): (e^2-1)^2 < e^4-e^2+1 < e^4  for all e >= 2   -- lower gap = e**2, upper gap = e**2 - 1
+[PASS] SQUARE-GAP: e=2 gives 13 (between 9 and 16) -- sonnet2's check
+
+==============================================================================
+D. Theorem 4.2 -- two-equation / intercept elimination (symbolic)
+==============================================================================
+[PASS] Thm 4.2 (n=1,2 elimination): forces E = 1 and X = B  [pdf's slope + intercept]   -- solution: [{E: 1, X: B}]
+[PASS] Thm 4.2 (intercepts only): n*d_R^2-1 = n*d_E^2*d_B^2-d_E^2 forces d_E^2 = 1   -- -1 = -d_E^2 at n = 1 once slopes match
+[PASS] pdf 'two-grade affine-dimension defect': q(2) - 2 q(1) = d_E^2 - 1
+
+==============================================================================
+E. Counit determinism (Lemma 4.1), incl. the triangle-identity route
+==============================================================================
+[PASS] Lemma 4.1: the p-outcome dummy instrument {Phi/p} is CP with sum = Phi (TP)
+[PASS] Lemma 4.1: trace-and-prepare K_i = |0><i| is a 1-outcome CPTP map A -> B (so m | 1 => m = 1); primes play no role   -- sum_i K_i^dag K_i = I_A (dA=3, dB=2)
+[PASS] Triangle identity route: only the monoid (N+,x) having no nontrivial units is used   -- irreducibility of primes plays no role (corrects pdf section 6 item 1)
+[PASS] Triangle identity at A = C (monoidal unit) pins eps_E (B = E is in im F)   -- eps_{F(1)} o F(eta_1) = id_{F(1)}, F(1) = E
+
+==============================================================================
+F. Left adjoint obstruction (both categories)
+==============================================================================
+[PASS] Left adjoint (Instr): A = B = C gives 0 = d_E^2 - 1, so d_E = 1
+[PASS] Left adjoint (Chan): C is terminal (unique discard) but F_E(C) = E is not (Chan(E,E) has >= 2 maps), so F_E cannot be a right adjoint   -- qualitative -- terminal objects are preserved by right adjoints
+[PASS] Instr(C,C) has >= 2 morphisms, so C is not terminal in Instr   -- {1} and {1/2,1/2} are distinct legitimate instruments
+[PASS] Chan(E,E) has >= 2 elements for d_E >= 2 (id vs depolarising), so E is not terminal   -- and Chan(C, E) = states of E has affine dim d_E^2 - 1 >= 3 for d_E >= 2
+[PASS] Instr has NO terminal object: T terminal => Hom(C,T) = 1 pt => d_T = 1 => T = C, but Hom(C,C) >= 2  (contradiction)   -- and dually no initial object (Hom(C,C) >= 2 again)
+[PASS] Consequence: no left/right asymmetry in the obstruction -- both adjoints are absent for d_E > 1   -- so the pdf's asymmetry narrative is unsupported
+
+==============================================================================
+G. Classical analogue (FinStoch instruments)
+==============================================================================
+[PASS] Classical: n = 1 is satisfiable (no square constraint!) e.g. |E|=|B|=2 -> |R|=3
+[PASS] Classical: n = 1 AND n = 2 jointly force |E| = 1 (intercept mismatch -1 vs -|E|)   -- solution: [{r: b, s: 1}]
+[PASS] Classical: exhaustive search finds no integral solution with |E| > 1
+[PASS] Classical vertex count: |B|^|E| > |E|(|B|-1)+1 for |B|,|E| >= 2 (strict)
+[PASS] CONTRAST: quantum killer is n=1 at B=E (square-gap); classical killer is n=2 (no square constraint classically)   -- reason the grading/intercept engine is genuinely needed for the classical analogue
+
+==============================================================================
+H. Normalisation explanation (CPM vs Chan/Instr) and CPM closure
+==============================================================================
+[PASS] Normalisation bookkeeping [dA=2,dE=2,dB=3]: TP slices differ by d_A^2(d_E^2-1) = 12   -- 128 vs 140
+[PASS] Normalisation bookkeeping [dA=3,dE=2,dB=2]: TP slices differ by d_A^2(d_E^2-1) = 27   -- 108 vs 135
+[PASS] Normalisation bookkeeping [dA=2,dE=3,dB=4]: TP slices differ by d_A^2(d_E^2-1) = 32   -- 540 vs 572
+[PASS] CPM: both hom-spaces have the same ambient dimension d_A^2 d_E^2 d_B^2 (so no obstruction before normalisation)
+[PASS] CPM is compact closed => -(x)E HAS a right adjoint (E* (x) -) there, while containing irreversible maps (trace, discard)   -- adjointness is therefore NOT a signature of reversibility
+[PASS] Reversible-case test: in the unitary groupoid F_E has no right adjoint whenever d_E does not divide d_B (left hom-set empty, R(B) would need an empty hom-set)
+
+==============================================================================
+I. Strictification: what the lexicographic fix does and does not give
+==============================================================================
+[PASS] Category axioms: with outcome sets [n] and lexicographic product, COMPOSITION is strictly associative (mixed-radix encoding agrees)   -- (n,m,k) = (2,3,4), (3,3,2), (5,2,3) -- meta-review's fix is correct
+[PASS] Category axioms: unit law holds strictly ([n] x [1] = [n] = [1] x [n])
+[PASS] Monoidal structure: the interchange law for (x) holds only up to a label PERMUTATION ([mq]x[np] vs [mn]x[qp] order the 4-tuple differently)   -- e.g. (j,k,i,t)=(0, 0, 1, 0): left index 2 vs right index 4
+[PASS] => Cor. 4.4 (non-monoidal-closure) needs the relabelling quotient / a weak monoidal structure; Thm 4.2 itself needs only F_E as an endofunctor, which the lexicographic model makes strict   -- meta-review correct about the category; sonnet2 correct about (x)
+
+==============================================================================
+J. Terminology / metadata cross-checks (recorded facts)
+==============================================================================
+       [3] Coecke-Spekkens: Synthese 186(3):651-696, 2012, doi:10.1007/s11229-011-9917-5
+           -> pdf's 'Synthese 194, 3185 (2017)' is WRONG
+       [4] Oreshkov-Costa-Brukner: Nature Commun. 3, 1092 (2012): process matrices, indefinite causal order
+           -> pdf calls it 'process-matrix retrodiction' -- mischaracterised
+       [1] doi:10.5281/zenodo.20860298: resolves to Zenodo record 20860299, SOFTWARE: 'MIKEAA2020/opfibration-supplement: Initial supplementary simulation', 2026-06-25, MIT, creator 'MIKEAA2020'
+           -> NOT the manuscript title/author given in [1]
+       [2] Petz 1988: Quart. J. Math. Oxford 39, 97 (1988)
+           -> correct
+       [5] Davies-Lewis 1970: Commun. Math. Phys. 17, 239 (1970)
+           -> correct; never cited in text
+       [6] Ozawa 1984: J. Math. Phys. 25, 79 (1984)
+           -> correct; never cited in text
+       [7] Selinger 2007: ENTCS 170, 139 (2007); CPM(FHilb) compact closed
+           -> correct; never cited in text -- and decisive for the normalisation explanation
+[PASS] All seven references checked against external records (see audits/02_REFERENCE_AND_METADATA_CHECK.md)
+[PASS] Acknowledgement: LLM-assisted verification; the pdf's own admitted error plus the missing lemma motivate machine-checked or human-checked proofs (this file is one step)
+
+==============================================================================
+SUMMARY
+==============================================================================
+111 checks passed, 0 failed, 111 total

@@ -1,0 +1,14 @@
+# credentials must never enter this (public) repository
+GITHUB_PAT.txt
+*.pat
+.github_token
+.netrc
+.env
+.env.*
+
+# scratch / build artefacts
+__pycache__/
+*.pyc
+work/
+*.bundle
+*.patch
