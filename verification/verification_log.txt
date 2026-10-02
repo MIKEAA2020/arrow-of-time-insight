@@ -1,8 +1,8 @@
 VERIFICATION LOG -- adjudicated audit of "The Opfibration Ontology: Quantum Instruments,
 Irreversibility, and the Epistemic Asymptote" (A. Abaee), of its six reviews, and of the
 meta-review.
-Generated: 2026-10-02T15:40:00Z  |  Python 3.13.14  |  numpy 2.3.5  |  sympy 1.14.0
-Script: verification/verify_claims.py    Repo commit at generation: cf32451
+Generated: 2026-10-02T15:42:56Z  |  Python 3.13.14  |  numpy 2.3.5  |  sympy 1.14.0
+Script: verification/verify_claims.py    Repo commit at generation: 9349737 (second pass)
 ================================================================================
 
 ==============================================================================
