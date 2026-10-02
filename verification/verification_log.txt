@@ -1,7 +1,8 @@
 VERIFICATION LOG -- adjudicated audit of "The Opfibration Ontology: Quantum Instruments,
-Irreversibility, and the Epistemic Asymptote" (A. Abaee) and of its six reviews.
-Generated: 2026-10-02T15:22:29Z  |  Python 3.13.14  |  numpy/scipy/sympy
-Script: verification/verify_claims.py    Commit-hash of repo at generation: 9a01a02
+Irreversibility, and the Epistemic Asymptote" (A. Abaee), of its six reviews, and of the
+meta-review.
+Generated: 2026-10-02T15:40:00Z  |  Python 3.13.14  |  numpy 2.3.5  |  sympy 1.14.0
+Script: verification/verify_claims.py    Repo commit at generation: cf32451
 ================================================================================
 
 ==============================================================================
@@ -151,6 +152,23 @@ I. Strictification: what the lexicographic fix does and does not give
 [PASS] => Cor. 4.4 (non-monoidal-closure) needs the relabelling quotient / a weak monoidal structure; Thm 4.2 itself needs only F_E as an endofunctor, which the lexicographic model makes strict   -- meta-review correct about the category; sonnet2 correct about (x)
 
 ==============================================================================
+K. ESCAPES, THE UNIFORM-IN-n THEOREM, AND THE DEFECT (Thm 4.6, Prop 4.7, Prop 5.6)
+==============================================================================
+[PASS] Thm 4.6: g = e^2 - (e-1)/n lies strictly between (e-1)^2 and e^2 and is never a square (e<=120, n<=120, n | e-1)   -- counterexample: None
+[PASS] Prop 4.7: brute-force escapes (g square) = factorised escapes (c = j(2w-j)), i.e. the classification is complete   -- 11 escapes for d_E<=8, d_B<=30; symmetric difference: []
+[PASS] Prop 4.7 example (a): the Pell family (d_B, d_E, d_G) = (k, 2k, 2k^2-1) is the j = 1 escape
+[PASS] Prop 4.7 example (a)': at n = 1 the j = 1 escapes are exactly d_B = d_E/2 (d_E even)
+[PASS] Prop 4.7 example (b) / Thm 4.6: B = E admits no escape (e<=200)
+[PASS] Prop 4.7 example (c): B = C escapes with j = d_E-1, d_G = 1 for every d_E >= 2
+[PASS] Prop 4.7 example (c)': Instr_1(A, C) has affine dimension d_A^2(1*1-1) = 0 for every A, so both hom-sets are single points: the escape is genuine (though degenerate)
+[PASS] cross-validation: the 70 n = 1 solutions in d_E<400, d_B<60 are reproduced by the factorisation criterion   -- 70 vs 70
+[PASS] Prop 5.6(1): delta_n = n(ev - r) + (1 - e) is affine in n
+[PASS] Prop 5.6(4): if the n = 1 count is matched, delta_2 = e - 1
+[PASS] Prop 5.6(3): min_r max_n |delta_n| = e-1, attained at r = e*v (checked over e<=5, v<=9)
+[PASS] Cor 5.7: d_R^2 = e^2 - (e-1)/n lies between (e-1)^2 and e^2 and is never a square (no n-outcome ensemble space represents Instr_n(E,E); e<=149)
+[PASS] companion route: (e-1)^2 < e^2 - e + 1 < e^2 for all e >= 2, and never a square   -- checked to e = 20000
+
+==============================================================================
 J. Terminology / metadata cross-checks (recorded facts)
 ==============================================================================
        [3] Coecke-Spekkens: Synthese 186(3):651-696, 2012, doi:10.1007/s11229-011-9917-5
@@ -173,4 +191,4 @@ J. Terminology / metadata cross-checks (recorded facts)
 ==============================================================================
 SUMMARY
 ==============================================================================
-111 checks passed, 0 failed, 111 total
+124 checks passed, 0 failed, 124 total

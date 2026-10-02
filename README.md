@@ -15,9 +15,14 @@ uploads/                      original material, unchanged
 
 audits/
   00_ADJUDICATED_AUDIT.md     *** start here ***  consolidated audit; every dispute decided with proof
-  01_CLAIMS_LEDGER.csv        machine-readable ledger: claim -> verdict -> evidence -> action
-  02_REFERENCE_AND_METADATA_CHECK.md            external verification of refs [1]-[7], DOI/DOI-resolution
-  03_PREDECESSOR_AND_REPO_CONTEXT.md            the record behind [1]; the author's companion suite
+  01_CLAIMS_LEDGER.csv        machine-readable ledger: 69 entries, claim -> verdict -> evidence -> action
+  02_REFERENCE_AND_METADATA_CHECK.md            external verification of refs [1]-[7], DOI resolution
+  03_PREDECESSOR_AND_REPO_CONTEXT.md            the record behind [1]; the companions ([8], [13])
+  04_REMAINING_POINTS_IMPLEMENTED.md  *** every remaining audit point: implemented / corrected / declined
+  S0_extracted_text.txt       the manuscript's text, extracted page by page (line-level audit trail)
+
+figures/
+  causal_opfibration.svg      the corrected figure (replaces the deleted Figure 1)
 
 paper/
   REVISED_PAPER.md            *** the deliverable ***  corrected manuscript, complete proofs, scope
@@ -45,23 +50,31 @@ PUSH_STATUS.md                token diagnostics and the one command that finishe
    square) — and the author's own companion suite already proves exactly this.
 4. **The obstruction is normalisation (causality), not irreversibility, quantumness, or time**: it
    holds classically, fails to exist in compact-closed `CPM`, and `F_E` has no *left* adjoint either.
-5. **New results added**: per-`B` non-representability; a model-independent one-slice proof;
-   `Instr` has neither terminal nor initial object; the classical `n`-threshold contrast;
-   the exact-recovery (isometry) theorem as the correct retrodiction statement.
+5. **New results added**: per-`B` non-representability; a model-independent one-slice proof; uniform-in-`n`
+   non-representability at `B = E`; the **classification of all dimension-count escapes** (`n | (d_E²−1)`
+   and `(d_E²−1)/n = j(2 d_E d_B − j)`); the defect invariant `δ_n`; `Instr` has neither terminal nor
+   initial object; the classical `n`-threshold contrast; the exact-recovery (isometry) theorem as the
+   correct retrodiction statement; and the **opfibration constructed properly** (bifibration ⟺ every
+   `E_u ≅ ℂ`) with a redrawn figure.
 6. **Reference [1] is misattributed** (its DOI resolves to a *software* deposit); **[3] is wrong**;
    **[4] is mischaracterised**; **[5]–[7] are never cited**.
+7. **Credits corrected after reading the author's companions**: the affine-dimension lemma, the
+   no-left-adjoint theorem, the classical analogue and the normalisation/intercept explanation
+   ("Normalization-Defect (Intercept) Principle") already exist in `[8]`/`[13]`; the revision cites
+   them and delimits what is genuinely new here.
 
 ## Reproduce
 
 ```bash
-python3 verification/verify_claims.py      # 111 checks, needs numpy + sympy
+python3 verification/verify_claims.py      # 124 checks, needs numpy + sympy
 cat verification/verification_log.txt
 ```
 
 ## Push
 
-`PUSH_STATUS.md` records why the push is currently blocked (token rejected: *401 Bad credentials*;
-*"Invalid username or token"* on `git push`) and the single command that completes it once a valid
-token is in place. The token lives at `/home/user/GITHUB_PAT.txt` (outside this tree) with a backup at
+`PUSH_STATUS.md` records the push history: the first token supplied was rejected (401 *Bad
+credentials* / *"Invalid username or token"* — a single-character transcription error), the corrected
+token was accepted, and both commits of this audit are on `main`. The working token lives at
+`/home/user/GITHUB_PAT.txt` (outside this tree) with a backup at
 `/home/user/backup/pat/GITHUB_PAT.backup.txt`; it is git-ignored by design, because this repository is
-public. **Revoke any token that has been shared in plain text.**
+public. **Rotate any token that has been shared in plain text.**

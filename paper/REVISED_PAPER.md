@@ -16,7 +16,9 @@ We study the functor `F_E = (−⊗E)` on the category `Instr` of finite-outcome
 (finite-dimensional, nonzero Hilbert spaces) and on its deterministic subcategory `Chan` of CPTP
 maps. We prove, in two independent ways, that for every `dim E ≥ 2` the presheaf
 `A ↦ Instr(A⊗E, B)` fails to be representable — for **every** object `B` — so `F_E` has no right
-adjoint and the category is not monoidal closed. The sharper of the two proofs is three lines and
+adjoint and the category is not monoidal closed. At `B = E` the failure is even stronger: no single
+*slice* is representable, at any outcome number, and the slice proof is a two-line sandwich that needs
+neither the grading nor the tensor. The sharper of the two proofs is three lines and
 uses a single slice: at `B = E`, a right adjoint would force `d_R² = d_E⁴ − d_E² + 1` to be a perfect
 square, which it never is because `(d_E²−1)² < d_E⁴ − d_E² + 1 < d_E⁴`. This also closes the gap in
 the predecessor paper [1], whose Diophantine obstruction was a quantifier error rather than a false
@@ -46,12 +48,14 @@ A right adjoint would supply, for every object `B`, an object `R(B)` and a natur
 for open systems.
 
 **Results.** (i) For `dim E ≥ 2`, no such right adjoint exists, and in fact `Hom(−⊗E, B)` is not
-representable for *any* `B` (Thm 4.3, Thm 4.5). (ii) The same holds in `Chan` (Thm 4.4), and — the
+representable for *any* `B` (Thm 4.3, Thm 4.8). (ii) The same holds in `Chan` (Thm 4.8), and — the
 logical direction is worth stating carefully — an adjunction on `Instr` restricts to one on `Chan`,
-so the deterministic statement *implies* the instrument statement (Prop. 4.7). (iii) `F_E` has no
-left adjoint either (Thm 4.8), and `Instr` has neither a terminal nor an initial object (Prop. 4.9).
+so the deterministic statement *implies* the instrument statement (Prop. 4.9). (iii) `F_E` has no
+left adjoint either (Thm 4.12), and `Instr` has neither a terminal nor an initial object (Prop. 4.13).
+(iv) No single slice at `B = E` is representable, for any outcome number (Thm 4.6), and the parameters
+at which the dimension count *can* be matched are classified exactly (Prop. 4.7).
 (iv) The obstruction is exactly the trace-preserving normalisation, and it is not quantum: it holds
-verbatim for classical stochastic instruments (Thm 5.3).
+verbatim for classical stochastic instruments (Thm 5.2).
 
 **Relation to [1].** The predecessor paper [1] obtained the deterministic obstruction for `Chan` via
 an equation `d_R² = d_E²(d_B²−1)+1` whose integer solvability was asserted. In fact the equation has
@@ -59,7 +63,7 @@ infinitely many solutions — the family `(d_B, d_E, d_R) = (k, 2k, 2k²−1)` f
 statement of the form "this equation has no solutions" can be correct. The correct statement is a
 **quantifier** statement: the dimension count must hold simultaneously for all `B`, and instantiating
 `B = E` yields `d_R² = d_E⁴ − d_E² + 1`, which lies strictly between the consecutive squares
-`(d_E²−1)²` and `d_E⁴`. This is Theorem 4.4 below; it closes the gap in three lines, and it is already
+`(d_E²−1)²` and `d_E⁴`. This is Theorem 4.8 below; it closes the gap in three lines, and it is already
 certified inside the author's companion verification suite [8] ("Chan no-right-adjoint:
 `e⁴−e²+1` never a perfect square").
 
@@ -107,11 +111,18 @@ call `Chan`: its morphisms are the CPTP maps.
 `ℂ`. The interchange law holds up to the canonical relabelling of the fourfold outcome index (the
 two sides order `[m]×[q]×[n]×[p]` differently); so `⊗` is *weakly* functorial as written, and becomes
 strict after quotienting by relabellings of outcome sets (equivalently: work with finite **multisets**
-of CP maps). Nothing below depends on this choice except Cor. 4.6, which is stated for the quotient
+of CP maps). Nothing below depends on this choice except Cor. 4.11, which is stated for the quotient
 model. `F_E := (−⊗E)` is a **strict** endofunctor either way, because it does not touch outcome sets.
 
 **Convention 2.5.** All objects have `d ≥ 1`; the zero-dimensional space is excluded (Prop. 3.1 would
 return a negative dimension for it).
+
+**Remark 2.6 (modelling choices, stated as such).** Outcome components may vanish and may repeat:
+`{0, Φ}` and `{Φ/2, Φ/2}` are legitimate morphisms, and the grading counts them. This is a choice, and
+it is exactly the choice that makes the counting argument of Lemma 4.1 work and that Def. 2.3 records.
+Categories in which coincident components are identified, zero components are dropped, or outcomes are
+merged (coarse-grained) are outside the scope of the graded theorems of §4; the model-independent
+Theorem 4.6, and everything in §6, are unaffected. See Open Problem 7.1.
 
 ---
 
@@ -140,14 +151,32 @@ point is positive definite; the depolarising Choi matrix is positive definite
 real vector space and `L` affine and injective on `C`. Then `L|aff(C)` is injective and
 `dim aff C = dim aff L(C)`.
 
-*Proof.* `ri(C) ≠ ∅`; choose `x ∈ ri(C)`. If `v ∈ ker(dL) ∩ dir(aff C)` were nonzero, then
-`x ± εv ∈ C` for small `ε > 0` and `L(x+εv) = L(x)`, contradicting injectivity on `C`. Hence
-`L` is injective on `aff C` and `dim aff C ≤ dim aff L(C)`; applying the same to `L⁻¹` on `L(C)`
-gives equality. ∎
+*Proof (affine independence).* Let `x₀,…,x_r ∈ C` be affinely independent, `r = dim aff C`. If their
+images were affinely dependent, there would be scalars `λ_i`, not all zero, with `Σ_i λ_i = 0` and
+`Σ_i λ_i L(x_i) = 0`. Separating positive and negative coefficients and normalising expresses this as
+`L(x̂) = L(x̂′)` for two convex combinations `x̂, x̂′ ∈ C` (convexity is used here); injectivity gives
+`x̂ = x̂′`, hence `Σ_i λ_i x_i = 0`, contradicting affine independence. So `L` carries affinely
+independent families to affinely independent families and `dim aff C ≤ dim aff L(C)`; applying the
+same to the affine inverse on `L(C)` gives equality. ∎
+
+*Alternative proof (relative interiors), used implicitly in §4.3.* In finite dimensions `ri(C) ≠ ∅`.
+If a nonzero `v ∈ ker(dL) ∩ dir(aff C)` existed, then for `x ∈ ri(C)` one has `x ± εv ∈ C` for small
+`ε > 0` and `L(x+εv) = L(x)`, contradicting injectivity; hence `L|_{aff C}` is injective. The
+companion article [13] states the affine-independence form, and the strictly positive point of
+Prop. 3.1 is exactly what supplies `ri ≠ ∅` in applications.
 
 *Remark 3.3.* The hypothesis is not decorative: on the non-convex set `{(t,t²)}` the map `(x,y) ↦ x`
 is injective while dimension drops from 2 to 1 (section B of the verification log). In applications
 below, convexity is automatic and `ri ≠ ∅` is supplied by Prop. 3.1's strictly positive point.
+
+*Remark 3.4 (dimension is quotient-robust: semialgebraic dimension).* In the relabelling-quotient
+(multiset) model of Def. 2.4 the slices are images of semialgebraic sets under the quotient map, hence
+semialgebraic, and semialgebraic dimension is invariant under semialgebraic bijections. Since
+`Φ⁻¹(g) = ε_B ∘ (g⊗id_E)` acts componentwise it descends to the quotient and is linear — hence
+semialgebraic — on Choi space. The graded dimension comparison of §4.2 therefore survives the
+quotient model as well as the tuple model, and §4.3 is independent of the model altogether. (Use of
+semialgebraic dimension here was suggested by the meta-review; see `audits/00_ADJUDICATED_AUDIT.md`,
+D5.)
 
 ---
 
@@ -199,9 +228,23 @@ The second equation is impossible for `d_E ≥ 2`, since `m ≥ 1` forces `m d_E
 *Remark.* Neither `m = 1` nor any outcome-count restriction is needed: the intercept alone kills it.
 This is the version certified by the author's companion "intercept engine" [8, group J].
 
+*Remark 4.3b (where `Φ⁻¹(g) = ε_B ∘ F_E(g)` comes from).* It is naturality of the adjunction
+bijection in the *source* variable together with the triangle identity: `ε_B = Φ(id_{R(B)})`, and
+unwinding the naturality square gives `Φ⁻¹(g) = ε_B ∘ (g ⊗ id_E)`. This matters because the affine
+structure used in Theorems 4.3 and 4.6 is *inherited* from that formula (it is linear on Choi
+matrices, as verified in section A of the verification log) and not assumed: a bare bijection of
+hom-sets carries no affine information at all, and any two non-singleton convex sets are in
+bijection.
+
+*Remark 4.4 (the representing dimension is a function of `B` alone).* `d_{R(B)}` cannot depend on `n`
+or on `A`: one object must serve every source `A` and — for an adjunction — every slice. Hence two
+slices (`n = 1, 2`) already over-determine the two unknowns `d_{R(B)}²` and `m d_E²`, and §4.3's
+two-equation elimination is exactly the case `m = 1` of Theorem 4.3. No continuous parameter occurs
+anywhere in the argument.
+
 ### 4.3 The sharp form: one slice, no grading
 
-> **Theorem 4.4 (three-line form).** Let `d_E ≥ 2`. Then `Hom(−⊗E, E)` is not representable; in
+> **Theorem 4.5 (three-line form).** Let `d_E ≥ 2`. Then `Hom(−⊗E, E)` is not representable; in
 > particular `F_E` has no right adjoint.
 
 *Proof.* By Lemma 4.1(1), `O(ε_E) = 1`, so the bijection restricts to
@@ -224,13 +267,58 @@ identical in every model of instruments (a one-element family has no relabelling
 `Chan` is unambiguous). It is therefore unaffected by the strictification/quotient question of
 Definition 2.4 — the theorem does not need the grading, the tensor, or the primes.
 
+> **Theorem 4.6 (no slice at `B = E`, uniformly in `n`).** Let `d_E ≥ 2` and `n ≥ 1`. There is no
+> object `G` with an affine bijection `Instr_n(A⊗E, E) ≅ Instr_n(A, G)` for all `A`.
+
+*Proof.* Put `e = d_E²`, `g = d_G²`. Comparing affine dimensions (Prop. 3.1),
+`d_A² (n e² − e) = d_A² (n g − 1)`, so `g = e² − (e−1)/n`. This is an integer only if `n | (e−1)`;
+and since `0 < (e−1)/n ≤ e − 1 < 2e − 1`,
+
+```
+(e−1)² = e² − (2e−1)  <  e² − (e−1)/n  <  e² .
+```
+
+So `g` lies strictly between the consecutive squares `(e−1)²` and `e²` and is never a perfect square:
+contradiction. ∎
+
+*Remarks.* (i) The sandwich works for every `n` at once, so the theorem needs neither the graded slice
+bookkeeping of Thm 4.3 nor the tensor; it strictly contains the adjointness statement, since a right
+adjoint would supply exactly such a `G` for the slice `n = 1`. (ii) This is the companion article's
+proposition "Pointwise obstruction at fixed outcome number" [13] specialised to `B = E`, where its
+hypothesis `2 d_E d_B − 1 > (e−1)/n` is automatic (`2e − 1 > e − 1`); the two-line proof is reproduced
+here for self-containedness. (iii) The `n = 1` case is certified in `verification_log.txt`, section C.
+
+> **Proposition 4.7 (which parameters escape the dimension count).** Fix `d_E ≥ 2`, `n ≥ 1`, and an
+> object `B`; put `e = d_E²`, `w = d_E d_B`, `c = (e−1)/n`. If some `G` satisfies
+> `Instr_n(A⊗E,B) ≅ Instr_n(A,G)` affinely for all `A`, then
+> **(i)** `n | (e−1)`, and **(ii)** `c = j(2w − j)` for some integer `j` with `1 ≤ j ≤ w − 1`,
+> in which case necessarily `d_G = w − j`. Conversely, if (i) or (ii) fails there is no such `G`.
+
+*Proof.* (i)–(ii) are immediate from `g = w² − c` with `g = (w − j)²` for some integer `j ≥ 0`
+(Prop. 3.1 as in Thm 4.6); `j = 0` would give `c = 0`, which is excluded, so `j ≥ 1`, and then
+`c = w² − (w−j)² = j(2w − j)`. ∎
+
+*Examples.* **(a)** `n = 1` with `j = 1`: condition (ii) reads `d_E² − 1 = 2 d_E d_B − 1`, i.e.
+`d_B = d_E/2` (`d_E` even), giving `d_G = d_E²/2 − 1`; the resulting family
+`(d_B, d_E, d_G) = (k, 2k, 2k²−1)` is the Pell family, and for `n = 1` these are exactly the `j = 1`
+escapes. This is the "accidental boundary family" of the companion article [13, check 6b], and
+Theorem 4.6 shows it is confined to `d_B = d_E/2 < d_E`. **(b)** `B = E`: then `w = e` and
+(ii) would need `c ≤ e − 1 < 2e − 1 ≤ j(2e − j)`, impossible — this is Theorem 4.6 again. **(c)**
+`B = ℂ` (`w = d_E`): condition (ii) holds with `j = d_E − 1` and `d_G = 1` for every `d_E ≥ 2`, and
+here the representation is **genuine but degenerate**: `Instr_1(A⊗E, ℂ)` and `Instr_1(A, ℂ)` are both
+single points (the normalised trace), so the bijection exists trivially.
+*Status.* Conditions (i)–(ii) are necessary, and they settle for every pair `(n,B)` whether the
+dimension count *can* be matched: the escapes are exactly the `(n,B)` satisfying them. Whether a
+non-degenerate escape (e.g. the Pell family, whose hom-sets are large) admits an `A`-natural family of
+affine bijections is a finer question that no dimension count can answer — see Open Problem 7.2.
+
 ### 4.4 The deterministic case and the direction of implication
 
-> **Theorem 4.5 (Chan).** For `d_E > 1`, `F_E = (−⊗E)` on `Chan` has no right adjoint. *Proof:* the
-> computation of Thm 4.4 with `Chan` in place of `Instr`: `Chan(E,E) ≅ Chan(ℂ, R(E)) = States(R(E))`
+> **Theorem 4.8 (Chan).** For `d_E > 1`, `F_E = (−⊗E)` on `Chan` has no right adjoint. *Proof:* the
+> computation of Thm 4.5 with `Chan` in place of `Instr`: `Chan(E,E) ≅ Chan(ℂ, R(E)) = States(R(E))`
 > affinely, so `d_R² = d_E⁴ − d_E² + 1`, never a square. ∎
 
-> **Proposition 4.6 (reduction).** If `F_E` has a right adjoint on `Instr`, then `(−⊗E)` has a right
+> **Proposition 4.9 (reduction).** If `F_E` has a right adjoint on `Instr`, then `(−⊗E)` has a right
 > adjoint on `Chan`. Consequently `Chan`-non-closure implies `Instr`-non-closure — the direction is
 > *from deterministic to probabilistic*, not the reverse.
 
@@ -238,19 +326,19 @@ Definition 2.4 — the theorem does not need the grading, the tensor, or the pri
 to `1`-outcome morphisms, and the bijection restricts to `Chan(A⊗E,B) ≅ Chan(A,R(B))`. Naturality is
 inherited. Hence `R` restricts to a functor `Chan → Chan` right adjoint to `(−⊗E)| Chan`. ∎
 
-*Remark 4.7.* "The instrument obstruction is strictly stronger than the deterministic one" is
+*Remark 4.10.* "The instrument obstruction is strictly stronger than the deterministic one" is
 therefore false as a statement about the two theorems (it is *implied by* the deterministic one).
 What the instrument setting genuinely adds is the per-`B` statement of Thm 4.3, which the `B = E`
-computation of Thm 4.5 does not give: in `Chan` there is no `n = 2` slice, and for Pell pairs
+computation of Thm 4.8 does not give: in `Chan` there is no `n = 2` slice, and for Pell pairs
 `(d_B,d_E,d_R) = (k,2k,2k²−1)` the `n = 1` count is satisfiable (see Open Problem 7.2).
 
-> **Corollary 4.8 (non-closure).** `Instr` (in the quotient model of Def. 2.4) is not monoidal
+> **Corollary 4.11 (non-closure).** `Instr` (in the quotient model of Def. 2.4) is not monoidal
 > closed: `−⊗E` has no right adjoint as soon as one object `E` with `d_E ≥ 2` exists. In fact
 > `F_E` has a right adjoint **iff** `d_E = 1` (then `E ≅ ℂ` and `F_E ≅ Id`).
 
 ### 4.5 No left adjoint; no terminal or initial object
 
-> **Theorem 4.9.** For `d_E ≥ 2`, `F_E` has no left adjoint — in `Chan` and in `Instr`.
+> **Theorem 4.12.** For `d_E ≥ 2`, `F_E` has no left adjoint — in `Chan` and in `Instr`.
 >
 > *Proof.* (`Chan`) `ℂ` is terminal: the trace is the unique CPTP map `X → ℂ`. Right adjoints preserve
 > terminal objects, but `F_E(ℂ) = E` is not terminal, since `Chan(E,E)` contains `id` and the
@@ -262,7 +350,7 @@ computation of Thm 4.5 does not give: in `Chan` there is no `n = 2` slice, and f
 > `0`); the right side is the state space of `E` (affine dimension `d_E² − 1`). Hence `0 = d_E² − 1`
 > and `d_E = 1`. ∎
 
-> **Proposition 4.10.** `Instr` has no terminal object and no initial object.
+> **Proposition 4.13.** `Instr` has no terminal object and no initial object.
 >
 > *Proof.* If `T` were terminal then `Instr(ℂ,T)` would be a single point; but for any object `X` with
 > `d_X ≥ 2` there are at least two distinct `1`-outcome instruments `ℂ → X` (two states), so `d_T = 1`
@@ -271,9 +359,50 @@ computation of Thm 4.5 does not give: in `Chan` there is no `n = 2` slice, and f
 
 *Interpretation (the categorical arrow).* The asymmetry standardly associated with causal order is
 "`ℂ` is terminal but not initial" — a property of `Chan`, where the discard effect is unique while
-states are manifold. Prop. 4.10 shows this asymmetry does **not** survive in `Instr`: with graded
+states are manifold. Prop. 4.13 shows this asymmetry does **not** survive in `Instr`: with graded
 outcomes neither universal property holds. This is the honest categorical location of any "arrow"
 (see §5.4); the original draft's "fibre-level arrow" has no anchor in `Instr`.
+
+### 4.6 The causal opfibration, constructed (replacing the original Cor. 4.3 and Figure 1)
+
+The original draft asserted that "the missing right adjoint is the missing cartesian lift". Here is the
+construction that makes that sentence precise, together with its exact hypothesis.
+
+**Definition 4.14 (causal opfibration).** Let `(P, ≤)` be a poset of *stage extensions* with least
+element `⊥`, and let `u ↦ E_u` assign to each `u : X → Y` in `P` a nonzero finite-dimensional space,
+coherently: `E_{⊥} = ℂ` and `E_{v∘u} ≅ E_u ⊗ E_v` for composable `u : X → Y`, `v : Y → Z`. (Example:
+`P = (ℕ, ≤)` with `E_m = E^{⊗m}`.) Define `𝒞` by: objects `(X, H)` with `X ∈ P` and `H` a nonzero
+finite-dimensional space; a morphism `(X,H) → (Y,K)` is a pair `(u, f)` with `u : X → Y` and `f : H⊗E_u → K`
+an instrument; composition is `(v,g) ∘ (u,f) = (v∘u, g ∘ (f ⊗ id_{E_v}))` using the coherence
+isomorphism; identities are `(id_X, id_H)`. The projection is `p(X,H) = X`.
+
+> **Theorem 4.15.** (1) `p : 𝒞 → P` is an opfibration, and the cocartesian lift of `u : X → Y` at
+> `(X,H)` is `(Y, H⊗E_u)` with the identity instrument. (2) Every fibre is `Instr`: `p⁻¹(X) ≅ Instr`
+> for all `X` — literally the same category, since the only data in a fibre is a Hilbert space.
+> (3) The reindexing functor is `u_! = (−⊗E_u)`. (4) Therefore (standard; Jacobs, *Categorical Logic
+> and Type Theory*, Ch. 9) `p` is a **bifibration** iff every `u_!` has a right adjoint, i.e. **iff
+> `E_u ≅ ℂ` for every `u`**; and the cartesian lift of `u` at `(Y,K)` is `(X, u_*(K))` with the missing
+> `u_* : Instr → Instr` given by the non-existent internal hom `[E_u, −]`.
+
+*Proof.* (1) Given `(u,f) : (X,H) → (Y,K)`, the morphism `(u,id_{H⊗E_u}) : (X,H) → (Y,H⊗E_u)` is a
+lift of `u`, and every `(u,f)` factors as `(id_Y,f) ∘ (u,id_{H⊗E_u})`; uniqueness gives cocartesianity.
+(2) A morphism over `id_X` is an instrument `H → K` (with `E_{id} = ℂ`), and vertical composition is
+instrument composition. (3) is the defining formula. (4) The standard bifibration criterion plus
+Thm 4.3/4.8, since `F_{E_u} = (−⊗E_u)` has a right adjoint iff `d_{E_u} = 1`. ∎
+
+*Remark 4.16 (what the opfibration does and does not say).* (i) All fibres being `Instr`, the
+opfibration is `P × Instr` twisted by the environment assignment; "fibre-level dynamics" is therefore
+not additional structure, and the original figure's `Instr(A)`, `Instr(A⊗E)` annotations were
+ill-typed (there is no fibre `Instr(A)`; a fibre is the whole category). (ii) The bifibration property
+is a property of the *environment assignment* `u ↦ E_u`, not of the dynamics: a completely reversible
+dynamics with trivial extensions is a bifibration, and a bifibration may contain irreversible
+morphisms in its fibres. So the original Cor. 4.3's reading — that the missing cartesian lift is "the formal
+signature of irreversibility" — is precisely inverted. (iii) The base direction is the *extension
+relation* among stages, not a temporal order; the original "Past/Future" labels have no model here.
+(iv) The honest content of the original Cor. 4.3, stated with all hypotheses, is: *if* a poset of stage extensions
+is fixed, *then* the associated opfibration is a bifibration iff every extension is trivial
+(`E_u ≅ ℂ`) — and by Thm 4.3/4.8 it is never a bifibration over a poset containing a nontrivial
+extension. Figure: `figures/causal_opfibration.svg`.
 
 ---
 
@@ -307,7 +436,7 @@ the obstruction is identical, with no quantum input.
 *Proof.* Same as Thm 4.3 with `|·|` in place of `d_·²`, and `m|E| = 1` as the intercept equation. ∎
 
 **Proposition 5.3 (quantum vs classical threshold — why the grading engine is needed).** In the
-quantum case, `n = 1` with `B = E` already suffices (Thm 4.4), because `d_E⁴−d_E²+1` must be a square.
+quantum case, `n = 1` with `B = E` already suffices (Thm 4.5), because `d_E⁴−d_E²+1` must be a square.
 Classically, `n = 1` is *satisfiable*: `|R| = |E||B| − |E| + 1`, e.g. `|E| = |B| = 2 ⇒ |R| = 3`. The
 contradiction appears only when the `n = 1` and `n = 2` slices are compared. Hence the graded
 intercept engine — the one genuinely load-bearing part of the original draft's machinery — is exactly
@@ -326,16 +455,80 @@ categorical asymmetry that survives the tests above, and it is a property of the
 `F_E`. It is the Coecke–Lal causality axiom territory; the physical reading is "discarding is unique,
 preparation is not".
 
-### 5.4 Interpretation (labelled)
+### 5.4 The defect, quantified (and why the "best" object still fails)
+
+> **Proposition 5.6 (defect).** Let `d_E ≥ 2`, `e = d_E²`, `v = d_B²`, and let `r = d_R²` be any
+> integer. Put `δ_n := e(nv − 1) − (n r − 1)`, the dimension the `E`-side hom-set has over the
+> `R`-side's at slice `n`. Then
+>
+> 1. `δ_n = n(ev − r) + (1 − e)` is affine in `n` with constant term `−(e−1)`;
+> 2. `δ_n ≡ 0` is impossible for `e ≥ 2` (slope and intercept cannot vanish together — this is
+>    Thm 4.3 in other words);
+> 3. `min_r max_{n≥1} |δ_n| = e − 1`, attained exactly at `r = ev`, i.e. at `d_R = d_E d_B`, where
+>    `δ_n = −(e−1)` **for every `n`**;
+> 4. if the `n = 1` count is matched (a Diophantine escape, `r = e(v−1)+1`), then
+>    `δ_2 = e − 1`: escaping at `n = 1` costs exactly the intercept at `n = 2`.
+
+*Proof.* (1) is expansion. (2) requires `ev = r` and `1 = e`. (3) If `r ≠ ev` then `|δ_n| → ∞`, so
+only `r = ev` is admissible, where `δ_n = 1 − e` for all `n`. (4) Substitute `r = e(v−1)+1`:
+`δ_2 = 2(ev − e(v−1) − 1) + 1 − e = 2(e−1) + 1 − e = e − 1`. ∎
+
+The value `d_R = d_E d_B` in (3) is exactly the compact-closed answer `R(B) = E*⊗B` of Prop. 5.1, and
+the constant defect `d_E² − 1` is exactly the normalisation mismatch computed there: the two
+explanations of the obstruction are the same number seen from the graded side and from the CPM side.
+Item (4) explains the companion's observation that the dimension-count escapes occur only at the
+boundary `d_B = d_E/2` and fail immediately at `n = 2`; it is the quantitative form of the "missing
+dimension" proposal made by the third analysis [sonnet3, E6]. The companion's no-programming battery
+[8, group C] is the analogous quantitative statement for universal processors; whether `δ_n` admits a
+no-programming (Nielsen–Chuang) interpretation is left open, together with Open Problem 7.2.
+
+> **Corollary 5.7 (no state-space or ensemble structure at `B = E`).** For `d_E ≥ 2` and every
+> `n ≥ 1`, `Instr_n(E,E)` is not affinely isomorphic to any `n`-outcome ensemble space
+> `Instr_n(ℂ, R)`; in particular `Chan(E,E)` is not affinely isomorphic to the state space of any
+> system.
+
+*Proof.* Setting affine dimensions equal (take `A = ℂ` in Thm 4.6, i.e. `d_A = 1`) gives
+`n d_R² − 1 = d_E²(n d_E² − 1)`, that is
+
+```
+d_R² = d_E⁴ − (d_E² − 1)/n .
+```
+
+For every `n ≥ 1`, `0 < (d_E²−1)/n ≤ d_E² − 1 < 2d_E² − 1`, so `(d_E²−1)² < d_R² < d_E⁴`: the value
+lies strictly between consecutive squares and is never a perfect square. Hence no `R` exists. ∎
+This is Theorem 4.6 with `A = ℂ`; it is the precise form of the statement that *channel spaces are not
+state spaces*.
+
+*Remark 5.8 (the right fibred picture for outcome dependence).* The forgetful ("total map") functor
+`Σ : Instr → Chan`, `Σ({ℰ_i}) = Σ_i ℰ_i`, is functorial, identity-preserving and commutes with
+`−⊗E`; its fibres are the instruments refining a given channel, which is where outcome-set dependence
+genuinely lives. (The original draft's "base causal poset" was the wrong base: the useful base for
+outcome dependence is `Chan` under `Σ`.) The companion's multiset-quotient study [8, groups M and O]
+records that the induced comparison on the multiset quotient is a natural split mono which fails to be
+surjective and excludes one-outcome units, with the multi-outcome case classified open.
+
+### 5.5 Interpretation (labelled)
 
 *What is proved:* `Hom(−⊗E, B)` is not representable; the would-be internal hom is not a quantum
 system.
 *What follows (must be argued, not asserted):* `[E,B]` is a higher-order object — a convex set of
 combs/supermaps (Chiribella–D'Ariano–Perinotti; Kissinger–Uijlen) — and closure is recovered in those
 higher-order completions at the price of fixing a causal structure. Making this precise is Open
-Problem 7.4.
+Problem 7.4; the closest external framework is the semicartesian monoidal structure of CPTP, whose unit
+is terminal (discarding is unique — the Coecke–Lal causality axiom), under which the present result
+says that this semicartesian structure is not closed once environments are tracked at the instrument
+level. External priority for the specific statement was not established by this revision; a full
+literature search remains to be done.
 *What does not follow:* irreversibility of dynamics, an arrow of time, apparatus-dependence of
 retrodiction, non-existence of recovery maps. Sections 5.1–5.3 and §6 are the evidence.
+
+*Priorities.* The affine-dimension lemma, the no-left-adjoint statement, the classical analogue and the
+normalisation/intercept explanation are already proved in the author's companion articles [8,13] — the
+latter names the phenomenon the "Normalization-Defect (Intercept) Principle", and the affine-dimension
+formula for instrument bodies is used in a companion submission as well. The present paper's
+independent contributions are the *instrument-level* per-`B` theorem (Thm 4.3), its uniform-in-`n`
+sharpening at `B = E` (Thm 4.6), the escape classification (Prop. 4.7), the defect invariant
+(Prop. 5.6), and the audit-corrected interpretation.
 
 ---
 
@@ -347,7 +540,10 @@ A right adjoint would give `Instr(A⊗E,B) ≅ Instr(A,[E,B])`: an object repres
 E". Its counit `ε_B : [E,B]⊗E → B` is **evaluation** and points *forward* (into `B`); it cannot be a
 map "from a measured outcome on `B` back to a history". The original draft's identification of the
 missing adjoint with retrodiction (and with Petz/Bayesian/process-matrix methods) is unsupported;
-[4] in particular is about indefinite causal order, not retrodiction.
+[4] in particular is about indefinite causal order, not retrodiction. Nor is the theorem a statement
+about invertibility of individual channels: unitary channels are invertible *inside* `Instr`
+(`U ⊗ id_E` has the one-outcome instrument `U† ⊗ id_E` as an inverse), and Petz recovery maps exist for
+every channel and reference state. The missing object is the internal hom, and nothing else.
 
 ### 6.2 Exact retrodiction is a left-inverse theorem
 
@@ -391,7 +587,7 @@ intrinsic to inversion.
 | Hypothesis | Used where | Dropped ⇒ |
 |---|---|---|
 | finite dimension, `d ≥ 1` | Prop. 3.1, all dimension counts | infinite dimensions: affine dimensions are infinite, counting is vacuous |
-| finite outcome sets + multiplicative grading | Thm 4.3 (per-`B`), Prop. 4.6, Thm 5.2 | measurable/infinite outcomes: `|I×M| = |I|` and divisibility disappears |
+| finite outcome sets + multiplicative grading | Thm 4.3 (per-`B`), Prop. 4.9, Thm 5.2 | measurable/infinite outcomes: `|I×M| = |I|` and divisibility disappears |
 | trace-preserving normalisation | everywhere | `CPM`: the right adjoint exists (Prop. 5.1) |
 | rigid outcome labels (no coarse-graining) | Thm 4.3's grading step | quotient categories: see Open Problem 7.1 |
 | nonzero objects | Prop. 3.1's positivity | `d = 0`: empty hom-sets, formula meaningless |
@@ -399,20 +595,28 @@ intrinsic to inversion.
 ### 7.2 Open problems
 
 1. **Coarse-graining quotient.** Does the obstruction survive the category in which outcomes may be
-   merged (grading forgotten)? Thm 4.4 (one-slice form) is unaffected; the graded argument is not.
+   merged (grading forgotten)? Thm 4.5 (one-slice form) is unaffected; the graded argument is not.
    The author's companion suite classifies the multiset quotient as *open*, with partial levers
    (adjunction transpose is a split mono; `d_R ≥ d_A + 1`; non-square/cokernel estimates). A useful
    invariant must survive quotienting; note that the class of an ensemble `(p_i,ρ_i)` under merging is
    captured by its finite set of partial sums `{Σ_{i∈S} p_iρ_i}`, and such class-sets are **not
    convex**, so affine-dimension methods cannot be applied verbatim. Unproved.
-2. **Which `B` are representable in `Chan`?** For Pell pairs `(d_B,d_E,d_R) = (k,2k,2k²−1)` the
-   `n = 1` count is satisfied and `Chan` has no `n = 2` slice; either find a finer invariant or a
-   counterexample. (In `Instr` the answer is known: never, Thm 4.3.)
+2. **Which `(n, B)` escape the dimension count, and are the non-degenerate escapes representable?**
+   By Prop. 4.7 the count can be matched precisely when `n | (d_E²−1)` and `(d_E²−1)/n = j(2 d_E d_B − j)`
+   for some `1 ≤ j ≤ d_E d_B − 1`, the representing dimension then being `d_G = d_E d_B − j`. This set
+   is never empty: `B = ℂ` gives `j = d_E − 1`, `d_G = 1` (a genuine but degenerate escape — both
+   hom-sets are single points), and the Pell family `(k, 2k, 2k²−1)` matches dimensions with large,
+   non-degenerate hom-sets. `B = E` never escapes (Thm 4.6). Open: whether a non-degenerate escape
+   admits an `A`-natural family of affine bijections — no dimension count can decide this, and the
+   classical case shows that one invariant is not enough (there the *vertex* count obstructs inside a
+   matched-dimension regime). In `Chan` the same question reads: the original Diophantine equation has
+   infinitely many solutions, but naturality in `A` — not dimension — is what a representation must
+   satisfy.
 3. **Infinite-dimensional / measurable-outcome versions.** The mechanism above is intrinsically
    finite; a different invariant (Petz/conditional-expectation structure) is needed.
 4. **Higher-order completions.** Prove, rather than assert, that `[E,B]` is a convex type of comb and
    that closure is restored in `Caus[−]`/quantum-comb completions.
-5. **Formal verification.** Prop. 3.1, Lemma 3.2, Thms 4.3–4.5 are Lean-sized; the arithmetic
+5. **Formal verification.** Prop. 3.1, Lemma 3.2, Thms 4.3–4.6, Props. 4.7/5.6 are Lean-sized; the arithmetic
    certificates are already machine-checked (`verification/`).
 
 ### 7.3 What this section replaces
@@ -475,6 +679,16 @@ channels. The corrected theory is smaller, sharper, and entirely elementary.
     *(Causality axioms; §5.4, Prop. 5.5.)*
 12. G. Chiribella, G. M. D'Ariano, P. Perinotti, *Quantum circuit architecture*, PRL **101**, 060401
     (2008). *(Combs; §5.4.)*
+13. A. Abaee, *Quantum Combs, Higher-Order Processes, and the Normalization-Defect (Intercept)
+    Principle*, with numerical supplement `verification_checks.py` (checks 1a–6b), repository
+    `github.com/MIKEAA2020/Quantum-combs`. *(Contains, independently: the affine-dimension lemma
+    under affine bijection, no-right- and no-left-adjoint theorems for environment decoration, the
+    classical `FinStoch` proposition (dimension + vertex count), the "parallel tensor is not closed"
+    corollary, the pointwise obstruction at fixed outcome number with its boundary/escape analysis,
+    and the e²−e+1 sandwich.)*
+14. M. Huot, S. Staton, *Universal properties in quantum theory*, QPL 2018; B. Coecke, R. Lal,
+    *Categorical quantum mechanics* (Handbook of Quantum Logic, 2012). *(CPTP is semicartesian
+    monoidal with terminal unit — the causal/discard asymmetry used in §5.5.)*
 
 ---
 

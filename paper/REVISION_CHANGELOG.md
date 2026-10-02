@@ -60,6 +60,28 @@ location of the replacement text. Verdict codes: **KEEP**, **FIX** (statement co
 | 52 | — | ADD: exact-recovery (isometry) theorem; pointed-channel inversion | Props. 6.1, 6.2 | D8, D19 |
 | 53 | — | ADD: scope table, counter-models, open problems, verifiable certificates | §7, App. A | D10 |
 
+## Rev. 2 → Rev. 2.2 (second pass, after reading the author's public record)
+
+| # | Item | Verdict | Replacement (Rev. 2.2) | Source |
+|---|---|---|---|---|
+| 54 | The affine-dimension lemma is already a theorem in the companion | CREDIT | Lemma 3.2 keeps the proof, adopts the companion's stronger form, cites [13] | companion `[13]` (D23) |
+| 55 | "No left adjoint" is already a theorem in the companion | CREDIT | Thm 4.12 keeps the shorter slice proof and cites [13] | D23 |
+| 56 | The classical analogue is already a theorem in the companion | CREDIT | Thm 5.2/Prop. 5.3 cite [13]; only the `n`-threshold is new | D23 |
+| 57 | The normalisation explanation is named in the companion | CREDIT | Prop. 5.1 cites the "Normalization-Defect (Intercept) Principle" | D23, §5.4 |
+| 58 | "No single slice at `B = E`" — new uniform-in-`n` statement | ADD | Thm 4.6 | new (log §K) |
+| 59 | Classification of all dimension-count escapes | ADD | Prop. 4.7 (+ the `B = ℂ` genuine escape, the Pell family as `j=1, n=1`) | new; equivalent to companion check 6b |
+| 60 | The defect `δ_n`, quantified | ADD | Prop. 5.6 (minimal uniform defect `= e−1`, attained at `r = ev`; `n=1` escape costs `e−1` at `n=2`) | sonnet3 E6, sharpened |
+| 61 | Construct the opfibration (the audits' central complaint) | ADD | §4.6: Def. 4.14, Thm 4.15 (bifibration ⟺ every `E_u ≅ ℂ`), Rem. 4.16 | sonnet2 B / S2 §2B5 |
+| 62 | Figure 1 replaced by a correct, legible figure | ADD | `figures/causal_opfibration.svg` | sonnet1 §6.3, S2 §2B5 |
+| 63 | Semialgebraic dimension (quotient-robustness of the graded argument) | ADD | Rem. 3.4 | S2 §2A2 |
+| 64 | Modelling choices: zero/repeated outcomes allowed, merging out of scope | ADD | Rem. 2.6 | sonnet1 §2.6, sonnet2 A3 |
+| 65 | Naturality/triangle identity origin of `Φ⁻¹` | ADD | Rem. 4.3b | sonnet2 A2, grok2 §3 |
+| 66 | "Channel spaces are not state spaces" as a corollary | ADD | Cor. 5.7 | sonnet3 E3 |
+| 67 | The right fibred picture for outcome dependence (`Σ : Instr → Chan`) | ADD | Rem. 5.8 | sonnet3 E5 |
+| 68 | Invertibility clause (unitary channels, Petz maps) | ADD | §6.1 | sonnet1 §7.2 |
+| 69 | External context (CPTP semicartesian monoidal; where closure lives) | ADD | §5.5, refs [11],[12],[14] | S2 §2E, sonnet3 E4 |
+| 70 | Priority/novelty delimitation vs the author's companions | ADD | §5.5 "Priorities" | D23 |
+
 ## Deleted-for-cause summary
 
 * the "prime pincer" framing; the "shadow" metaphor; "strictly stronger"; "closes the gap";

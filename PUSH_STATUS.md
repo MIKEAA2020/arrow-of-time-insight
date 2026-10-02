@@ -1,67 +1,48 @@
-# Push status — 2026-10-02
+# Push status — updated 2026-10-02
 
-**Status: BLOCKED — the supplied token is rejected by GitHub. All commits are made locally and
-exported to a bundle/patch. One command (below) finishes the push once a working token is present.**
+**Status: DONE. Both commits of this audit are on `main` of
+https://github.com/MIKEAA2020/arrow-of-time-insight** (`scripts/push_with_token.sh`, exit 0).
 
-## What was attempted
+## Timeline
 
-| Attempt | Command form | Result |
+| Attempt | Credential | Result |
 |---|---|---|
-| REST API, `Authorization: token …` | `GET https://api.github.com/user` | **401 `Bad credentials`** |
-| REST API, `Authorization: Bearer …` | `GET https://api.github.com/user` | **401 `Bad credentials`** |
-| REST API, basic `x-access-token:…` | `GET https://api.github.com/user` | **401 `Bad credentials`** |
-| `git ls-remote` with token in URL | public repo | succeeds — **but succeeds anonymously for any public repo**, so this proves nothing about the token |
-| `git push` with token in URL | `https://x-access-token:…@github.com/...` | **`remote: Invalid username or token. Password authentication is not supported for Git operations.` / `fatal: Authentication failed`** |
+| 1 | `…bpqXZTFk` (first token supplied) | **rejected** — REST 401 *Bad credentials*; `git push`: `remote: Invalid username or token. Password authentication is not supported for Git operations.` |
+| 2 | `…bpqXZTFX` (corrected token) | **accepted** — API 200 as `MIKEAA2020` with `admin/push` on this repository; `git push` → `9a01a02..cf32451  HEAD -> main`, then the second-pass commit |
 
-## Diagnosis
+**Diagnosis of attempt 1:** the token was well-formed (`github_pat_` + 22 chars + `_` + 59 chars,
+length 93, alphabet `[A-Za-z0-9_]`) but differed from the working token in its **final character**
+(`k` vs `X`) — a transcription error, not a scope problem. GitHub auto-revokes fine-grained PATs it
+detects in public content, so a token pasted into a public place can also go dead this way.
 
-* **Format is plausible**: the string is `github_pat_` + 22 chars + `_` + 59 chars, i.e. exactly the
-  fine-grained-PAT layout; length 93; alphabet `[A-Za-z0-9_]`; sha256
-  `781ac8d8…a2cc8` (recorded in `/home/user/backup/pat/GITHUB_PAT.backup.txt.sha256`).
-* **It does not authenticate anywhere**: GitHub processes the header and rejects it (401 *Bad
-  credentials*, not a permissions/scope error). This is the signature of a **revoked, expired, or
-  never-activated** token — GitHub also auto-revokes fine-grained PATs it detects in public content.
-  It cannot be repaired here; a new token must be issued by the account owner.
-* The repository **is readable anonymously** (it is public), which is why the clone succeeded and why
-  `ls-remote` is not evidence of token validity.
+## Security actions
 
-## Security actions taken
+1. Tokens are stored **outside** the repository tree, never committed:
+   * `/home/user/GITHUB_PAT.txt` (primary, mode `600`);
+   * `/home/user/backup/pat/GITHUB_PAT.backup.txt` (backup, mode `600`) + `.sha256`;
+   * `/home/user/backup/pat/REJECTED_GITHUB_PAT.older.txt` — the rejected token, kept only as an
+     audit artefact (it authenticates nothing).
+2. `.gitignore` blocks `GITHUB_PAT.txt`, `*.pat`, `.env*`, `.netrc`; the working tree and the entire
+   git object history were scanned for the token string and for the `github_pat_` pattern — **0 hits**
+   (`grep` + per-object scan of `git rev-list --objects --all`).
+3. `scripts/git-credential-helper.sh` feeds the token to git via the credential protocol (it emits
+   `username`/`password` for `github.com` only, and nothing for any other host), so the token never
+   appears in `.git/config`, in a remote URL, in `ps`, or in logs; `scripts/push_with_token.sh`
+   redacts token-shaped strings from any error output and exits 3 on authentication failure.
+4. **Recommendation: rotate both tokens** (they were transmitted in plain text in the chat) via
+   GitHub → Settings → Developer settings → Personal access tokens; issue a fine-grained replacement
+   limited to this repository with *Contents: Read and write* only.
 
-1. The token is stored **outside** the repository tree, so it can never be committed:
-   * `/home/user/GITHUB_PAT.txt` (workspace root, mode `600`) — the primary copy;
-   * `/home/user/backup/pat/GITHUB_PAT.backup.txt` (mode `600`) + `.sha256`.
-2. `.gitignore` (repo root) blocks `GITHUB_PAT.txt`, `*.pat`, `.env*`, `.netrc` and friends, so an
-   accidental `git add -A` cannot publish it.
-3. `scripts/git-credential-helper.sh` reads the token from those files and answers git's credential
-   protocol, so the token is never placed in `.git/config`, in a remote URL, in `ps`, or in logs.
-4. **Recommendation: revoke this token** in GitHub → Settings → Developer settings → Personal access
-   tokens, and issue a new fine-grained token limited to this repository with `Contents: Read and
-   write` only. Treat any token pasted into a chat, issue, gist or commit as compromised.
-
-## How to finish the push (once a valid token exists)
+## Re-running the push
 
 ```bash
-# 1. store the new token (workspace root; the backup copy is optional)
 printf '%s\n' 'github_pat_NEW' > /home/user/GITHUB_PAT.txt && chmod 600 /home/user/GITHUB_PAT.txt
-
-# 2. push (uses the credential helper; never prints the token)
-/home/user/arrow-of-time-insight/scripts/push_with_token.sh
-#    -> "push ok"  (exit 0);  exit 3 = token still rejected
+/home/user/arrow-of-time-insight/scripts/push_with_token.sh          # prints "push ok" on success
+/home/user/arrow-of-time-insight/scripts/export_bundle.sh            # credential-free alternatives
 ```
 
-Alternative, without any credentials on this machine:
+## Staged artefacts (in case a rollback is ever needed)
 
-```bash
-/home/user/arrow-of-time-insight/scripts/export_bundle.sh   # -> ../backup/push/{*.bundle,*.patch,MANIFEST.txt}
-# then, on a machine that is authenticated:
-git clone /path/to/arrow-of-time-insight.bundle repo && cd repo
-git remote set-url origin https://github.com/MIKEAA2020/arrow-of-time-insight.git
-git push origin main
-```
-
-## What is staged locally
-
-Commits made in `/home/user/arrow-of-time-insight` on top of upstream tip
-`9a01a02` ("Delete uploads/1"): see `git log --oneline` — the audit deliverables
-(`audits/`, `paper/`, `verification/`, `scripts/`, this file, updated `README.md`).
-`uploads/` is untouched, so the original material stays byte-identical.
+* `/home/user/backup/push/arrow-of-time-insight.bundle` — full history (git bundle);
+* `/home/user/backup/push/arrow-of-time-insight.patch` — patch of all audit commits;
+* `/home/user/backup/push/MANIFEST.txt` — branch, tip, commit list, sha256 sums.

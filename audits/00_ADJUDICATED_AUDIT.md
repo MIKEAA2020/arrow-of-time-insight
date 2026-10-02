@@ -58,12 +58,14 @@ corrected in place (§3, D5 and the note in §3.0).**
    `F_E` has **no left adjoint either**, so there is no left/right asymmetry. The correct reading
    (verified numerically) is **normalisation**: the trace-preserving constraint costs `d_A²d_E²`
    on the left and `d_A²` on the right; the mismatch *is* the "intercept" `−1` vs `−d_E²`.
-7. **New results contributed here** (§4): `Instr` has **neither a terminal nor an initial object**
-   (so the paper's causal-poset/Past–Future story has no anchor in `Instr`; the real asymmetry
-   lives in `Chan`, where `ℂ` is terminal but not initial); a **quotient-robust, one-slice sharp
-   proof** of the theorem; the **quantum/classical contrast** (quantum dies at `n = 1` with `B = E`;
-   classical needs `n = 2` — this is exactly why the grading engine is needed for the classical
-   analogue); and the **resolution of ref. [1]**.
+7. **Results added by this audit, with credits corrected in the second pass** (§4 and §9): the
+   **one-slice sharp proof** and the **per-`B` non-representability** are this audit's independent
+   derivations; the **quantum/classical `n`-threshold contrast** is new; `Instr` has **neither a
+   terminal nor an initial object** (new); **uniform-in-`n` non-representability at `B = E`** and the
+   **escape classification** are new (the latter is equivalent to the boundary analysis in the author's
+   companion); the **resolution of ref. [1]** is new. Items the reviews proposed that turn out to be
+   **already proved in the author's companions** (affine-dimension lemma, no-left-adjoint, classical
+   analogue, normalisation/intercept explanation) are now credited as such — see §9.
 8. **Ref. [1] is misattributed.** `doi:10.5281/zenodo.20860298` resolves to Zenodo record
    **20860299 — a *software* deposit** ("MIKEAA2020/opfibration-supplement: Initial supplementary
    simulation", 2026-06-25, MIT, creator "MIKEAA2020"), not to the manuscript title/author cited.
@@ -133,6 +135,10 @@ turns the bijection into an affine isomorphism of hulls.
 *Positions.* S1: sonnet2 A1, sonnet3 A/B3, grok2 §1 call it missing/needed; grok1 calls it
 "a missing sentence … standard convex geometry"; S2 lists it as remaining flaw A3. **All
 SUSTAINED** — it is a genuine, two-line gap, and its repair does not change the theorem.
+**Second pass:** the lemma is *already proved* in the author's companion article [13] (Lemma
+"Affine dimension under affine bijection"), in the stronger affine-independence form that needs no
+relative-interior hypothesis; the revision adopts that form (Lemma 3.2) and keeps the
+relative-interior version as the alternative used in the one-slice theorem.
 `verification_log.txt` section B verifies the lemma's mechanism numerically and the necessity of
 convexity.
 
@@ -228,6 +234,9 @@ alone gives the per-`B` statement (§2.4).
 **Consequence:** the "backward" adjoint is missing exactly as the "forward" one is, so **no
 left/right asymmetry has been exhibited**; the arrow-of-time reading (§5.2) loses its categorical
 anchor (S1: sonnet2 C3, sonnet3 C4; S2 — **SUSTAINED**).
+**Second pass:** this too is **already proved** in the companion article [13] ("no left adjoint for
+environment decoration"), with the `e²−e+1` sandwich; the revision gives a shorter slice argument and
+cites the companion.
 
 ### 2.7 Two new categorical facts about `Instr`
 
@@ -255,6 +264,9 @@ classical obstruction *requires* `n = 2`. This is the precise sense in which the
 not decoration: it is the only one of the two engines that transports to the classical case.
 Verified in `verification_log.txt` section G; the vertex-count refinement
 (`|B|^|E| > |E|(|B|−1)+1`) from sonnet3 E3 and the author's own suite is also reproduced.
+**Second pass:** the classical proposition (dimension *and* vertex count) is already in the companion
+article [13]; the new element here is only the threshold comparison (quantum `n = 1` vs classical
+`n = 2`).
 
 ### 2.9 What the obstruction actually is: normalisation, not irreversibility
 
@@ -269,7 +281,10 @@ Verified in `verification_log.txt` section G; the vertex-count refinement
   `140`. The asymmetry behind it is **causality** — uniqueness of the discard/unit effect
   (`ℂ` terminal in `Chan`) — which is exactly the Coecke–Lal/Kissinger–Uijlen territory the paper
   should cite instead of invoking time direction (S1: sonnet2 A8/E2, sonnet3 E2; S2 §3.4 —
-  **SUSTAINED**).
+  **SUSTAINED**). **Second pass:** the author's programme names this phenomenon the
+  "Normalization-Defect (Intercept) Principle" [13], and the revision's defect invariant (Prop. 5.6)
+  exhibits the same number `d_E²−1` as the CPM mismatch, as the minimal uniform defect, and as the
+  `n = 2` cost of an `n = 1` escape.
 
 ### 2.10 Retrodiction and recovery — replacing the unsupported bridge
 
@@ -290,6 +305,13 @@ derived (see D8). The honest replacements:
   audits correctly flagged "verify before citing" — the Cho–Jacobs and Leifer–Spekkens records were
   checked).
 
+### 2.11 Two further results of the revision (second pass)
+
+* **Theorem 4.6 (uniform in `n`).** At `B = E` not even a single slice is representable: the dimension
+  count forces `d_G² = e² − (e−1)/n`, which for every `n ≥ 1` lies strictly between `(e−1)²` and `e²`.
+  This specialises the companion's pointwise proposition [13] to `B = E`, where its hypothesis
+  `2 d_E d_B − 1 > (e−1)/n` is automatic; the two-line proof is included for self-containedness (log §K).
+* **Proposition 4.7 (escapes) / Proposition 5.6 (defect).** See §4 item 7 above and the revision.
 ---
 
 ## 3. The contradiction docket
@@ -430,6 +452,20 @@ undefined `O(ε_B)`/`dim_aff`, Fig. 1 label collisions, "Past/Future" undefined,
 clash, no Choi convention, no Schrödinger-picture declaration.
 **Verdict: SUSTAINED** (sonnet1 §2.5, sonnet2 A3/E, sonnet3 B3, grok2 §8, S2 A7).
 
+**D23. Is the instrument-body affine dimension new here?** The cover letter of a companion
+submission states the same formula `d_A²(n d_B² − 1)` for the body of finite-outcome instruments, and
+the companion article [13] proves the affine-dimension lemma and the left/right-adjoint theorems in the
+superchannel category. **Verdict: SUSTAINED (priority correction).** These are programme results; the
+revision credits them (§5.5 "Priorities") and reserves novelty for the instrument-level per-`B`
+theorem, its uniform-in-`n` sharpening, the escape classification and the defect invariant.
+
+**D24. The "escape" family.** The meta-review left open whether the pointwise statement survives small
+`d_B`; the companion's Proposition "Pointwise obstruction at fixed outcome number" answers it *with a
+hypothesis* (`2 d_E d_B − 1 > (e−1)/n`) and its check 6b enumerates the boundary family `d_B = d_E/2`.
+**Verdict: now complete in factorization form** (Prop. 4.7): escapes ⟺ `n | (d_E²−1)` and
+`(d_E²−1)/n = j(2 d_E d_B − j)`; the residual question (are non-degenerate escapes genuinely
+representable?) is genuinely open and stated as such.
+
 **D22. Model-dependence of the grading (outcome identification / coarse-graining).** Raised by
 sonnet1 §2.6 (strongly), sonnet2 A3 (as a modelling caveat), S2 §8 (as an open problem).
 **Verdict: OPEN, precisely located.** The sharp one-slice proof is immune (§2.5). For a quotient
@@ -456,13 +492,21 @@ verbatim, which is exactly why the question survives.
 4. **The general-`m` intercept collapse** `m d_E² = 1` (§2.4) — cleaner than Lemma 4.1 + primes and
    exactly what the author's own companion "intercept engine" uses.
 5. **Ref. [1] identified** (§D13, §4 of doc 02).
-6. **The author's companion work** (§5 below): several "missing" upgrades already exist in the
-   author's own programme, and one audit's open problem is already classified there.
-7. **`Chan` per-`B` representability is not settled by dimension counting** (new open problem,
-   §6 below): for Pell-type `(B,E)` pairs the `n = 1` count is satisfiable in `Chan` (where there is
-   no `n = 2` slice), so the counting method cannot decide those `B`.
-8. **Figure-1 re-parameterisation**: with the sharp form, the missing lift should be drawn at
-   `E → E` (the `B = E` instance), not at a generic `A → A⊗E`.
+6. **The author's companion work** (§5 below, and §9): several "missing" upgrades already exist in the
+   author's own programme (affine-dimension lemma, no-left-adjoint, classical analogue, the
+   "Normalization-Defect (Intercept) Principle"), and one audit's open problem is already classified
+   there.
+7. **The escape classification** (second pass; Prop. 4.7 of the revision): the pairs `(n, B)` at which
+   the dimension count *can* be matched are exactly those with `n | (d_E²−1)` and
+   `(d_E²−1)/n = j(2 d_E d_B − j)`; `B = E` never escapes, `B = ℂ` always does (genuinely,
+   degenerately), and the Pell family is the `j = 1, n = 1` boundary family. Whether the non-degenerate
+   escapes are *genuinely* representable is the sharp residual open problem (§6 below).
+8. **The opfibration, constructed** (§4.6 of the revision): Grothendieck construction over a poset of
+   stage extensions with `E_{v∘u} ≅ E_u ⊗ E_v`; all fibres are the *same* category `Instr`; it is a
+   bifibration **iff every `E_u ≅ ℂ`** — so the bifibration property is a property of the environment
+   assignment, not of the dynamics (the honest replacement for the original Cor. 4.3/Fig. 1).
+9. **Figure-1 replacement**: the deleted figure has been redrawn from scratch (clean layout, labelled
+   projection, `u_!` solid, missing `u_*` dashed) as `figures/causal_opfibration.svg`.
 
 ---
 
@@ -511,17 +555,24 @@ verbatim, which is exactly why the question survives.
    Status: open (the author's companion records it as open with partial levers; S2 guessed *no*).
    Requires an invariant that survives quotienting — the class-set/partial-sum structure noted in
    D22 is a candidate, not a proof.
-2. **Which `B` are representable in `Chan`?** Dimension counting kills `B = E`-type `B`, but for
-   Pell pairs `(d_B,d_E,d_R) = (k,2k,2k²−1)` the `n = 1` count is satisfiable and `Chan` has no
-   `n = 2` slice. Either produce a finer invariant or a counterexample; the `Instr` answer is known
-   (never representable).
+2. **Which `(n,B)` escape the dimension count, and are the escapes genuinely representable?**
+   *Resolved:* Prop. 4.7 classifies the escapes exactly (`n | (d_E²−1)` and
+   `(d_E²−1)/n = j(2 d_E d_B − j)`); `B = E` never escapes (Thm 4.6); `B = ℂ` always does and there the
+   representation is genuine but degenerate (both hom-sets are single points); the Pell family is the
+   `j = 1, n = 1` boundary family. *Still open:* whether a non-degenerate escape admits an `A`-natural
+   family of affine bijections — no dimension count can decide this (the classical case shows a matched
+   dimension regime can still be obstructed by a vertex count).
 3. **Infinite-dimensional / measurable-outcome versions.** The mechanism (dimension count,
    cardinality grading) is intrinsically finite; grok3's "measure-theoretic prime argument" fails as
    stated (S2 §1: for infinite outcome sets `|I×M| = |I|` and divisibility disappears). Needs a
    different invariant (e.g. conditional-expectation/Petz structure, or a Borel-category variant).
 4. **Formal verification.** Prop. 3.1 + the affine-dimension lemma + Theorems A/B are Lean-sized.
 5. **Higher-order completions.** Make precise "[E,B] is a convex type of comb, not a system"
-   (Caus[−], quantum combs) with a theorem rather than a slogan.
+   (Caus[−], quantum combs) with a theorem rather than a slogan. (The companion's "parallel tensor is
+   not closed" corollary [13] is the closest existing statement.)
+6. **Lean formalisation** of Prop. 3.1, Lemma 3.2, Thms 4.3/4.6, Props. 4.7/5.6; an external priority
+   search for the instrument-level non-closure statement; a no-programming (Nielsen–Chuang)
+   interpretation of the defect `δ_n`.
 
 ---
 
@@ -541,8 +592,33 @@ verbatim, which is exactly why the question survives.
 
 ## 8. Remediation plan (what the revision must contain)
 
-Ordered by value per effort; the rewritten manuscript implementing all of this is
-`paper/REVISED_PAPER.md`, with a claim-by-claim map in `paper/REVISION_CHANGELOG.md`.
+Ordered by value per effort; the rewritten manuscript implementing **all** of it is
+`paper/REVISED_PAPER.md`, with a claim-by-claim map in `paper/REVISION_CHANGELOG.md` and the full
+disposition of every audit suggestion in `audits/04_REMAINING_POINTS_IMPLEMENTED.md`.
+
+---
+
+## 9. Second-pass addendum (sources not available to S1/S2)
+
+This pass read the author's public record (2026-10-02) and implemented the remaining points.
+Corrections to *this document*:
+
+1. **Credits corrected.** The affine-dimension lemma (§2.2), no-left-adjoint (§2.6), the classical
+   analogue (§2.8) and the normalisation/intercept explanation (§2.9) are **already proved** in the
+   author's companions [8], [13] and in a companion submission whose cover letter states the
+   instrument-body dimension formula. §4 previously listed these among things "the reviews missed";
+   they are better described as things the reviews could not know and the *revision must cite*, not
+   claim.
+2. **New results, precisely delimited.** The revision's independent contributions: the instrument-level
+   per-`B` theorem (general-`m` intercept collapse), its uniform-in-`n` sharpening at `B = E`, the
+   escape classification, the defect invariant, "no terminal/initial object in `Instr`", the
+   bifibration biconditional for the constructed opfibration, the semialgebraic-dimension remark, and
+   the corrected interpretation.
+3. **The opfibration is no longer decorative**: the construction, the fibres and the biconditional are
+   proved (with the coherence hypothesis made explicit); the original Cor. 4.3 survives only in that
+   conditional form.
+4. **Figure replaced, not merely repaired** (`figures/causal_opfibration.svg`).
+5. **The residual open problem is sharper than the meta-review's**: two parts, §6 items 1–2.
 
 1. Fix the foundations: `[n]`-lex outcome sets; declare `⊗`; either construct the small opfibration
    (Grothendieck construction over environment upgrades) or delete the fibration claims.

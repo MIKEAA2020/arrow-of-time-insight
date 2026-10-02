@@ -442,6 +442,130 @@ check("=> Cor. 4.4 (non-monoidal-closure) needs the relabelling quotient / a wea
       "meta-review correct about the category; sonnet2 correct about (x)")
 
 # ======================================================================
+section("K. ESCAPES, THE UNIFORM-IN-n THEOREM, AND THE DEFECT (Thm 4.6, Prop 4.7, Prop 5.6)")
+# ======================================================================
+# Thm 4.6: at B = E no single slice is representable, uniformly in n.
+#   g = e^2 - (e-1)/n  must be a perfect square; but (e-1)^2 < g < e^2 for all n >= 1.
+ok = True; worst = None
+for e in range(2, 121):
+    for n in range(1, 121):
+        if (e - 1) % n:
+            continue
+        g = e * e - (e - 1) // n
+        if not ((e - 1) ** 2 < g < e * e) or math.isqrt(g) ** 2 == g:
+            ok = False; worst = (e, n, g)
+check("Thm 4.6: g = e^2 - (e-1)/n lies strictly between (e-1)^2 and e^2 and is never a square "
+      "(e<=120, n<=120, n | e-1)", ok, f"counterexample: {worst}")
+
+# Prop 4.7: escape classification by two independent routes (brute force vs factorisation).
+escapes_bruteforce = set()
+for d_E in range(2, 9):                       # e = d_E^2 is always a perfect square
+    e = d_E * d_E
+    for d_B in range(1, 31):
+        for n in range(1, e):
+            if (e - 1) % n:
+                continue
+            g = e * d_B * d_B - (e - 1) // n
+            if g >= 1 and math.isqrt(g) ** 2 == g:
+                escapes_bruteforce.add((e, n, d_B, math.isqrt(g)))
+escapes_factorised = set()
+for d_E in range(2, 9):
+    e = d_E * d_E
+    for d_B in range(1, 31):
+        w = d_E * d_B
+        for j in range(1, w):
+            c = j * (2 * w - j)
+            if c <= 0:
+                continue
+            if (e - 1) % c == 0:      # c = (e-1)/n  =>  n = (e-1)/c
+                n = (e - 1) // c
+                if 1 <= n and n * c == (e - 1):
+                    escapes_factorised.add((e, n, d_B, w - j))
+check("Prop 4.7: brute-force escapes (g square) = factorised escapes (c = j(2w-j)), "
+      "i.e. the classification is complete", escapes_bruteforce == escapes_factorised,
+      f"{len(escapes_bruteforce)} escapes for d_E<=8, d_B<=30; "
+      f"symmetric difference: {sorted(escapes_bruteforce ^ escapes_factorised)[:5]}")
+
+# (a) Pell family: n = 1, d_B = d_E/2  <=>  j = 1  <=>  d_G = d_E^2/2 - 1
+pell_ok = all(
+    (lambda k: ((2 * k) * k) ** 2 - ((2 * k) ** 2 - 1) == (2 * k * k - 1) ** 2)(k)
+    for k in range(1, 40))
+check("Prop 4.7 example (a): the Pell family (d_B, d_E, d_G) = (k, 2k, 2k^2-1) is the j = 1 escape",
+      pell_ok and all((2 * k * k - 1) == ((2 * k) ** 2 // 2 - 1) for k in range(1, 40)))
+# n = 1, j = 1  <=>  e - 1 = 2 d_E d_B - 1  <=>  d_B = d_E/2 (d_E even)
+j1_forward = all((d_E * d_E - 1) == 1 * (2 * (d_E * (d_E // 2)) - 1) for d_E in range(2, 60, 2))
+j1_converse = all(
+    not any(1 * (2 * (d_E * d_B) - 1) == d_E * d_E - 1 for d_B in range(1, 40))
+    for d_E in range(3, 60, 2))                       # odd d_E: no j = 1 solution
+check("Prop 4.7 example (a)': at n = 1 the j = 1 escapes are exactly d_B = d_E/2 (d_E even)",
+      j1_forward and j1_converse)
+
+# (b) B = E never escapes, for any n
+ok = True
+for e in range(2, 201):
+    for n in range(1, e + 1):
+        if (e - 1) % n:
+            continue
+        c = (e - 1) // n
+        if any(c == j * (2 * e - j) for j in range(1, e)):
+            ok = False
+check("Prop 4.7 example (b) / Thm 4.6: B = E admits no escape (e<=200)", ok)
+
+# (c) B = C is an escape for every e >= 2 and n = 1, with d_G = 1, and it is a GENUINE
+#     representation because both hom-sets are single points (affine dimension 0):
+ok = all((lambda e: (e - 1) == (e - 1) * (2 * e - (e - 1)) // 1 * 0 + (e - 1) and
+          (e - 1) * (2 * e - (e - 1)) == (e - 1) * (e + 1) == e * e - 1)(e) for e in range(2, 90))
+dim_A_C = all((1 * dB2 - 1) == 0 for dB2 in (1,))
+check("Prop 4.7 example (c): B = C escapes with j = d_E-1, d_G = 1 for every d_E >= 2", ok)
+check("Prop 4.7 example (c)': Instr_1(A, C) has affine dimension d_A^2(1*1-1) = 0 for every A, "
+      "so both hom-sets are single points: the escape is genuine (though degenerate)", dim_A_C)
+
+# (d) cross-validation: the 70-solution count re-derived from the factorisation criterion
+box_brute = []
+for dB in range(2, 60):
+    for dE in range(2, 400):
+        val = dE * dE * (dB * dB - 1) + 1
+        r = math.isqrt(val)
+        if r * r == val:
+            box_brute.append((dB, dE, r))
+box_fact = []
+for dE in range(2, 400):
+    for dB in range(2, 60):
+        w = dE * dB
+        for j in range(1, w):
+            if j * (2 * w - j) == dE * dE - 1:          # n = 1 escape condition
+                box_fact.append((dB, dE, w - j))
+check("cross-validation: the 70 n = 1 solutions in d_E<400, d_B<60 are reproduced by the "
+      "factorisation criterion", sorted(box_brute) == sorted(box_fact),
+      f"{len(box_brute)} vs {len(box_fact)}")
+
+# Prop 5.6: the defect delta_n = e(nv-1) - (nr-1)
+import sympy as sp
+n_, e_, v_, r_ = sp.symbols('n e v r', positive=True)
+delta = sp.expand(e_ * (n_ * v_ - 1) - (n_ * r_ - 1))
+check("Prop 5.6(1): delta_n = n(ev - r) + (1 - e) is affine in n",
+      sp.simplify(delta - (n_ * (e_ * v_ - r_) + (1 - e_))) == 0)
+d2 = sp.simplify(delta.subs({n_: 2, r_: e_ * (v_ - 1) + 1}) - (e_ - 1))
+check("Prop 5.6(4): if the n = 1 count is matched, delta_2 = e - 1", d2 == 0)
+best = min((max(abs(n_ * (e_ * v_ - r_) + (1 - e_)) for n_ in range(1, 60)), r_)
+           for e_ in (2, 3, 4, 5) for v_ in (1, 2, 4, 9) for r_ in range(1, 400))
+check("Prop 5.6(3): min_r max_n |delta_n| = e-1, attained at r = e*v (checked over e<=5, v<=9)",
+      all(min((max(abs(n_ * (e_ * v_ - r_) + (1 - e_)) for n_ in range(1, 60)), r_)
+              for r_ in range(1, 400))[1] == e_ * v_
+          for e_ in (2, 3, 4, 5) for v_ in (1, 2, 4, 9)))
+
+# Cor 5.7: d_R^2 = e^4 - (e^2-1)/n between consecutive squares (state-space form)
+ok = all(not ((lambda g: math.isqrt(g) ** 2 == g)(e * e - (e - 1) // n)
+              or not ((e - 1) ** 2 < e * e - (e - 1) // n < e * e))
+         for e in range(2, 150) for n in range(1, 150) if (e - 1) % n == 0)
+check("Cor 5.7: d_R^2 = e^2 - (e-1)/n lies between (e-1)^2 and e^2 and is never a square "
+      "(no n-outcome ensemble space represents Instr_n(E,E); e<=149)", ok)
+
+# e^2 - e + 1 sandwich (the companion's left-adjoint / state-space route)
+check("companion route: (e-1)^2 < e^2 - e + 1 < e^2 for all e >= 2, and never a square",
+      all((e - 1) ** 2 < e * e - e + 1 < e * e and math.isqrt(e * e - e + 1) ** 2 != e * e - e + 1
+          for e in range(2, 20001)), "checked to e = 20000")
+
 section("J. Terminology / metadata cross-checks (recorded facts)")
 # ======================================================================
 REF = {

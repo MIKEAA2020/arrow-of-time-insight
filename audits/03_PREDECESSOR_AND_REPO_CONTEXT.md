@@ -15,7 +15,8 @@ GitHub user `MIKEAA2020` (17 public repositories), including:
 | `arrow-of-time-insight` | — | this repository | the manuscript under audit |
 | `opfibration-supplement` | Jupyter | — | the software record behind DOI [1] (see §2) |
 | `opfibration-merged-` | Python | — | **companion manuscript's verification suite** (see §3) |
-| `Quantum-combs` | TeX | "prallel with opfibration" | higher-order/comb completion territory |
+| `Quantum-combs` | TeX | "prallel with opfibration" | **the comb-level companion article** (see §6) |
+| `master` | Python | "overview and top-down approach to my most rigorous works" | programme index (the opfibration line is not indexed there) |
 | `channel-supp-augmented` | TeX | "augmenting the quantum channel (2nd paper) supplementary to a standalone paper" | adjacent programme |
 | `master` | Python | "overview and top-down approach to my most rigorous works" | programme index |
 
@@ -82,3 +83,66 @@ curl -s https://raw.githubusercontent.com/MIKEAA2020/opfibration-merged-/HEAD/ve
 
 Downloaded copies used during the audit: `../work/refs/` (outside the repository tree; not committed
 because they are third-party repository contents already public at the URLs above).
+
+
+## 6. Second pass: the comb-level companion article (`Quantum-combs`)
+
+Fetched and read on 2026-10-02: `combs 1/quantum combs submission2.tex` (104 KB),
+`verification_checks.py` (21 KB, checks 1a–6b), `verification_output.txt`, `README.md`.
+
+**Article:** *Quantum Combs, Higher-Order Processes, and the Normalization-Defect (Intercept)
+Principle*, Amin Abaee (`amin_abaee@ut.ac.ir`).
+
+Its theorem list (extracted from the `.tex`) contains, **independently of the audited manuscript**:
+
+| Companion result | Relation to the audited paper |
+|---|---|
+| Lemma *Affine dimension under affine bijection* | the very lemma the six reviews and the meta-review found missing in the audited paper — in the stronger affine-independence form (no relative-interior hypothesis) |
+| Proposition *One-slot hom-set dimension*; Lemma *Polynomial grid* | dimension bookkeeping in the deterministic superchannel category |
+| Theorem *No affine representing object*; Theorem *No right adjoint for environment decoration*; Corollary *Any affine extension has no right adjoint* | the deterministic counterpart of the audited paper's Theorem 4.2 |
+| Theorem *No left adjoint for environment decoration*; Corollary *…no left adjoint* | one of the audits' "upgrades" (sonnet2 A7 / sonnet3 C3.3) — **already a theorem here**, proved by the `e²−e+1` sandwich |
+| Proposition *Classical environment decoration has neither adjoint* | the classical analogue (sonnet2 C2 / sonnet3 C3.2 / grok3 #3) — **already a theorem**, using the FinStoch dimension **and vertex count** |
+| Corollary *The parallel tensor product is not closed* | the closest existing "where closure lives" statement (sonnet3 E4) |
+| Proposition *Pointwise obstruction at fixed outcome number* | the fixed-`n` instrument statement, with hypothesis `2 d_E d_B − 1 > (e−1)/n` and (check 6b) the boundary family `d_B = d_E/2` |
+| Lemma *Flat point; positivity does not lower the dimension*; Theorem *Telescoping dimension formula* (combs, all arities) | the higher-order dimension theory |
+| Verification checks | 3: `e²−e+1` never a square (to `e = 20000`, plus 2,000,000 random draws to 10⁹); 5: `b^e − 1 = e(b−1)` unsolvable; 4a/4b: parallel tensor is monoidal (interchange verified); 1a–1d, 2, 6a, 6b |
+
+**Consequences for the audit.**
+
+1. Several "upgrades" proposed by the reviews and the meta-review are **already theorems in the
+   author's programme**: the affine-dimension lemma, the no-left-adjoint statement, the classical
+   analogue, the normalisation/intercept explanation (named the *Normalization-Defect (Intercept)
+   Principle*). The revised manuscript therefore **cites** them (§5.5 "Priorities", refs [8], [13])
+   instead of presenting them as new. This is recorded as docket item D23.
+2. The meta-review's open problem about "dimension counting can't distinguish `Chan(E,B)` from a state
+   space" is *partially* answered in the companion: escapes at fixed `n` are exactly the boundary
+   family, and the classical case shows a vertex count is needed beyond dimensions. The revision
+   completes this in factorization form (Prop. 4.7) and states the residual question.
+3. The audited paper's genuine novelty is therefore narrower than the reviews assumed — instrument-level
+   per-`B` theorem, uniform-in-`n` sharpening at `B = E`, escape classification, defect invariant,
+   "no terminal/initial object in `Instr`", and the corrected interpretation — exactly as delimited in
+   §5.5 of the revision and item 2 of the second-pass addendum in doc 00.
+
+## 7. Second pass: cover letters and practice (`channel-supp-augmented`)
+
+* `cover letters/qip-cover-letter-instruments.{tex,txt,pdf}`: a 53-page submission to *Quantum
+  Information Processing*, *Exact Affine Geometry, Optimal Centres, Certified Compression Bounds, and
+  Flag-Quotient Width Obstructions for Finite-Outcome Quantum Instruments*, whose abstract states
+  **"the affine dimension of the body of n-outcome instruments between systems of dimensions d_A and
+  d_B is `d_A²(n d_B² − 1)`"** — i.e. Prop. 3.1 of the audited paper is a programme result already in
+  submission elsewhere. It also states the in-radius `2/(n d_B min{d_A,d_B})`, that the uniform
+  depolarising instrument is simultaneously optimal for packing and covering, and a complementarity
+  identity linking the radii. None of this appears in the audited paper; the audited paper's remaining
+  edge is the adjointness/currying obstruction, not the body geometry.
+* `glm/EXTERNAL_MERIT_AUDIT.md`: the author's own programme (a different research line) runs
+  "external merit audits" — a reproduction gate, a literature audit, and a queue of merited work, with
+  failures recorded as failures. The present audit is in the same spirit; the practice is noted here
+  because it explains the author's tolerance for adversarial review.
+
+## 8. Repository metadata (second pass)
+
+* `arrow-of-time-insight`: default branch `main`, **no issues and no pull requests**, one commit before
+  this audit (`9a01a02`), `uploads/` untouched by the revision.
+* The programme index (`MIKEAA2020/master`, 92 KB README) does **not** index the opfibration line; the
+  opfibration manuscripts are discoverable only through the repositories themselves. A referee-visible
+  index entry would help priority documentation.
