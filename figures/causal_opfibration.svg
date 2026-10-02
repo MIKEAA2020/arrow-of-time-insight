@@ -29,9 +29,9 @@
         text-anchor="middle" fill="#12253a">fibre over Y</text>
   <text x="662" y="140" font-family="Helvetica,Arial,sans-serif" font-size="13.5"
         text-anchor="middle" fill="#12253a">p⁻¹(Y) = Instr</text>
-  <text x="662" y="150" font-family="Helvetica,Arial,sans-serif" font-size="10.5"
+  <text x="662" y="146" font-family="Helvetica,Arial,sans-serif" font-size="10.5"
         text-anchor="middle" fill="#44556b">the same category —</text>
-  <text x="662" y="166" font-family="Helvetica,Arial,sans-serif" font-size="10.5"
+  <text x="662" y="161" font-family="Helvetica,Arial,sans-serif" font-size="10.5"
         text-anchor="middle" fill="#44556b">not Instr(A⊗E)</text>
 
   <!-- corridor: cocartesian lift -->
