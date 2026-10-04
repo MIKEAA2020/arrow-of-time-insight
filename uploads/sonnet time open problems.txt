@@ -1,0 +1,831 @@
+Coarse-graining quotient (grading destroyed) — §7.2(1).:
+**Result.** The obstruction survives coarse-graining, so the outcome grading was not the essential mechanism. What replaces it is the Carathéodory bound on extreme instruments, and the proof is a sketch with identified checkpoints (§5), not yet a full proof.
+
+## 1. The category
+
+Let Instr_cg(A,B) be the finite sets S = {E_1,…,E_k} of pairwise non-proportional, nonzero CP maps A→B with ΣE_i trace-preserving. Any instrument reduces to this form by dropping zero components and summing proportional ones. Physically, this forgets a record label that is independent of both the input and the conditional output.
+
+Composition is T∘S = reduce{F∘E}. Reduction is a congruence, because proportional components compose to proportional components and zero composites drop out. So the category is associative and unital, F_E = −⊗id_E is a functor, and E⊗F ∝ E′⊗F′ iff E ∝ E′ and F ∝ F′. The tensor therefore never merges anything. As a side benefit, this fixes the interchange problem from the Def. 2.2 discussion without multisets or quotients, because hom-sets are small and the structure is strictly monoidal up to Hilbert-space associators.
+
+What is lost is multiplicativity: only |T∘S| ≤ |S||T| holds. Lemma 4.1 therefore dies, and an adjoint need not restrict to Chan.
+
+## 2. What replaces the grading: recorded mixing
+
+Write each component as E_i = c_i·e(r_i), with r_i its ray and e(r_i) a fixed representative. Then S ↔ μ_S = Σ c_i δ_{r_i}, a finitely supported measure on rays. Hom(A,B) becomes {μ ≥ 0 : Σ c_i Tr_B J_i = I_A}, a genuine convex subset of a real vector space. The mixture pS ⊕ (1−p)S′ means "run S with probability p, else S′, and record which". Shared rays merge.
+
+Composition is affine in each argument. So Φ⁻¹(g) = ε_B∘F_E(g) is an affine bijection, hence an isomorphism of convex sets, and it maps extreme points bijectively onto extreme points.
+
+Channels are always extreme here, even non-extremal ones in the usual convex set of channels, since unrecorded mixing is not an operation in the category. Don't conflate this with extremality for instruments with a fixed outcome set under componentwise mixing (e.g. Pellonpää's work; check the citation). The criterion below differs.
+
+## 3. Extreme points and their dimension
+
+**Lemma.** μ is extreme iff the marginals v_i = Tr_B J_i (i ∈ supp μ) are linearly independent in Herm(A).
+
+- *Dependent ⇒ not extreme.* If Σw_i v_i = 0 with w ≠ 0, then μ ± ε·w stays feasible since all c_i > 0, so μ is a midpoint.
+- *Independent ⇒ extreme.* Any decomposition has support inside supp μ, and the constraint then fixes the coefficients.
+
+So extreme instruments have k ≤ d_A² components. The top stratum, k = d_A², is an open subset of the affine fiber in Prop. 3.1, so it has dimension d_A²(d_A²d_B² − 1). That is Prop. 3.1 evaluated at n = d_A². A random-sample check confirmed that d_A²-tuples are generically TP, independent and pairwise non-proportional, for (d_A,d_B) up to (3,3).
+
+## 4. Theorem and proof
+
+**Claim.** For d_E ≥ 2, F_E has no right adjoint on Instr_cg. Nor does Instr_cg(−⊗E, B) have a representing object, for any B ≠ 0.
+
+*Proof.* Φ⁻¹ is a piecewise-polynomial injection on Ext(A,R), so extreme sets of equal dimension must correspond (semialgebraic dimension; see §5):
+
+d_A²(d_A²d_R² − 1) = d_A²d_E²(d_A²d_E²d_B² − 1) for every A ≠ 0.
+
+Dividing by d_A² gives x·d_R² − 1 = x·d_E⁴d_B² − d_E² for all x = d_A². Equating intercepts gives d_E = 1, a contradiction. A = B = ℂ also works directly: states of R (dimension d_R²−1) must match extreme POVMs on E (dimension d_E²(d_E²−1)). So d_R² = d_E⁴ − d_E² + 1, which is never a square for d_E ≥ 2. That is the same number as in the Chan argument. ∎
+
+## 5. Status
+
+Checked:
+- The Carathéodory-type top-stratum dimension.
+- The non-squareness (to d_E = 300,000).
+- The intercept identity (no solutions in a search).
+
+Not yet written in full:
+- **Semialgebraic bookkeeping.** Lift to ordered tuples, so strata are quotients by finite groups, which preserve dimension. Φ⁻¹ is polynomial on finitely many pieces, indexed by zero/proportionality patterns of the composites. Injective semialgebraic maps preserve dimension.
+- **Congruence of reduction.** Merging and composition commute. This is routine, but the write-up should verify it.
+- **Choice of identification.** I treated only merging of proportional components, which loses no information about the system. Coarser identifications, such as merging outcomes with equal post-measurement states but different likelihoods, change what the record says about the input. I haven't treated them, and nothing above covers them.
+- **Scope.** The argument assumes finite outcomes and finite dimensions.
+
+## 6. What this changes for the paper
+
+1. The "dummy outcome label" objection (sonnet1 2.6) no longer applies. The theorem holds in the physically natural quotient.
+2. Primes, Lemma 4.1 and slice-matching are one proof strategy, not the source of the obstruction. The persistent source is the intercept: normalization costs d_source² constraints, and Prop. 3.1's formula survives with n replaced by the Carathéodory number d_A².
+3. A clean presentation is the graded theorem (pointwise, A = B = ℂ) as the elementary case, plus this as the robustness theorem. Instr_cg is also the better primary definition of Instr, since it is small and strictly monoidal.
+
+write this up as a numbered proposition with full proofs for insertion. attempt the harder variant where only equal (not proportional) components merge, where the convex structure on hom-sets is less clean.
+
+the harder variant where only equal (not proportional) components merge:
+**Result.** "Only equal components merge" turns out not to be a stable identification, so the variant splits into cases. For the one principled case (no merging at all except dropping zero outcomes) I have a complete proof that no right adjoint exists. For the two arithmetic quotients that the literal reading generates (dyadic and rational), I have necessary conditions but no refutation.
+
+## 1. "Only equal merge" is not coherent
+
+Work with instruments as finite multisets of nonzero CP maps whose sum is trace-preserving. I checked the claims below with exact-fraction scripts.
+
+- **Pair-merge, {E,E}∪Z ~ {2E}∪Z.** This is already a congruence, since equal components stay equal under composition and tensor. A complete invariant is, for each orbit of 2^ℤ-rescalings, the total weight in ℤ[1/2]. So the merging is dyadic:
+  - {E, 2E} is not equivalent to {3E}.
+  - The uniform 3-outcome dummy label {Φ/3, Φ/3, Φ/3} reduces to {2Φ/3, Φ/3}, not {Φ}.
+  - It identifies dummy labels only when p is a power of 2, which defeats the purpose.
+- **k-fold merge, {E×k}∪Z ~ {kE}∪Z for all k ≥ 2.** This is also a congruence, and it collapses to merging rationally proportional components. Then {E,2E} ~ {3E}, but {E,√2E} stay separate. Mixing is no longer idempotent: pS ⊕ (1−p)S ≠ S for irrational p. The hom-sets are not semialgebraic, and the convex machinery of the previous step is gone.
+- **"Merge all equal at once" canonicalization** is not a congruence. Take S = {E,E,E′} and S′ = {2E,E′}. These have the same canonical form. Compose with T = {F,F′} where F′∘E = F∘E′ = X, F∘E = P and F′∘E′ = Q. Then T∘S canonicalizes to {2P, 3X, Q}, but T∘S′ to {2P, 2X, X, Q}.
+
+So the principled choices are only "records are real data" (no merging beyond relabeling and dropping zero outcomes) and "forget labels independent of everything" (the proportional quotient already done).
+
+## 2. Zero-drop-only (Instr_0): no right adjoint, complete proof
+
+In Instr_0, morphisms are multisets of nonzero CP maps, and composition keeps only nonzero composites. This is a category, F_E is a functor, and no two components ever merge.
+
+**Claim.** For d_E ≥ 2, Hom(−⊗E, E) is not representable in Instr_0.
+
+*Proof.* Suppose (R, ε = {ε_j}_{j≤m}) is universal for B = E.
+
+1. Take A = ℂ. Every channel f: E→B equals ε∘F(g) for a unique g = {ρ_i}. Here the ρ_i are PSD operators on R with total trace 1.
+2. Each ρ_i has a nonzero composite, because Σ_j tr ε_j(ρ_i⊗X) = tr ρ_i · tr X > 0. With no merging, f has one component, so n = 1. Hence g is a single state ρ, exactly one outcome j is active, and ε_{j′}(ρ⊗·) = 0 for j′ ≠ j.
+3. Let S_j = {ρ : ε_{j′}(ρ⊗·) = 0 for all j′ ≠ j}.
+   - By the Kraus form and positivity, S_j = State(V_j), where V_j is the intersection of the subspaces {v : K_b(v⊗e) = 0 for all b, e} over the Kraus operators of ε_{j′}, j′ ≠ j.
+   - The S_j are pairwise disjoint, since otherwise every component vanishes, contradicting trace preservation.
+   - On S_j, T_j(ρ) = ε_j(ρ⊗·) is a channel.
+4. Steps 1–2 give Chan(E,B) = ⋃_j T_j(S_j). Uniqueness of g makes each T_j injective and the images pairwise disjoint, and each image is compact. Chan(E,B) is convex, hence connected, so exactly one j₀ has S_{j₀} ≠ ∅. Then T_{j₀}: State(V) → Chan(E,B) is an affine bijection.
+5. Comparing dimensions gives d_V² − 1 = d_E²(d_B² − 1). For B = E, d_V² = d_E⁴ − d_E² + 1, which is never a square. ∎
+
+This uses no grading lemma and no strata dimensions, only Prop. 3.1 at n = 1. It is pointwise in B. It also shows why deterministic targets are the obstruction: they force single-outcome sources. It breaks exactly where merging enters, because merging lets many composites collapse into one channel (step 2).
+
+## 3. Dyadic and rational variants: partial
+
+For any congruence ≈ between zero-drop and proportional merging, an adjoint would have to satisfy the following. These are proof sketches.
+
+1. **Surjectivity transfers.** The quotient functor to Instr_cg makes h ↦ p(ε_B)∘F(h) a surjective, recorded-mixing-affine map Hom_cg(A,R) → Hom_cg(A⊗E,B). Surjective affine maps hit each extreme point from an extreme point, using a minimal-support argument. So the extreme-set dimensions satisfy d_A²d_E²(d_A²d_E²d_B² − 1) ≤ d_A²(d_A²d_R² − 1) for all A. This gives d_R² ≥ d_E⁴d_B².
+2. **Generic injectivity.** On an open dense set of instruments the composites have no coincidences. In the dyadic case there are finitely many algebraic coincidence conditions. There Φ⁻¹ multiplies the component count by m, the number of components of ε, and is injective polynomial. So n·d_R² − 1 ≤ nm·d_E²d_B² − d_E² for all n, and together with (1) this forces m ≥ d_E² + 1.
+
+So any hypothetical adjoint has d_R(B) ≥ d_E²d_B, which is larger than the CPM candidate E*⊗B. Its counit has more than d_E² outcomes. Its deterministic channels come from multi-component sources whose composites merge arithmetically.
+
+I could not close this. Two things block the proof:
+
+- Under rational mixing, extreme points are those with ℚ-independent marginals, and there is no Carathéodory bound. For example, 1 = (½ + √2/4) + (½ − √2/4) has ℚ-independent summands while d_A² = 1. Extreme sets then have unbounded dimension.
+- In the surviving analogue of step 3, channels come from states in sections W_q = {σ : ε_j(σ⊗·) = q_j ε̄(σ⊗·)}. These are linear slices of State(R) of arbitrary shape, so the conclusion "Chan(E,B) ≅ State(V)" is lost.
+
+I expect no adjoint here either, but I have no proof. Since these congruences are not physically principled, I would not spend more on them unless a referee asks.
+
+## 4. For the paper
+
+State two principled models, each with a theorem: records as data (the Instr_0 connectedness proof, with the pointwise graded witness as the quick case) and records forgotten (the extreme-point theorem). Add a short remark that equal-only merging is not a congruence-stable notion, which answers the dummy-label objection head-on. The connectedness proof is also a cleaner way to present the Chan part of the argument than strata counting.
+
+write both theorems as numbered propositions with full proofs.
+the dyadic case through the small strata (k = 2):
+
+**Result.** The k = 2 analysis gives structure but no contradiction by itself. Pushing on it, though, led to a cleaner closure, and it settles the dyadic and rational cases pointwise for every B with d_B ≥ 2. The remaining open piece is B = ℂ.
+
+## 1. What k = 2 gives
+
+**Lemma 1.** Let f = {f₁, f₂} ∈ Hom_D(E,B) have linearly independent marginals M_l = f_l†(1), and suppose f₁ and f₂ lie in different 2^ℤ-orbits (true generically). Let g = {ρ_i} be its preimage at A = ℂ, so that the multiset of nonzero composites ε_j(ρ_i⊗·) is D-equivalent to f. Then:
+1. Every nonzero composite equals 2^{−s}f_l for some l.
+2. For each i, the f₁-type weights and the f₂-type weights both sum to τ_i = tr ρ_i. Hence every τ_i is a dyadic rational.
+3. T(ρ̂_i) = f₁ + f₂ for all i.
+
+*Proof.*
+1. D-equivalence preserves the total weight in each 2^ℤ-orbit. The orbits of f₁ and f₂ each carry weight 1, so each cluster is a binary partition of 1.
+2. For fixed i, ε̄(ρ_i⊗·) = a_i f₁ + b_i f₂ with a_i, b_i sums of dyadic weights. Trace preservation gives a_iM₁ + b_iM₂ = τ_i·1 = τ_i(M₁ + M₂). Independence of M₁, M₂ then forces a_i = b_i = τ_i. ∎
+
+The same holds for any k ≤ d_E². This does not close the problem. A dimension count needs the ranks of the maps L_j: ρ ↦ ε_j(ρ⊗·), which are unknown. Dyadic traces only place g_f in a countable-trace part of Hom_D(ℂ,R), which is no contradiction.
+
+## 2. A cleaner closure: the overlap identity
+
+In every variant, the record-forgetting functor makes T(ρ) = ε̄(ρ⊗·) map State(R) onto Chan(E,B).
+
+**Lemma 2.** Let ψ, ψ′ be pure states with T(ψ) = f and T(ψ′) = f′. Take minimal Kraus families {K_i}_{i≤r} for f and {K′_l}_{l≤r′} for f′. Then ⟨ψ|ψ′⟩·1_E = Σ_{il} Γ_{il} K_i†K′_l, where Γ_{il} = ⟨e_i|e′_l⟩ for orthonormal families {e_i}, {e′_l} in the Stinespring environment. In particular, ⟨ψ|ψ′⟩ ≠ 0 implies 1 ∈ span{K_i†K′_l}.
+
+*Proof.*
+1. Let W: R⊗E → B⊗G be the Stinespring isometry of ε̄, and put W_ψ = W(ψ⊗·).
+2. Any Kraus family of f is related to the minimal family by an isometry u. So W_ψ x = Σ_i K_i x ⊗ e_i with e_i = Σ_a u_{ai} g_a. Then ⟨e_i|e_{i′}⟩ = (u†u)_{ii′} = δ_{ii′}, so the e_i are orthonormal.
+3. W is an isometry, so W_ψ†W_{ψ′} = ⟨ψ|ψ′⟩·1.
+4. Expanding W_ψ†W_{ψ′} in the Kraus families gives the identity. ∎
+
+**Theorem 3 (pointwise, all variants).** Let d_E, d_B ≥ 2. Then Hom(−⊗E, B) is not representable in Chan, graded Instr, Instr_0, the dyadic quotient, the rational quotient or Instr_cg.
+
+*Proof.* Split the basis of E into r = ⌈d_E/d_B⌉ consecutive blocks of size at most d_B, with the first block of size at least 2. This is always possible, since ⌈d_E/d_B⌉ ≤ d_E − 1 for d_B, d_E ≥ 2. Choose isometries V_i from block i into B with non-orthogonal ranges, and set K_i = V_iP_i. Rotate one basis vector of block 1 by a phase: V₁^θ = V₁D_θ with D_θ = diag(e^{iθ},1,…,1). Call the resulting channel f_θ.
+
+1. **Trace-preserving and extremal.** ΣK_i†K_i = ΣP_i = 1. The products K_i†K_j occupy distinct block positions and are nonzero, so they are linearly independent. By Choi's criterion f_θ is extreme in Chan(E,B).
+2. **Pure programs.** T is onto and f_θ is extreme, so the fibre T⁻¹(f_θ) is a nonempty face of State(R). It therefore contains a pure state ψ_θ.
+3. **The span condition.** For θ ≠ θ′ we need 1 ∉ span{K_i†K′_l}. Since the operators occupy independent block positions, 1 lies in the span iff each diagonal block of V_i†V′_i is a nonzero scalar times the identity. For block 1 this block equals D_{θ′−θ}, which is scalar only if θ = θ′.
+4. **Orthogonality.** By Lemma 2, ψ_θ ⊥ ψ_{θ′} for θ ≠ θ′. This gives infinitely many orthonormal vectors in the finite-dimensional space R, a contradiction. ∎
+
+For the case r = 1 (d_B ≥ d_E, isometric channels), this is exactly the Nielsen–Chuang argument. For r ≥ 2 it extends that argument to extremal channels of higher Kraus rank, replacing "U†U′ ∝ I" by the span condition.
+
+I verified the construction numerically for nine (d_E, d_B) pairs, including (3,2), (4,2) and (8,3): trace preservation, extremality, 1 in the span for θ = θ′, and 1 not in the span for θ ≠ θ′. The first three of these have d_B < d_E, the case the unitary argument could not reach.
+
+## 3. Status
+
+- **Adjoint nonexistence:** closed in all variants.
+- **Pointwise for d_B ≥ 2:** closed in all variants in finite dimensions, with no dimension counting and no strata. For Chan this is a third proof, alongside the square-gap and Kraus-rank arguments.
+- **Pointwise at B = ℂ:** graded Instr is closed by the POVM-versus-ensemble witness, and Instr_cg by the consecutive-squares count. Instr_0 and the dyadic and rational quotients are open there. Here c lands on a single point, so Theorem 3 gives nothing. I tried the Cauchy–Schwarz version of the overlap argument for two-outcome projective measurements on a qubit. It gives only |⟨ψ_u|ψ_{u′}⟩| ≤ 1, which is vacuous, so the B = ℂ case needs a different idea.
+- **Infinite dimensions, pointwise:** the block construction is plausible but I haven't checked the extremality criterion there.
+
+## 4. For the paper
+
+I'd present Theorem 3 as the pointwise theorem, because it is shorter and more uniform than the Kraus-rank count. Lemma K can stay as the convex-geometric complement (isomorphism type rather than representability). The k = 2 lemma fits as a remark on dyadic-trace rigidity.
+
+write Lemma 2 and Theorem 3 as propositions with full proofs.
+
+try the B = ℂ case in Instr_0, where the no-merging structure should make small strata tractable:
+
+**Result.** Closed in Instr_0, and the proof lives at large strata, not small ones: the contradiction sits at k = m + 1 components, where m is the counit's component count. The same mechanism also closes the dyadic and rational variants, which were open at B = ℂ. It works for every B (including ℂ) and every d_E ≥ 2.
+
+## 1. Setup
+
+Suppose (R, ε = {ε_j}_{j≤m}) represents Hom(−⊗E, B). Take A = ℂ and g = {ρ_i}, with τ_i = tr ρ_i > 0. The composites N_{ij} = ε_j∘(ρ_i⊗id) are CP maps E → B. Their marginals M_{ij} = N_{ij}†(1_B) satisfy Σ_j M_{ij} = τ_i·1_E. For B = ℂ the marginal is just the effect N_{ij} itself.
+
+## 2. Instr_0
+
+Components of ε∘F(g) are the nonzero N_{ij}, with no merging, grouped by i. Call an instrument irreducible if no proper nonempty sub-multiset has marginals summing to a scalar multiple of 1_E.
+
+**Theorem 4(a).** For d_E ≥ 2, Hom_0(−⊗E, B) is not representable, for any B.
+
+*Proof.*
+1. Take f irreducible. Each group i has a nonzero composite, since its marginals sum to τ_i·1 ≠ 0. If n ≥ 2, group 1 is a proper sub-multiset summing to a scalar. So n = 1.
+2. Then f has at most m components, because only the ε_j can contribute.
+3. Irreducible instruments with k = m + 1 components exist. For d_E ≥ 2, each "proper subset sums to a scalar" condition is a proper affine slice of codimension d_E² − 1 in the open convex set of tuples. A finite union of such slices is nowhere dense.
+4. That f has a preimage by the universal property, contradicting step 2. ∎
+
+This uses only existence, not uniqueness.
+
+## 3. Dyadic and rational variants
+
+Here merging is allowed along dyadic or rational proportionality, but no further.
+
+**Theorem 4(b).** For d_E ≥ 2, Hom(−⊗E, B) is not representable in Instr_D or Instr_Q, for any B.
+
+*Proof.*
+1. **Choice of f.** Fix k = m + 1 and choose f with the classes of its marginals M̄_l ∈ Herm(E)/ℝ1 (l < k) having algebraically independent coordinates. Set M̄_k = −ΣM̄_l.
+   - Realizability: small traceless perturbations of 1/k give positive-definite effects. The set of realizable class-tuples contains an open set, and algebraically dependent tuples form a meagre set.
+   - Consequences: the f_l are pairwise non-proportional, so they lie in distinct orbits (rational in Q, dyadic in D).
+2. **Rationality.** If a representative composite multiset is equivalent to f, every composite equals q·f_l for a rational (dyadic in D) q > 0, with Σq = 1 over each cluster l. So the per-group weights a_{i,l} are rational.
+3. **Rigidity.** From the marginal equation, Σ_l a_{i,l} M̄_l = 0. Rational relations among the M̄_l are only multiples of (1,…,1), because the coordinates are ℚ-linearly independent apart from the forced sum Σ_l M̄_l = 0.
+4. **Conclusion.** Hence a_{i,l} = τ_i > 0 for every l. Each group therefore has a nonzero composite in every one of the k clusters, so it has at least k nonzero composites. But there are at most m. Contradiction. ∎
+
+I sanity-checked the key facts numerically:
+- Generic POVMs on a qubit with k = 5, 6, 7 effects have a real kernel of dimension 2, 3, 4, but the only small-integer kernel vectors (entries in [−3, 3]) are multiples of (1,…,1).
+- For d_E = 3 and k = 6 the same holds.
+- No proper subset of the effects sums to a scalar in any of these cases.
+
+## 4. Why cg differs
+
+In cg, merging splits components by real weights, and the real kernel is positive-dimensional (dimension up to 4 in the checks above). So a_i can be a non-scalar vector, and rigidity fails. That is why cg needed the count or the record-forgetting route.
+
+The pattern is arithmetic: the allowed splitting weights are integers in Instr_0, dyadic in D, rational in Q, and real in cg. Rigidity holds exactly when the weights are countable.
+
+## 5. Status
+
+In finite dimensions, adjoint nonexistence and pointwise non-representability are now closed for all variants, all B, and d_E ≥ 2. The B = ℂ cases are:
+- graded: POVM witness
+- Instr_0, D, Q: Theorem 4
+- cg: count
+
+Still open: pointwise statements in infinite dimensions, and the non-separable settings.
+
+For the paper, Theorem 4 is a natural companion to Theorem 3: Theorem 3 covers cg and Chan, Theorem 4 covers the arithmetic-merging models. write Theorem 4 up as proposition, including the genericity lemma.
+
+**Result.** In infinite dimensions (separable R, normal maps), pointwise non-representability is now closed for every B with dim B ≥ 2. It is also closed at B = ℂ whenever the counit has finitely many outcomes. In the non-separable setting I can close Chan, Instr_0, graded Instr, and the dyadic and rational quotients (with finite counit). Instr_cg stays open there, as do a few other cases listed in §5. I checked the face-dimension claims numerically.
+
+## 1. Infinite-dimensional separable case
+
+**Theorem 5.** Let E, B be separable with dim E, dim B ≥ 2 (finite or infinite), with normal maps and arbitrary outcome spaces. Then Hom(−⊗E, B) is not representable by a separable R, in every variant.
+
+The proof is Theorem 3 with four infinite-dimensional checks:
+
+1. **Surjection T.** T(ρ) = ε̄(ρ⊗·) maps State(R) onto Chan(E,B). This is the record-forgetting argument from before.
+2. **The family.** Split the basis of E into countably many blocks of size ≤ dim B. The first block has size ≥ 2, and the ranges of the isometries V_i (K_i = V_iP_i) pairwise overlap. For example, all V_i can map one basis vector of block i to a common vector u. If B is infinite-dimensional, one block with an isometry E → B suffices. Rotate one vector in block 1 by a phase, giving f_θ.
+3. **Extremality.** By Arveson's criterion, a normal channel with minimal Stinespring dilation (π = id⊗1, V) is extreme iff T ↦ V†(1⊗T)V is injective on B(G). Here the products K_i†K_j sit in distinct block positions and are nonzero, so injectivity holds. The dilation is minimal because Σc_iK_i = 0 forces c_i = 0, the K_i having orthogonal supports. (Arveson 1969, Thm 1.4.6; check the numbering.) Extremality under countable mixtures follows from binary extremality, since the remainder is again a normal channel.
+4. **Overlap.** Any Stinespring isometry for f_θ is (1⊗J)V with J an isometry, so Lemma 2 holds with a contraction matrix Γ. Comparing block (1,1) gives ⟨ψ_θ|ψ_{θ′}⟩ = Γ₁₁e^{iφ} = Γ₁₁, so ⟨ψ_θ|ψ_{θ′}⟩ = 0 for φ ≠ 0. This gives uncountably many orthonormal vectors in a separable R, a contradiction. ∎
+
+**B = ℂ.** Theorem 4 needs only a finite number m of counit components. The genericity step needs only that the effects have classes in B_sa(E)/ℝ1 that are ℚ-linearly independent. It works for infinite-dimensional E, because small perturbations N_l = 1/k + δ_l keep the effects positive. So the B = ℂ case is closed whenever the counit has finitely many outcomes, in any dimension. It stays open for infinitely many outcomes, since "k ≤ m" becomes vacuous.
+
+## 2. Non-separable: Chan
+
+**Theorem 6.** For dim E ≥ 2 and dim B ≥ 2, Chan(E,B) is not affinely isomorphic to the normal state space of any Hilbert space R, separable or not.
+
+*Proof.* The block family has a face of dimension exactly 2. I computed this for eight (d_E, d_B) pairs, including (3,2), (4,2), (5,2) and (6,3) with d_B < d_E. The face is the minimal face of the midpoint of f_θ and f_θ′, and its dimension is the dimension of the kernel of Tr_B on Herm(W) for the Kraus-Choi span W.
+
+A face of State(R) with a finite-dimensional relative interior point ρ equals {σ ≤ cρ} = State(supp ρ). Its dimension is therefore k²−1 or infinite, never 2. ∎
+
+So F_E has no right adjoint in non-separable Chan (take B = E). Separability played no role.
+
+## 3. Non-separable: Instr_0 and graded
+
+**Theorem 7.** Let outcome sets be countable and dim E, dim B ≥ 2, with R arbitrary. Then Hom_0(−⊗E, B) is not representable.
+
+*Proof.*
+1. As before, every channel f = T_j(ρ) with ρ ∈ S_j = State(V_j), a face of State(R), for a unique j. T_j is injective and affine on S_j, and the images are pairwise disjoint.
+2. Let F be the 2-dimensional face above. It is uncountable and F = ⊔_j (F ∩ T_j(S_j)).
+3. Suppose some piece contains u ≠ v, with preimages σ_u ≠ σ_v ∈ S_j. The midpoint σ_m has a minimal face State(W) with dim W ≥ 2, so that face has dimension ≥ 3 and lies in S_j.
+4. Since F is a face and m′ = T_j(σ_m) lies in its relative interior, T_j of that face lies in F. This gives dim F ≥ 3, a contradiction.
+5. So every piece has at most one point, and F is countable, a contradiction. ∎
+
+No compactness, separability or finite dimension is used.
+
+For graded Instr (finite outcomes), the partition argument works for any B including ℂ, with n = 1 forcing k = m. The proof of Theorem 4(a) uses nothing about dimension.
+
+## 4. Non-separable: dyadic and rational
+
+Theorem 4(b) uses only finiteness of m and dim E ≥ 2, so it holds in any dimension and for non-separable R, for all B including ℂ.
+
+## 5. Not closed
+
+1. **B = ℂ with infinitely many outcomes**, in every variant.
+2. **Instr_cg with non-separable R** (any dimensions). The record-forgetting route is blocked by the lookup-table processor, and the count route needs finite-dimensional R.
+3. **Dyadic and rational with infinitely many counit outcomes and non-separable R** at B ≥ 2.
+4. **Non-normal (C*-algebraic) states.** Both invariants fail. Disjoint pure states give 1-dimensional faces in the full state space of B(H), and uncountably many mutually disjoint pure states exist even for separable H. I haven't analyzed this setting.
+
+Items 1–3 are the real remaining gaps. The adjoint question itself (taking B = E) is closed in all separable settings and for Chan, Instr_0 and graded in the non-separable ones.
+
+write Theorems 5–7 as propositions with full proofs
+item 2 using the recorded-mixing faces:
+**Result.** Closed. The recorded-mixing faces give a short structural proof for Instr_cg that works in every setting I had left open for it: any R (non-separable included), any dimensions, any B (including ℂ), and finite or countable outcome sets. Preparation-type hom-sets are simplices; measurement-type hom-sets are not.
+
+## 1. The mechanism
+
+For finitely or countably supported instruments, recorded mixing is pS ⊕ (1−p)S′: a union of scaled copies, with proportional components merged. Under an adjunction, Ψ(g) = ε∘F(g) is a bijection Hom_cg(ℂ,R) → Hom_cg(E,B) that commutes with recorded mixing. This holds because composition distributes over the union and merging commutes with composition. So Ψ is an isomorphism of mixing structures, and it preserves extreme points and convex decompositions.
+
+**Source side.** An ensemble in Hom_cg(ℂ,R) is a set of pairwise non-proportional PSD operators ρ_i with Σtr ρ_i = 1. Equivalently it is a finitely (or countably) supported probability measure on the *set* State(R), with weights tr ρ_i. So Hom_cg(ℂ,R) is a simplex:
+- its extreme points are the single-state instruments, and
+- every element is a convex combination of them in a unique way.
+
+All its faces are simplices.
+
+**Target side.** The minimal face of an instrument with support T is the polytope P_T = {c ≥ 0 : Σc_l v_l = 1}, where v_l = f_l†(1_B). It has dimension |T| − rank{v_l}, and its vertices are the extreme instruments, which are those with independent marginals.
+
+## 2. A quadrilateral face in Hom_cg(E,B)
+
+Let dim E ≥ 2 and pick a bounded Hermitian a on E that is not a scalar. Set v_l = ¼·1 + δβ_l a with β = (1, −2... ) — precisely β = (1, −1, 2, −2) and small δ, so every v_l is positive. Let f_l(X) = tr(v_l X)σ_l with distinct states σ_l on B. For B = ℂ, f_l is just the effect v_l. The f_l are pairwise non-proportional.
+
+Here P_T = {c ≥ 0 : Σc_l = 4, Σβ_l c_l = 0} is a polygon with exactly four vertices, one for each pair of opposite-sign β. They are the extreme instruments:
+- e₁₂ = {2f₁, 2f₂}
+- e₃₄ = {2f₃, 2f₄}
+- e₁₄ = {(8/3)f₁, (4/3)f₄}
+- e₂₃ = {(8/3)f₂, (4/3)f₃}
+
+The instrument f = {f₁, f₂, f₃, f₄} has two different decompositions into extremes:
+
+½e₁₂ ⊕ ½e₃₄ = ¼e₃₄ ⊕ ⅜e₁₄ ⊕ ⅜e₂₃.
+
+I verified in exact arithmetic that all four e's are trace-preserving with independent marginals, that P_T has four vertices spanning a plane (a simplex of dimension 2 would have three), and that both decompositions give the same f with all weights equal to 1.
+
+## 3. The theorem
+
+**Theorem 8.** For dim E ≥ 2, any B and any R, Hom_cg(−⊗E, B) is not representable (finite or countable outcome sets).
+
+*Proof.* Take A = ℂ, so Ψ: Hom_cg(ℂ,R) → Hom_cg(E,B) is a bijection commuting with recorded mixing.
+1. The e's are extreme in Hom_cg(E,B), so their Ψ-preimages are extreme in the source, hence single-state instruments x₁₂, x₃₄, x₁₄, x₂₃.
+2. Pull back the two decompositions: ½δ_{x₁₂} + ½δ_{x₃₄} equals ¼δ_{x₃₄} + ⅜δ_{x₁₄} + ⅜δ_{x₂₃} as measures on State(R).
+3. By injectivity, x₁₂, x₃₄, x₁₄, x₂₃ are distinct states, so these two measures have different supports. Contradiction. ∎
+
+Binary mixing is all that is used, so countable outcomes are covered. The proof uses no dimension counting, no separability, no record-forgetting functor and no no-programming argument.
+
+## 4. Variants and scope
+
+- **Faces.** Every face of the ensemble space is a simplex, while Hom_cg(E,B) has a quadrilateral face. That is the whole obstruction.
+- **Rational quotient.** The same argument should work with ℚ-convexity. Rational mixing is idempotent there, ℚ-extremes include these e's, and rational-weight ensembles form a free ℚ-simplex. Both decompositions above use rational weights. I checked this only quickly.
+- **Dyadic quotient.** Not redone. Mixing is idempotent only at p = ½, and the class structure is messier.
+- **Interpretation.** Ensembles with records (preparations) are simplicial, and POVM- or instrument-valued homs (measurements) are not. This is the recorded-mixing shadow of the earlier no-programming and Kraus-rank obstructions.
+
+## 5. Status
+
+Instr_cg is closed pointwise in every setting I had left open. The remaining gaps:
+1. B = ℂ with infinitely many counit outcomes in Instr_0 and the dyadic quotient. The rational quotient may now be covered by the ℚ-simplex remark above.
+2. The dyadic quotient at B ≥ 2 with non-separable R and infinitely many counit outcomes.
+3. Uncountable (measurable) outcome spaces for the cg identification.
+4. Non-normal states.
+
+Write Theorem 8 as a proposition with full proofs, including the P_T computation. 
+check whether the ℚ-simplex version closes the rational quotient fully:
+**Result.** No. The ℚ-simplex version does not close the rational quotient, and I retract my earlier remark that rational-weight ensembles form a free ℚ-simplex. The rational quotient is nevertheless already closed by Theorem 4(b), for every R, every dimension and every B (including ℂ) when dim E ≥ 2, provided outcome sets are finite. I verified the failure of the ℚ-simplex test in exact arithmetic.
+
+## 1. Where the ℚ-simplex argument fails
+
+1. **The ensemble space has the same quadrilateral face.** In Hom_Q(ℂ,R) an ensemble is a finite set of (state, weight) pairs, and components merge only when their weights differ by a rational factor. Take four distinct states ρ_t with weights τ_t = ¼ + β_t δ√2, where β = (1, −1, 2, −2) and δ = 1/20. All four weights are positive and sum to 1.
+   - The rational scalings q = (2,2,0,0), (0,0,2,2), (8/3,0,0,4/3), (0,8/3,4/3,0) all give valid ensembles. Each has total weight 1 in exact arithmetic.
+   - Both decompositions ½e₁₂ ⊕ ½e₃₄ and ¼e₃₄ ⊕ ⅜e₁₄ ⊕ ⅜e₂₃ reproduce the same ensemble. Weights per state are rational multiples of τ_t, and the merges are rational.
+   - e₁₂ is ℚ-extreme, because {1, √2} are ℚ-independent and the two rational equations force q₁ = q₂ = 2.
+   
+   So the source has the same polygon as the target, and the simplicial contrast disappears.
+2. **ℚ-extremes are not only single states.** A multi-component ensemble with ℚ-independent weights is ℚ-extreme. For example, {(ρ₁, √2−1), (ρ₂, 2−√2)} admits only the trivial rational deformation λ = (1,1). A real perturbation of a weight would move the component into a different ℚ-orbit and so not reproduce x. In cg the extremes were exactly the single states, because real merging lets any multi-component ensemble be perturbed. In Q they are not. So Step 1 of Theorem 8, which pulled the e's back to single states, is unavailable.
+3. **The ℚ-hull of single states** is indeed a free ℚ-simplex. But Ψ need not map it onto the ℚ-hull of the e's.
+
+The underlying reason is that over ℚ a single real constraint Σq_tτ_t = 1 becomes dim_ℚ span{τ_t} rational constraints. So the source realizes the same family of rational polytopes as the target. Real mixing, as in cg, collapses that freedom.
+
+## 2. Why the rational quotient is closed anyway
+
+Theorem 4(b) covers it. In outline, pick f with k = m + 1 components and generic effect classes, so only trivial rational relations hold among them. Each component of g then contributes a nonzero composite in every cluster. That needs at least k nonzero composites per component, but at most m exist.
+
+Its hypotheses are finiteness of the counit's component count m and dim E ≥ 2. Nothing is assumed about R, so it covers non-separable and infinite-dimensional R, and any B including ℂ.
+
+For countable outcome sets, the rational quotient is not well-defined. Merging infinitely many rational multiples of one component can leave its ℚ-orbit, since a sum of rationals can be irrational. So finite outcome sets are the only setting in which the question arises.
+
+## 3. Status after this check
+
+- **Closed pointwise, with the conditions stated:** Instr_cg (Theorem 8, finite or countable outcomes), Instr_Q (Theorem 4(b), finite outcomes), Instr_0 (B ≥ 2 with countable outcomes, B = ℂ with finite counit), graded Instr (finite outcomes), and the dyadic quotient with finite counit.
+- **Still open:**
+  1. B = ℂ with infinitely many counit outcomes in Instr_0 and the dyadic quotient.
+  2. The dyadic quotient at B ≥ 2 with non-separable R and infinitely many counit outcomes.
+  3. Uncountable (measurable) outcome spaces.
+  4. Non-normal states.
+
+The lesson is that the available invariants depend on which scalars the quotient allows. With real scalars the simplex test works. With integer, dyadic or rational scalars, counting plus rigidity works. The simplex test fails for the rational quotient because the reals have enough ℚ-structure to reproduce the polygon.
+
+write Theorems 4(b) and 8 as propositions with full proofs.
+try the dyadic quotient with infinitely many counit outcomes:
+**Result.** Closed for finite-dimensional E (2 ≤ dim E < ∞), for every R, separable or not, and every B including ℂ. This covers the dyadic quotient with countably many counit outcomes at B = ℂ and at B ≥ 2 with non-separable R. The same argument also gives Instr_0 at B = ℂ with infinitely many outcomes. The mechanism is that finite-support faces of R must be finite-dimensional, which makes a continuum of orthogonal programs impossible. I checked the two key facts numerically.
+
+## 1. Setting
+
+For countable outcomes, Instr_D means countable multisets of nonzero normal CP maps modulo the *finitary* congruence generated by pair-merge and split. Two consequences:
+- A class with a finite representative has only finite representatives, since each move changes the size by one.
+- A single-state ensemble {ρ} is determined by its response family Λ(ρ) = (ε_j(ρ))_j. So uniqueness in the universal property makes Λ injective on states, and hence on Hermitian trace-class operators. (If Λ(h) = 0, then tr h = 0 because Σ_j ε_j(h) = (tr h)·1, and the normalized positive and negative parts are states with equal responses, hence equal.)
+
+## 2. Two lemmas
+
+**Lemma A (finite support).** Suppose f is a finite class and g = {ρ_i} satisfies ε∘F(g) ≈ f. Then the composite multiset is finite, so every ρ_i, and every pure component of ρ̂_i, has finite support J = {j : ε_j(ψ) ≠ 0}.
+
+**Lemma B (finite-dimensional faces).** For finite J, let V_J = ∩_{j∉J} Z_j with Z_j = {v : ε_j(|v⟩⟨v|) = 0}. Then Λ maps Herm₁(V_J) injectively into ∏_{j∈J} B_sa(E) (for B = ℂ). Hence (dim V_J)² ≤ |J|·d_E². For B = ℂ the sharper bound is (|J|−1)d_E² + 1, because Σ_j Λ_j(h) = (tr h)·1.
+
+I checked that the rank of Λ on random POVMs equals (m−1)d_E² + 1 whenever the dimension of R allows. For example, dim R = 4, d_E = 2, m = 4 gives rank 13, and dim R = 5, m = 6 gives rank 21.
+
+The lookup-table processor evades Lemma B because its Λ is not injective: coherences between programs are invisible.
+
+## 3. B = ℂ
+
+**Theorem 9.** For 2 ≤ dim E < ∞, Hom(−⊗E, ℂ) is not representable in Instr_D (countable outcomes), Instr_0 (countable outcomes), Instr_Q or graded Instr (finite outcomes), for any R.
+
+*Proof.*
+1. **Pure programs.** For an orthonormal basis e, the measurement f_e = {|e_a⟩⟨e_a|}_{a≤d_E} has components in distinct orbits with independent marginals. By group rigidity, every program component has ε_j(ρ̂) = u_j |e_{a(j)}⟩⟨e_{a(j)}| with Σ_{j of type a} u_j = 1 for each a. Pure components inherit this, since a sum of PSD operators equal to a rank-one operator forces each summand to be proportional to it. By Lemma A each pure program ψ_e has finite support J_e and a type map a: J_e → {1,…,d_E}.
+2. **Structure of W.** Let η_j(x) = ε_j^{1/2}(ψ_e ⊗ x). Then ‖η_j(x)‖² = q_j|⟨e_a|x⟩|², so η_j(x) = ⟨e_a|x⟩ζ_j.
+3. **Pigeonhole.** Take e(θ) to be the basis rotated by θ in a fixed plane. Patterns (J, a) are countable, so an uncountable set Θ₀ of angles shares a single pattern.
+4. **Cross terms.** For θ ≠ θ′ in Θ₀, each outcome j has the same type a in both programs. So ⟨ψ_θ⊗x|ε_j|ψ_θ′⊗x′⟩ = ⟨ζ_j|ζ′_j⟩⟨x|e_a⟩⟨e′_a|x′⟩. Summing over j gives Σ_a Γ_a |e_a(θ)⟩⟨e_a(θ′)| = ⟨ψ_θ|ψ_θ′⟩·1_E. Applying this to e₁(θ′) gives Γ₁|e₁(θ)⟩ = c|e₁(θ′)⟩, so c = 0 since e₁(θ) ∦ e₁(θ′). Numerically, for θ ≠ θ′ the system has residual > 0 when c = 1, while c = 0 forces Γ = 0.
+5. **Contradiction.** So {ψ_θ}_{θ∈Θ₀} is an uncountable orthonormal family inside V_J. The n² operators |ψ_a⟩⟨ψ_b| are independent, but Lemma B bounds their number by |J|d_E². Contradiction. ∎
+
+## 4. B ≥ 2
+
+**Theorem 10.** For 2 ≤ dim E < ∞ and dim B ≥ 2, Hom(−⊗E, B) is not representable in the same variants, for any R.
+
+*Proof.* Use the block family f_θ with outputs in a fixed 2-dimensional B₀ ⊆ B.
+1. **Pure programs.** The preimage structure gives T(ρ̂_i) = f_θ, and extremality of f_θ gives T(ψ) = f_θ for each pure component. Lemma A again gives finite support.
+2. **Pigeonhole and orthogonality.** Pigeonhole on finite supports gives an uncountable Θ₀ with a common J. Lemma 2 forces orthogonality for θ ≠ θ′.
+3. **Bound.** Cross terms ε_j(|ψ_a⟩⟨ψ_b|) have range in B₀ because ε_j(ψ_θ) is CP-dominated by f_θ. So they lie in the finite-dimensional space Lin(B(E), B(B₀)). The same counting as in Lemma B bounds the number of orthogonal programs, a contradiction. ∎
+
+## 5. Scope and what remains
+
+The argument uses the finitary congruence essentially. If infinite merges were allowed, say {½, ¼, ⅛, …} ~ {1}, finite classes could have infinite representatives and Lemma A would fail. I haven't treated that version. Instr_cg with countable outcomes has the same issue but is closed by Theorem 8.
+
+Remaining gaps:
+1. dim E = ∞ with non-separable R, for any B. Separable R is covered by Theorems 3 and 5.
+2. Uncountable (measurable) outcome spaces for the cg-type identification.
+3. Non-normal states.
+4. The infinite-merge dyadic variant.
+
+write Lemmas A and B and Theorems 9 and 10 as propositions with full proofs.
+
+**Result.** One principle, atomic factorization, closes four of the five remaining gaps. One case stays blocked. The Instr_0 counterexample below is verified numerically, and the D^ω case reuses the exact-arithmetic quadrilateral from earlier.
+
+## Dependency order
+
+1. **The principle** (recorded mixing plus atoms). Everything else depends on it.
+2. **Its instances, in order of definitional overhead:** Instr_0 (none), the infinite-merge dyadic quotient D^ω (orbit weights), non-normal states with finite-dimensional E (slice maps), measurable-outcome cg (measure-theoretic definition).
+3. **Blocked:** finitary D with dim E = ∞, non-separable R and infinitely many counit outcomes.
+
+## 1. The principle, with Instr_0 as the model case
+
+Ψ(g) = ε∘F(g) commutes with recorded mixing pS ⊕ (1−p)S′. Call an element an atom if it is not a mixing pa ⊕ (1−p)b.
+- **Source.** In Hom_0(ℂ,R) the atoms are the single-component instruments, i.e. states. A multi-component ensemble splits along any proper sub-multiset. So every element factors uniquely into atoms.
+- **Target.** In Hom_0(E,B) the atoms are the irreducible instruments (no proper sub-multiset has marginals summing to a scalar).
+
+**Theorem 11.** For dim E ≥ 2, any B, any R and any outcome multiplicity, Hom_0(−⊗E, B) is not representable.
+
+*Proof.*
+1. Let x be a bounded non-scalar Hermitian on E. Set A = α + x, B′ = β − x, C = γ + x, D = δ − x, all positive, with sum 1 and f = {A,B′,C,D}. Take the components of f to be tr(N·)σ for these effects N. Then A+B′, C+D, A+D and C+B′ are all scalar.
+2. Hence f = s·a_{AB′} ⊕ (1−s)·a_{CD} = t·a_{AD} ⊕ (1−t)·a_{CB′}. The four normalized instruments are irreducible atoms and pairwise distinct.
+3. Pull back by Ψ⁻¹. The atoms become four distinct states ρ̂₁,…,ρ̂₄, and the two decompositions give {sρ̂₁, (1−s)ρ̂₂} = {tρ̂₃, (1−t)ρ̂₄}.
+4. This forces two of four distinct states to coincide. Contradiction. ∎
+
+I checked the example on a qubit with α, β, γ, δ = 0.2, 0.3, 0.25, 0.25 and x = 0.1σ_z. All four effects are positive, all four atoms are trace-preserving and irreducible, and both decompositions give the multiset {A,B′,C,D}.
+
+Graded Instr is not covered: zero padding lets a zero component attach to either neighbour, so atomic factorization is not unique there. It is closed by the grading argument instead.
+
+## 2. D^ω (infinite-merge dyadic)
+
+Define a class as a countably supported orbit-weight vector w on 2^ℤ-orbits of nonzero CP maps, with Σ_O w_O r_O trace-preserving. Real weights arise from infinite dyadic multisets. Midpoint mixing averages w-vectors, and ¾, ⅜ and similar weights come from iterated midpoints.
+- **Source.** The single scalar constraint Σ w_O v_O = 1 makes every face a simplex. The atoms are single-orbit elements, with unique dyadic decompositions.
+- **Target.** The same quadrilateral appears, with w-vectors (2,2,0,0), (0,0,2,2), (8/3,0,0,4/3), (0,8/3,4/3,0) and decompositions with dyadic weights ½,½ and ¼,⅜,⅜.
+
+Contradiction as in Theorem 8. This is the infinite-merge variant that Lemma A could not handle.
+
+## 3. Non-normal states, finite-dimensional E
+
+The principle is purely algebraic. Slice maps by non-normal states exist because B(R⊗E) = M_d(B(R)). So the argument goes through for Instr_0, cg and D^ω whenever dim E < ∞, with the source being ensembles of arbitrary states of B(R). For infinite-dimensional E, slice maps by non-normal states are not defined on all of B(R⊗E), so the category itself needs a definition, which I haven't attempted. Finitary D and Q in the non-normal setting are not addressed, since their arguments use Hilbert-space structure.
+
+## 4. Measurable outcomes (cg-type)
+
+Define Hom_cg^meas(A,B) as positive Borel measures on the ray space with ∫ v dμ = 1.
+- **Source.** The source is Prob(State(R)), a simplex whose atoms are Diracs.
+- **Target.** The finitely supported quadrilateral lies in the target. Its vertices are extreme because any decomposition lives on a finite support with independent marginals.
+- **Conclusion.** Same contradiction.
+
+This depends on the definition. I haven't checked that it coincides with the quotient of arbitrary measurable-outcome instruments by label-forgetting, which needs disintegration (standard Borel).
+
+## 5. The blocked node
+
+Finitary D with dim E = ∞, non-separable R and infinite counit.
+- **Principle fails.** Partial arithmetic merging makes the source non-simplicial: atoms include irrational-weight ensembles, and weights with ℤ[1/2]-dependencies form quadrilaterals.
+- **Lemma B fails.** It needs a finite-dimensional target, but B_sa(E) is infinite-dimensional.
+- **Retract reduction fails.** I tried reducing to a finite-dimensional E₀ ⊂ E via an idempotent on R. That needs split idempotents, which the category lacks. Channels from E to E₀ also have infinite Kraus rank.
+
+## 6. Status
+
+- **Instr_0:** closed for any B, any dim E ≥ 2, any R, any outcome multiplicity.
+- **Instr_cg:** closed for countable outcomes (Theorem 8) and, under the definition above, for measurable outcomes.
+- **D^ω:** closed.
+- **Instr_Q (finite outcomes):** closed (Theorem 4(b)).
+- **Finitary D:** closed for dim E < ∞ (any R), for finite counit, and for separable R. Open only for dim E = ∞ with non-separable R and infinite counit.
+- **Graded Instr:** closed by grading.
+- **Non-normal:** closed for finite-dimensional E in Instr_0, cg and D^ω.
+
+write Theorem 11 and the D^ω construction as propositions with full proofs.
+
+Representability of the non-degenerate dimension escapes — §7.2(2):
+
+I read this as the dimension-escape problem. The Chan count d_R² − 1 = d_E²(d_B² − 1) has integer solutions for infinitely many (B,E), for example (d_B, d_E, d_R) = (k, 2k, 2k²−1), and there the dimension count says nothing. The task is to show that Chan(E,B) is not isomorphic to a state space even then. (The label "§7.2(2)" doesn't match the audit file, whose §7.2 is the unitaries item. I took the description instead, which is audit item E3 and item 8(c) of my earlier list.)
+
+**Result.** For d_E ≥ 2 and d_B ≥ 2, Chan(E,B) is not affinely isomorphic to the state space of any quantum system. No Diophantine condition enters.
+
+## Proof
+
+1. **State spaces.** The extreme points of State(ℂ^R) are the pure states, a manifold ℂP^{R−1} of dimension 2(R−1). The total dimension is R²−1. An affine isomorphism maps extreme points bijectively and is semialgebraic, so the extreme sets must have equal dimension.
+
+2. **Extreme channels.** By Choi's criterion, a channel is extremal iff its Kraus operators satisfy {K_i†K_j} linearly independent, so the Kraus rank is r ≤ d_E. Put N = d_Ed_B and stratify channels by Choi rank r.
+   - Rank-r PSD matrices on ℂ^N form a manifold of dimension 2Nr − r².
+   - The constraint Tr_B J = I is a submersion at every channel. A cokernel vector would be a Hermitian H whose action H⊗I vanishes on range J, i.e. K_iH^T = 0 for all i. That is impossible, because ΣK_i†K_i = I leaves no common kernel.
+   - So stratum r has dimension 2Nr − r² − d_E². For d_E = d_B = d and r = 1 this gives d²−1, the dimension of the unitary channels.
+   - Extremality is an open condition. It is realized at r = d_E by K_i = |v_i⟩⟨e_i| with unit vectors v_i ∈ ℂ^{d_B} that are pairwise non-orthogonal, which is possible once d_B ≥ 2. Such a channel is trace-preserving, and K_i†K_j = ⟨v_i|v_j⟩ |e_i⟩⟨e_j| are independent.
+   - The stratum dimension increases with r (for r < N), and extremal channels have r ≤ d_E. So dim Ext Chan(E,B) = 2d_E²(d_B − 1).
+
+3. **Comparison.** An isomorphism would need both 2d_E²(d_B−1) = 2(R−1) and R²−1 = d_E²(d_B²−1). Substituting R = d_E²(d_B−1)+1 into the second gives d_E²(d_B−1) + 2 = d_B + 1, so d_E = 1. ∎
+
+In the escape cases the extreme sets differ sharply even though the total dimensions agree:
+
+| (d_B, d_E, d_R) | dim Ext Chan(E,B) | dim Ext State(ℂ^R) |
+|---|---|---|
+| (2, 4, 7) | 32 | 12 |
+| (4, 8, 31) | 384 | 60 |
+| (3, 35, 99) | 4900 | 196 |
+
+## What it changes
+
+- **Chan, pointwise.** Chan(−⊗E, B) is non-representable for every B with d_B ≥ 2, with no square-gap or B = E trick needed. This corrects my earlier remark that only special (B,E) fail in Chan. Chan is representable only at B = ℂ, where Chan(E,ℂ) is a point. Instr fails even there, via the POVM-versus-ensemble witness. So the genuinely Instr-specific content is exactly the object B = ℂ.
+- **Instr_0 and the graded model.** The connectedness proof gave Chan(E,B) ≅ State(V), and the graded case gives Chan(E,B) ≅ State(R) once the counit is deterministic. Both contradict the theorem above for every B with d_B ≥ 2, so the square-gap is no longer needed there either. The Instr_cg extreme-point theorem is unchanged.
+- **Interpretation.** The obstruction is Kraus rank. Extreme channels have Choi rank up to d_E, while pure states have rank one. At equal dimension the extreme boundary of Chan(E,B) is about d_E times larger than a state space's.
+- **A second invariant, for d_B ≥ d_E.** Two isometric channels generate a face of dimension 1 (or 2 for qubit unitaries, where the relation X + e^{iφ}X† = (tr X)I intervenes). Quantum state spaces only have faces of dimension k²−1. This does not cover the escape family, where d_E = 2d_B > d_B.
+
+## Status
+
+The proof is complete modulo standard facts: Choi's extremality criterion, the dimension of the rank-r Hermitian manifold, and the semialgebraic invariance of dimension. I checked numerically:
+
+- that rank-d_E extremal channels exist for several (d_E, d_B) pairs, both explicit and random;
+- that the constraint Jacobian has rank d_E², with stratum dimensions matching 2Nr − r² − d_E²;
+- that no (d_E, d_B ≥ 2, R) satisfies both equations (search to 300).
+
+For the paper, the theorem can be stated as "Chan(E,B) is not affinely isomorphic to a state space". The dimension count then becomes a corollary instead of the engine.
+
+write this up as a proposition with full proofs, including the transversality lemma. check whether the same argument gives a cleaner Instr_cg proof, since it identifies Chan(E,B) inside the extreme set.
+
+does the same argument give a cleaner Instr_cg proof, since it identifies Chan(E,B) inside the extreme set?:
+
+**Short answer.** The Kraus-rank argument does not transfer to Instr_cg, but the idea behind your hint does, and it gives a much cleaner proof. That proof also closes the dyadic/rational gap for the nonexistence of an adjoint.
+
+## 1. Why the Kraus-rank argument doesn't transfer
+
+In Instr_cg, the extreme set of Hom(ℂ,R) is State(R), and its bijection onto Ext(E,B) is not affine for ordinary (unrecorded) mixing. Channels are only the k = 1 stratum of Ext(E,B), where every channel is extreme under recorded mixing.
+
+Under an adjunction, the channels' preimages form a foliated set. Writing ε_j for the components of the counit ε_B, ε̄ = Σ_jε_j for its coarse-grained channel, and T(ρ) = ε̄(ρ⊗·): the preimage set is a union of convex leaves W_p = {ρ : ε_j(ρ⊗·) = p_j·T(ρ) for all j}, one for each outcome-probability vector p. The Instr_0 connectedness step has no analogue here. The Kraus-rank count gives only R ≥ d_E²(d_B−1)+1, which the top-stratum count already implies.
+
+## 2. The cg count is already escape-free
+
+Take A = ℂ and any B. The Instr_cg count gives d_R² = (d_E²d_B)² − (d_E²−1). This lies strictly between (d_E²d_B − 1)² and (d_E²d_B)², so it is never a square for d_E ≥ 2. I checked this for d_E, d_B < 400 (no squares), and the sandwich inequality holds throughout the ranges tested.
+
+Unlike Chan, there is no Diophantine escape for any B, because the extreme set is indexed by the Carathéodory number d_E². This is a one-equation proof, but it still needs the strata and semialgebraic-dimension machinery.
+
+## 3. A cleaner route: forget the record
+
+The map c({E_i}) = ΣE_i is a functor c: Instr_≈ → Chan.
+- It is multiplicative: c(T∘S) = c(T)∘c(S).
+- It is invariant under merging and under dropping zero outcomes. So it exists on the graded model, Instr_0, the dyadic and rational quotients, and Instr_cg.
+- It is the identity on Chan and commutes with F_E.
+
+**Lemma.** If F_E ⊣ R in any of these categories, then ε̄ := c(ε_B) is a channel R(B)⊗E → B, and T(ρ) = ε̄(ρ⊗·) maps State(R(B)) onto Chan(E,B).
+
+*Proof.* A channel f is itself a 1-outcome instrument, so f = ε_B∘F(g) for some g ∈ Hom(ℂ,R). Applying c gives f = ε̄∘(c(g)⊗id), and c(g) = Σρ_i is a state. ∎
+
+So an adjoint would give a deterministic, exact, universal programmable processor for all channels E→B, with program register R(B).
+
+**Theorem.** For d_E ≥ 2, Hom(−⊗E, E) is not representable in any of these categories, so F_E has no right adjoint.
+
+*Proof.*
+1. The unitary channel Ad_U is extreme in Chan(E,E), since it has Kraus rank 1.
+2. The fibre T⁻¹(Ad_U) is a nonempty face of State(R), so it contains a pure state ψ_U.
+3. Let W: R⊗E → E⊗G be a Stinespring isometry for ε̄. Since the output is pure for every input, W(ψ_U⊗x) = Ux⊗η_U with η_U independent of x.
+4. Taking inner products gives ⟨ψ_U|ψ_{U′}⟩·I = ⟨η_U|η_{U′}⟩·U†U′. If U†U′ ∉ ℂI, both sides vanish, so ψ_U ⊥ ψ_{U′}.
+5. The unitaries diag(e^{iθ},1,…,1) are pairwise non-phase-equivalent. They give infinitely many orthogonal vectors in ℂ^R, a contradiction. ∎
+
+Step 4 is the Nielsen–Chuang no-programming theorem (PRL 79, 321, 1997). I sanity-checked the algebra numerically (for a random pair of unitaries, I and U†U′ are linearly independent). The same argument works for any B with d_B ≥ d_E ≥ 2, using isometric channels.
+
+## 4. What this settles and what it doesn't
+
+- **Settled:** the dyadic and rational variants, and every intermediate congruence. The only thing used is that the quotient to Chan exists, so nothing depends on how merging is defined.
+- **Not settled:** pointwise non-representability at each B with d_B < d_E in the dyadic/rational variants. There are no isometries there. The generalized overlap identity ⟨ψ|ψ′⟩I = Σ Γ_{il}K_i†K′_l (Γ a contraction) would force orthogonality whenever I ∉ span{K_i†K′_l}. That is plausible for Kraus rank below d_E, but I haven't checked it. The adjoint question needs only one B, so it is closed.
+- **Not captured:** the Instr-specific witness at B = ℂ. There c lands on Chan(E,ℂ), a single point, so no contradiction arises. That case still needs the POVM-versus-ensemble count.
+
+## 5. What it replaces
+
+It needs no Lemma 4.1, no strata or semialgebraic dimension, no extreme-point lemma on hom-sets, and no number theory. It also explains the theorem. A right adjoint amounts to universal deterministic programmability, so the obstruction lives in Chan, and the record structure is irrelevant.
+
+I would restructure the paper around three results:
+1. This uniform theorem, for the adjoint.
+2. The pointwise Chan theorem (Kraus rank).
+3. The B = ℂ witness (or the cg count), for the Instr-specific content.
+
+To my knowledge the paper doesn't state the link to programmable processors, so it needs a short citation paragraph. write all three as numbered propositions with full proofs.
+
+Infinite-dimensional / measurable-outcome versions — §7.2(3):
+
+**Result.** In the standard infinite-dimensional, measurable-outcome setting, the no-right-adjoint theorem survives, but only via the record-forgetting proof. This means separable Hilbert spaces, normal maps, standard Borel outcome spaces, and dim E ≥ 2 (finite or infinite). Every counting-based proof dies. Separability is essential, and the non-separable and non-normal settings stay open.
+
+## 1. What breaks
+
+- **Counit determinism (Lemma 4.1).** The prime argument uses cardinal arithmetic, and ℵ₀·ℵ₀ = ℵ₀. For atomless standard Borel spaces, Ω×Ω ≅ Ω, so "number of outcomes" isn't even defined.
+- **All dimension counts.** Prop. 3.1, the strata, the extreme-set dimensions and the Kraus-rank count are infinite or vacuous. The Carathéodory bound k ≤ d_A² on extreme instruments is also lost. This takes out the graded, cg and pointwise-Chan proofs.
+
+## 2. What carries over
+
+Instruments are σ-additive normal-CP-valued measures I: Σ → CP (Davies–Lewis, Ozawa). Composition runs over the product σ-algebra, with (J∘I)(X×Y) = J(Y)∘I(X). The record-forgetting map c(I) = I(Ω) is then a functor c: Instr → Chan:
+- It is multiplicative: c(J∘I) = J(Ω₂)∘I(Ω₁).
+- It is the identity on one-point instruments.
+- It commutes with F_E.
+- It is invariant under isomorphism of outcome spaces and under any coarse-graining.
+
+So the Lemma from the last step goes through verbatim. If F_E ⊣ R, then ε̄ = c(ε_B) is a normal channel R(B)⊗E → B. The map T(ρ) = ε̄(ρ⊗·) sends normal states of R(B) onto Chan(E,B), because a channel f = ε∘F(g) gives f = ε̄∘(c(g)⊗id), and c(g) is a normal state.
+
+## 3. Theorem and the infinite-dimensional checks
+
+**Theorem.** Let the objects be separable Hilbert spaces, with normal maps and arbitrary standard Borel outcome spaces. Also allowed: finite-dimensional objects with arbitrary outcome spaces. If dim E ≥ 2, then Hom(−⊗E, E) is not representable, so F_E has no right adjoint.
+
+The proof is the same as before, with these points checked in infinite dimensions:
+
+1. **Pure programs.**
+   - Decompose a program spectrally as ρ = Σλ_kψ_k and use T(ρ) = Σλ_kT(ψ_k).
+   - Ad_U is extreme under countable mixtures. A CP map dominated by a Kraus-rank-one map is a scalar multiple of it (Arveson's Radon–Nikodym theorem). Trace preservation then forces equality.
+   - So each pure component ψ_k implements Ad_U exactly.
+2. **Overlap identity.** Normal channels have Stinespring dilations with separable environment. Steps 3–4 then give ⟨ψ_U|ψ_{U′}⟩·I = ⟨η_U|η_{U′}⟩·U†U′, hence orthogonality for non-phase-equivalent unitaries.
+3. **Cardinality.** The unitaries diag(e^{iθ},1,…,1), θ ∈ [0,2π), are pairwise non-phase-equivalent. They give uncountably many mutually orthogonal vectors, which a separable R cannot hold. For finite-dimensional objects, orthogonal families are bounded by dim R, so the same argument applies there.
+
+The argument shows more: R(B) would need Hilbert dimension at least 2^ℵ₀.
+
+## 4. Why separability is essential
+
+Take R = ℓ²(Chan(E,B)), with Kraus operators ⟨f|⊗K^f_i. Then ε̄(ρ⊗X) = Σ_f ⟨f|ρ|f⟩ f(X) is a normal CPTP map, and T(|f⟩⟨f|) = f. So a deterministic, exact, universal programmable processor exists once the program register is non-separable. I verified the finite analogue: for n random qubit channels, the n-dimensional lookup-table processor is trace-preserving, reproduces every channel from its basis-state program, and turns a superposition program into the classical mixture.
+
+Since T is not injective, this doesn't give an adjoint. It does show that the no-programming route alone cannot exclude one when non-separable (or non-normal, singular-state) objects are allowed. I make no claim for that setting.
+
+## 5. Not covered
+
+- **Instr-specific content at B = ℂ.** Here c lands on a single point, and counting is vacuous. A replacement would be a no-go for programmable measurements with recorded outcomes. Such results exist in the literature, but I haven't re-derived them in this category.
+- **Pointwise statements for d_B < d_E.** The Kraus-rank count is vacuous in infinite dimensions, and the overlap identity doesn't obviously force orthogonality there.
+- **Non-separable and C*-algebraic (non-normal) versions.** Open, as in §4.
+
+## 6. For the paper
+
+State the main theorem for the class "separable Hilbert spaces, normal maps, standard Borel outcome spaces, with a record-forgetting functor". This makes the debates about outcome sets and grading in §2 irrelevant to the adjoint question. They remain relevant only to the B = ℂ witness and the count-based variants, and the proof is outcome-space agnostic.
+
+write the measurable-outcome setup (instrument composition on product spaces, the functor c, and the Arveson step) as a numbered proposition with full proofs.
+
+Higher-order completions made precise — §7.2(4):
+
+**Result.** There is a minimal completion, which I'll call 𝒯 (typed quantum systems), in which −⊗E has a right adjoint for every first-order E. The internal hom is an explicit affine slice of a state space. The paper's theorem then reads "[E,B] is not a first-order object", and the intercept in Prop. 3.1 is the codimension of that slice. I verified the Choi correspondence, the counit and the codimension numerically (details in §2 and §4).
+
+## 1. The completion 𝒯
+
+**Objects.** A pair (H, 𝔏), where H is a finite-dimensional Hilbert space and 𝔏 is an affine subspace of trace-one Hermitian operators containing a positive-definite one. The admissible states are 𝒮 = 𝔏 ∩ Herm⁺. First-order objects are those with 𝔏 = all trace-one operators.
+
+**Morphisms.** CP maps f with f(𝔏_A) ⊆ 𝔏_B. Equivalently f(𝒮_A) ⊆ 𝒮_B, because the positive-definite point makes 𝒮 span 𝔏.
+
+**Tensor.** (H_A⊗H_B, aff{a⊗b : a ∈ 𝔏_A, b ∈ 𝔏_B}), with unit (ℂ,{1}).
+
+**Prop 1.** 𝒯 is symmetric monoidal. The first-order objects form a full, strong-monoidal copy of Chan. Here "CP and f(State) ⊆ State" means exactly CPTP, and product states span all trace-one operators on a tensor product, so first-order ⊗ first-order is first-order.
+
+## 2. The internal hom
+
+For first-order E and typed 𝔹, define [E,𝔹] = (E*⊗B, 𝔏), where 𝔏 consists of the operators J/d_E with J the Choi operator of a map f_J satisfying f_J(State E) ⊆ 𝔏_B. For first-order B, the admissible set is exactly the normalized Choi states of channels, {J/d_E : Tr_B J = 1_E}.
+
+**Theorem H1.** −⊗E ⊣ [E,−] on 𝒯, naturally in 𝔸 and 𝔹.
+
+*Proof.* Use the Choi correspondence g(a) = (1/d_E)Σ|i⟩⟨j|⊗f(a⊗|i⟩⟨j|). Both hom-sets consist of CP maps f: A⊗E → B with f(a⊗τ) ∈ 𝔏_B for all a ∈ 𝔏_A and τ ∈ State(E). ∎
+
+The counit is ε = d_E(⟨Ω|⊗1)(·)(|Ω⟩⊗1), a Bell post-selection. It is CP and trace-preserving only on the admissible slice. I checked this numerically: it reproduces the channel and has trace 1 on admissible inputs, but trace 0.97 on a generic state. A genuinely trace-preserving counit would need the Bell measurement with its correction outcomes, which is the Bell-candidate failure from earlier.
+
+## 3. What the paper's theorem says in 𝒯
+
+If a first-order R represented Chan(−⊗E, B), then at A = ℂ we would get State(R) ≅ Chan(E,B) affinely. That is the admissible set of [E,𝔅]. By the Kraus-rank theorem this is impossible for d_E, d_B ≥ 2. So [E,𝔅] is not isomorphic to any first-order object: **the internal hom is a typed system, not a quantum system.** For d_B = 1, [E,ℂ] ≅ ℂ is first-order, matching the earlier B = ℂ contrast for Chan.
+
+## 4. The intercept is a codimension
+
+The admissible set of [E,𝔅] has dimension d_E²(d_B²−1), which is dim State(E*⊗B) minus (d_E²−1). I checked this for three (d_E, d_B) pairs.
+
+For instruments, Instr_n(A⊗E,B) = Hom_𝒯(𝔄⊗E, 𝔅_n), where 𝔅_n = (B⊗ℂⁿ, block-diagonal states). The hom-object at grade n has dimension n·d_E²d_B² − d_E². A first-order quantum-classical system on R⊗ℂⁿ has dimension n·d_R² − 1. The intercepts −d_E² versus −1 in Prop. 3.1 are exactly the normalization constraints that cut out the typed slice, and the grading is just the choice of n.
+
+## 5. Hierarchy and literature
+
+Iterating gives [[E,B],C] and so on. Higher-order maps are Choi operators with nested normalization constraints (Chiribella–D'Ariano–Perinotti combs). 𝒯 is the affine-slice shadow of Kissinger–Uijlen's Caus[CPM(FHilb)], which is *-autonomous. I believe my affine-span tensor agrees with their double-orthogonal closure on the objects arising here, since it does for first-order objects and slices. I haven't proven agreement in general, so cite them for the full closed structure.
+
+## 6. Limits
+
+- Closure is shown only for first-order E. Full monoidal closure needs unit effects (subscalars), which Caus handles.
+- For Instr I described only the graded hom-objects, not a full Kleisli-style embedding.
+- Finite dimensions only. The typed-system definition should make sense for trace-class slices, but I haven't done it. The record-forgetting argument is independent of this.
+
+For the paper, add a short "Positive reformulation" section: Def, Prop 1, Theorem H1, and the corollary above. The title claim then becomes "the internal hom of Instr is typed, not first-order".
+
+Below is the section in insertable form. All Hilbert spaces are finite-dimensional with d ≥ 1. I checked the Choi correspondence, both inverse identities, the evaluation identity (E0) and the naturality of the counit numerically, using random CP maps and random non-CP linear maps. The proofs themselves are written out in full.
+
+## 0. Conventions
+
+- T(H) is the set of trace-one Hermitian operators on H. HP(A,B) is the set of Hermiticity-preserving linear maps B(H_A) → B(H_B).
+- **Choi.** C(f) = Σ_{ij} |i⟩⟨j| ⊗ f(|i⟩⟨j|) ∈ B(H_{A*} ⊗ H_B), where A* is H_A with the same basis.
+  - C is a linear bijection from all linear maps onto B(H_{A*} ⊗ H_B).
+  - It maps HP onto Herm and CP onto Herm⁺ (Choi's theorem).
+  - Tr_B C(f) = Σ |i⟩⟨j| tr f(|i⟩⟨j|).
+  - For linear k, (id ⊗ k)(C(f)) = C(k∘f).
+- **Evaluation.** With |Ω⟩ = Σ|ii⟩ ∈ H_{A*} ⊗ H_A, put ev_{A,B}(Y) = (⟨Ω| ⊗ 1_B) Y (|Ω⟩ ⊗ 1_B) on B(H_{A*} ⊗ H_B ⊗ H_A). This is CP.
+
+**(E0)** ev(C(f) ⊗ Y) = f(Y) for every linear f and every Y.
+
+*Proof.* ⟨Ω|(|i⟩⟨j| ⊗ Y)|Ω⟩ = Σ_{kl} ⟨k|i⟩⟨j|l⟩⟨k|Y|l⟩ = ⟨i|Y|j⟩. Hence ev(C(f) ⊗ Y) = Σ_{ij} ⟨i|Y|j⟩ f(|i⟩⟨j|) = f(Y). ∎
+
+## 1. The category 𝒯
+
+**Definition 1 (typed system).** A typed system 𝔸 = (H_A, 𝔏_A) has 𝔏_A ⊆ T(H_A) an affine subspace containing a positive-definite operator. Its admissible states are 𝒮_A = 𝔏_A ∩ Herm⁺. The first-order system 𝔄 is (H_A, T(H_A)).
+
+**Lemma 1.** aff(𝒮_A) = 𝔏_A.
+
+*Proof.* Let p ∈ 𝔏_A be positive-definite. Positive-definite operators are open in Herm, so some relative neighbourhood of p in 𝔏_A lies in 𝒮_A. An affine subspace containing a relatively open subset of 𝔏_A has affine hull 𝔏_A. ∎
+
+**Definition 2 (morphisms).** Hom(𝔸,𝔹) = {f ∈ CP(A,B) : f(𝔏_A) ⊆ 𝔏_B}. Composition and identities are those of CP maps.
+
+**Lemma 2.** For f ∈ CP(A,B), f(𝔏_A) ⊆ 𝔏_B ⇔ f(𝒮_A) ⊆ 𝒮_B.
+
+*Proof.* (⇒) f(𝒮_A) ⊆ 𝔏_B, and f(𝒮_A) ⊆ Herm⁺ because f is CP. (⇐) f is affine, so f(𝔏_A) = f(aff 𝒮_A) = aff f(𝒮_A) ⊆ aff 𝒮_B ⊆ 𝔏_B. ∎
+
+**Proposition 1.** 𝒯 is a category, and ι: Chan → 𝒯, A ↦ 𝔄, f ↦ f, is fully faithful.
+
+*Proof.* Closure under composition and identities is immediate. A CP map f satisfies f(T(H_A)) ⊆ T(H_B) iff tr f(X) = tr X for all X ∈ T(H_A). Since T(H_A) spans Herm(H_A) linearly, this gives tr f = tr on Herm, and by complexification on all of B(H_A). So f is CPTP. Conversely CPTP maps preserve T. ∎
+
+## 2. Monoidal structure
+
+**Definition 3.** 𝔸 ⊗ 𝔹 = (H_A ⊗ H_B, 𝔏_A ⊠ 𝔏_B), where 𝔏_A ⊠ 𝔏_B = aff{a ⊗ b : a ∈ 𝔏_A, b ∈ 𝔏_B}. The unit is (ℂ, {1}).
+
+**Proposition 2.** 𝒯 is symmetric monoidal, and ι is strong monoidal.
+
+*Proof.*
+1. *Well-defined.* Affine combinations of trace-one Hermitian operators are trace-one Hermitian, and p_A ⊗ p_B is positive-definite.
+2. *Functoriality.* For f ∈ Hom(𝔸,𝔸′) and g ∈ Hom(𝔹,𝔹′), f⊗g is CP and maps a ⊗ b to f(a) ⊗ g(b), a product in 𝔏_{A′} ⊠ 𝔏_{B′}. By linearity it maps affine hulls into affine hulls.
+3. *Associativity.* (𝔏_A ⊠ 𝔏_B) ⊠ 𝔏_C = aff{x ⊗ c}. Each x ∈ 𝔏_A ⊠ 𝔏_B is an affine combination of products a ⊗ b, and x ↦ x ⊗ c is affine. So the set equals aff{a ⊗ b ⊗ c}, the same set as for the other bracketing.
+4. *Unit and symmetry.* Both hold similarly. The associators, unitors and braidings are unitary conjugations, which lie in 𝒯 by the above. Coherence is inherited from fdHilb.
+5. *ι strong monoidal.* The inclusion ⊆ is clear. For ⊇, take X ∈ T(H_A ⊗ H_B). Products of states span Herm(H_A ⊗ H_B), so X = Σ c_k ρ_k ⊗ σ_k with real c_k and Σc_k = tr X = 1. So X is an affine combination of product states. ∎
+
+## 3. The internal hom
+
+Fix a first-order 𝔼 = ι(E).
+
+**Definition 4.** For typed 𝔹, set 𝔏_{[E,𝔹]} = {C(f)/d_E : f ∈ HP(E,B), f(T(H_E)) ⊆ 𝔏_B}, and [E,𝔹] = (H_{E*} ⊗ H_B, 𝔏_{[E,𝔹]}).
+
+**Lemma 3.** [E,𝔹] is a typed system.
+
+*Proof.*
+1. *Trace one.* f(τ) ∈ 𝔏_B has trace 1 for all τ ∈ T(H_E), so tr∘f = tr on Herm(H_E) and Tr_B C(f) = 1_E. Hence tr C(f)/d_E = 1.
+2. *Affine.* Write T(H_E) = τ₀ + Herm₀ with τ₀ = 1/d_E and Herm₀ the traceless Hermitians, and 𝔏_B = b₀ + 𝔙_B. The condition is f(τ₀) ∈ b₀ + 𝔙_B and f(Herm₀) ⊆ 𝔙_B. This is an affine condition on f, and C is a linear bijection.
+3. *Positive-definite point.* For positive-definite b′ ∈ 𝔏_B, the map f₀(X) = tr(X) b′ satisfies f₀(T) = {b′} ⊆ 𝔏_B, and C(f₀) = 1 ⊗ b′ is positive-definite. ∎
+
+**Definition 5.** ε_𝔹 = d_E · ev_{E,B}: [E,𝔹] ⊗ 𝔼 → 𝔹.
+
+**Lemma 4.** ε_𝔹 ∈ Hom([E,𝔹] ⊗ 𝔼, 𝔹).
+
+*Proof.* ε is CP. By (E0), ε(C(f)/d_E ⊗ τ) = f(τ) ∈ 𝔏_B for f admissible and τ ∈ T(H_E). By linearity, ε maps the affine hull of these products into the affine space 𝔏_B. ∎
+
+**Theorem 1.** For typed 𝔸, 𝔹 the map Φ_{𝔸,𝔹}: Hom(𝔸,[E,𝔹]) → Hom(𝔸⊗𝔼, 𝔹), g ↦ ε_𝔹 ∘ (g ⊗ id_E), is a bijection. It is natural in 𝔸 and 𝔹, so −⊗𝔼 ⊣ [E,−] on 𝒯, with counit ε.
+
+*Proof.*
+
+*(a) Φ lands in Hom.* g ⊗ id_E is a morphism by Proposition 2, and ε is a morphism by Lemma 4.
+
+*(b) Inverse.* For f ∈ Hom(𝔸⊗𝔼, 𝔹) define Ψ(f)(X) = (1/d_E) Σ_{ij} |i⟩⟨j| ⊗ f(X ⊗ |i⟩⟨j|).
+- Ψ(f) is CP, since its Choi operator is C(f)/d_E up to reordering of tensor factors.
+- For a ∈ 𝔏_A define f_a(τ) = f(a ⊗ τ). Then f_a(T(H_E)) ⊆ 𝔏_B, because a ⊗ τ ∈ 𝔏_A ⊠ T(H_E). Also Ψ(f)(a) = C(f_a)/d_E ∈ 𝔏_{[E,𝔹]}. So Ψ(f) ∈ Hom(𝔸,[E,𝔹]).
+
+*(c) ΦΨ = id.* Write Ψ(f)(X) = C(f_X)/d_E with f_X(τ) = f(X ⊗ τ), extended linearly. By (E0), ε(Ψ(f)(X) ⊗ Y) = f_X(Y) = f(X ⊗ Y).
+
+*(d) ΨΦ = id.* Given g, write g(X) = C(h_X)/d_E for the unique linear h_X (Choi bijection). Then f = Φ(g) satisfies f(X ⊗ Y) = ε(g(X) ⊗ Y) = h_X(Y) by (E0). So Ψ(f)(X) = (1/d_E) Σ |i⟩⟨j| ⊗ h_X(|i⟩⟨j|) = C(h_X)/d_E = g(X).
+
+*(e) Naturality in 𝔸.* For h ∈ Hom(𝔸′,𝔸), Φ(g∘h) = ε∘((g∘h) ⊗ id) = ε∘(g ⊗ id)∘(h ⊗ id) = Φ(g)∘(h ⊗ id_E).
+
+*(f) Functoriality of [E,−].* For k ∈ Hom(𝔹,𝔹′) put [E,k] = id_{E*} ⊗ k, a CP map.
+- Take C(f)/d_E ∈ 𝔏_{[E,𝔹]}. Then [E,k](C(f)/d_E) = C(k∘f)/d_E.
+- Moreover k∘f ∈ HP and (k∘f)(T(H_E)) ⊆ k(𝔏_B) ⊆ 𝔏_{B′}, so the image lies in 𝔏_{[E,𝔹′]}.
+- Functoriality holds because (id ⊗ k′)(id ⊗ k) = id ⊗ (k′∘k).
+
+*(g) Naturality in 𝔹.* We must show Φ([E,k]∘g) = k∘Φ(g). Expanding, the left side is ε_{𝔹′}∘([E,k] ⊗ id_E)∘(g ⊗ id_E). It therefore suffices to prove counit naturality: ε_{𝔹′}∘([E,k] ⊗ id_E) = k∘ε_𝔹.
+- Take any X ∈ B(H_{E*} ⊗ H_B) and Y ∈ B(H_E). Write X = C(h)/d_E with h linear. This is possible for every X by the Choi bijection, not only for admissible ones.
+- Then ε_{𝔹′}(([E,k] ⊗ id)(X ⊗ Y)) = ε_{𝔹′}(C(k∘h)/d_E ⊗ Y) = (k∘h)(Y) by (E0) and Section 0.
+- Also k(ε_𝔹(X ⊗ Y)) = k(h(Y)).
+- The two agree. By linearity they agree on all of B(H_{E*} ⊗ H_B ⊗ H_E). ∎
+
+**Corollary 1.** For first-order B, 𝒮_{[E,𝔅]} = {C(f)/d_E : f ∈ Chan(E,B)}, an affine copy of Chan(E,B).
+
+*Proof.* f(T(H_E)) ⊆ T(H_B) iff f is trace-preserving and HP. Then C(f) ≥ 0 iff f is CP. ∎
+
+## 4. Why this is the paper's obstruction
+
+**Lemma K (Kraus rank).** For d_E, d_B ≥ 2, Chan(E,B) is not affinely isomorphic to State(ℂ^R) for any R.
+
+*Proof.*
+1. *State spaces.* State(ℂ^R) has dimension R²−1, and its extreme set (pure states) has dimension 2(R−1). An affine isomorphism is a semialgebraic homeomorphism that carries extreme points to extreme points. So both dimensions would have to match.
+2. *Extreme channels.* By Choi, a channel with minimal Kraus family {K_i}_{i≤r} is extreme iff {K_i†K_j} are linearly independent, so r ≤ d_E.
+3. *Strata.* Let N = d_E d_B and M_r = {J ∈ Herm⁺, rank r, Tr_B J = 1_E}. Rank-r PSD matrices form a manifold of dimension 2Nr − r².
+4. *Submersion.* Tr_B is a submersion on M_r:
+   - At J = KK†, tangent vectors are δK K† + K δK†.
+   - A Hermitian H orthogonal to the image of d(Tr_B) must satisfy (H ⊗ 1)K = 0.
+   - Since (H ⊗ 1)|K_i⟩⟩ = |K_iH^T⟩⟩, this gives K_iH^T = 0 for all i.
+   - Because ΣK_i†K_i = 1 the Kraus operators have no common kernel, so H = 0.
+   - Hence dim M_r = 2Nr − r² − d_E².
+5. *Existence at r = d_E.* Take K_i = |v_i⟩⟨e_i| with unit vectors v_i ∈ ℂ^{d_B} that are pairwise non-orthogonal (possible since d_B ≥ 2). Then ΣK_i†K_i = 1 and K_i†K_j = ⟨v_i|v_j⟩ |e_i⟩⟨e_j| are independent.
+6. *Extreme dimension.* Extremality is open in M_r. The dimension 2Nr − r² − d_E² increases in r for r < N, and r ≤ d_E < N. So dim Ext Chan(E,B) = 2d_E²(d_B − 1).
+7. *Algebra.* An isomorphism needs 2d_E²(d_B − 1) = 2(R − 1) and R² − 1 = d_E²(d_B² − 1) (Prop. 3.1). Substituting R = d_E²(d_B − 1) + 1 into the second gives d_E²(d_B − 1) + 2 = d_B + 1, so d_E = 1. ∎
+
+**Theorem 2.** Let d_E, d_B ≥ 2.
+- (a) If a first-order R, with ε′ ∈ Chan(R⊗E,B), represents Chan(−⊗E,B), then State(R) ≅ Chan(E,B) affinely.
+- (b) Hence [E,𝔅] is isomorphic to no first-order object, not even through an affine bijection of admissible-state sets.
+- (c) In particular −⊗E has no right adjoint in Chan, taking B = E.
+
+*Proof.* (a) At A = ℂ, g ↦ ε′∘(g ⊗ id) is an affine bijection Chan(ℂ,R) = State(R) → Chan(E,B), and by Corollary 1 the target is 𝒮_{[E,𝔅]}. (b) and (c) follow from Lemma K. ∎
+
+**Proposition 3 (the intercept is a codimension).** dim 𝒮_{[E,𝔅]} = d_E²(d_B² − 1) = dim State(E*⊗B) − (d_E² − 1).
+
+*Proof.* The left side is Prop. 3.1 at n = 1 with the source object E. The state space has dimension d_E²d_B² − 1. ∎
+
+**Proposition 4 (graded instruments).** Let 𝔅_n = (H_B ⊗ ℂⁿ, 𝔏^bd) with 𝔏^bd = {Σ_i b_i ⊗ |i⟩⟨i| : b_i ∈ Herm, Σ tr b_i = 1}. Then:
+- (i) Hom(𝔄, 𝔅_n) = Instr_n(A,B).
+- (ii) Instr_n(A⊗E,B) ≅ Hom(𝔄, [E,𝔅_n]).
+- (iii) dim 𝒮_{[E,𝔅_n]} = n·d_E²d_B² − d_E², which is dim 𝒮(𝔅_n(E*⊗B)) minus (d_E² − 1), independent of n.
+
+*Proof.* (i) f(T(H_A)) ⊆ 𝔏^bd forces f(X) to be block-diagonal for all X, by spanning and complexification. Then f(X) = Σ_i E_i(X) ⊗ |i⟩⟨i|, with E_i = (1 ⊗ ⟨i|) f (·) (1 ⊗ |i⟩) CP. The trace condition gives ΣE_i trace-preserving. The converse is clear. (ii) follows from (i) and Theorem 1, since 𝔄⊗𝔼 = ι(A⊗E) by Prop. 2. (iii) By Corollary 1 applied to block-diagonal types and Prop. 3.1, dim Instr_n(E,B) = d_E²(n·d_B² − 1). The block-diagonal state space on E*⊗B⊗ℂⁿ has dimension n·d_E²d_B² − 1. ∎
+
+**Remark.** 𝒯 is the affine-slice shadow of Kissinger–Uijlen's Caus[CPM(FHilb)], which is *-autonomous, and the slices are the first-level quantum combs of Chiribella–D'Ariano–Perinotti. I believe the affine-span tensor matches their double-orthogonal closure on the objects used here. I haven't proven that in general, so cite them for the full closed structure. Theorem 1 gives closure only for first-order E, which is all the paper needs.
+
+
+
