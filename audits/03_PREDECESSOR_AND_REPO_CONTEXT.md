@@ -89,6 +89,7 @@ because they are third-party repository contents already public at the URLs abov
 
 Fetched and read on 2026-10-02: `combs 1/quantum combs submission2.tex` (104 KB),
 `verification_checks.py` (21 KB, checks 1a–6b), `verification_output.txt`, `README.md`.
+Rechecked on 2026-10-05 against the companion's public [supplement README](https://github.com/MIKEAA2020/Quantum-combs/blob/main/combs%201/README.md) and [raw TeX](https://raw.githubusercontent.com/MIKEAA2020/Quantum-combs/main/combs%201/quantum%20combs%20submission2.tex): check 6b states the general outside-hypothesis square form `c=k(2w−k)`, `g_B=(w−k)²` for `2≤k<w`, in addition to the `k=1` boundary case; check 6a says only that escapes are outside its strict no-go hypothesis. This resolves the earlier overreading of check 6b as boundary-only.
 
 **Article:** *Quantum Combs, Higher-Order Processes, and the Normalization-Defect (Intercept)
 Principle*, Amin Abaee (`amin_abaee@ut.ac.ir`).
@@ -103,7 +104,7 @@ Its theorem list (extracted from the `.tex`) contains, **independently of the au
 | Theorem *No left adjoint for environment decoration*; Corollary *…no left adjoint* | one of the audits' "upgrades" (sonnet2 A7 / sonnet3 C3.3) — **already a theorem here**, proved by the `e²−e+1` sandwich |
 | Proposition *Classical environment decoration has neither adjoint* | the classical analogue (sonnet2 C2 / sonnet3 C3.2 / grok3 #3) — **already a theorem**, using the FinStoch dimension **and vertex count** |
 | Corollary *The parallel tensor product is not closed* | the closest existing "where closure lives" statement (sonnet3 E4) |
-| Proposition *Pointwise obstruction at fixed outcome number* | the fixed-`n` instrument statement, with hypothesis `2 d_E d_B − 1 > (e−1)/n` and (check 6b) the boundary family `d_B = d_E/2` |
+| Proposition *Pointwise obstruction at fixed outcome number* and supplementary check 6b | the fixed-`n` instrument no-go has hypothesis `2 d_E d_B − 1 > (e−1)/n`; check 6b also gives the outside-hypothesis square-escape parameterization `c=k(2w−k)`, `g_B=(w−k)²` (`c=(e−1)/n`, `w=d_Ed_B`, `1≤k<w`). The `n=1, k=1` case is the boundary family `d_B=d_E/2`; it is not the only escape. |
 | Lemma *Flat point; positivity does not lower the dimension*; Theorem *Telescoping dimension formula* (combs, all arities) | the higher-order dimension theory |
 | Verification checks | 3: `e²−e+1` never a square (to `e = 20000`, plus 2,000,000 random draws to 10⁹); 5: `b^e − 1 = e(b−1)` unsolvable; 4a/4b: parallel tensor is monoidal (interchange verified); 1a–1d, 2, 6a, 6b |
 
@@ -115,13 +116,21 @@ Its theorem list (extracted from the `.tex`) contains, **independently of the au
    Principle*). The revised manuscript therefore **cites** them (§5.5 "Priorities", refs [8], [13])
    instead of presenting them as new. This is recorded as docket item D23.
 2. The meta-review's open problem about "dimension counting can't distinguish `Chan(E,B)` from a state
-   space" is *partially* answered in the companion: escapes at fixed `n` are exactly the boundary
-   family, and the classical case shows a vertex count is needed beyond dimensions. The revision
-   completes this in factorization form (Prop. 4.7) and states the residual question.
-3. The audited paper's genuine novelty is therefore narrower than the reviews assumed — instrument-level
-   per-`B` theorem, uniform-in-`n` sharpening at `B = E`, escape classification, defect invariant,
-   "no terminal/initial object in `Instr`", and the corrected interpretation — exactly as delimited in
-   §5.5 of the revision and item 2 of the second-pass addendum in doc 00.
+   space" is *partially* answered by the revision's separate convex-body results. For the fixed-`n`
+   instrument slice, however, the companion's Proposition and supplementary check 6b already record
+   the no-go regime and the general outside-hypothesis square-escape factorization
+   `c=k(2w−k)`, `g_B=(w−k)²`; the `n=1, k=1` boundary family is only one case. Prop. 4.7 states this
+   as an iff with `n | (d_E²−1)` and `1≤k<w` made explicit, and spells out the genuinely degenerate
+   `B=ℂ, n=1` match. Thus it is a useful formalization/organization, not a newly discovered escape
+   family. The representability question at non-degenerate matches remains open.
+3. The audited paper's genuine novelty must be stated more narrowly than earlier drafts did. The
+   literal-`Instr` per-`B` categorical theorem and its grade-dependent relation to `Chan`, the
+   standalone one-slice `Chan(E,E)` versus state-space obstruction, and the corrected structural
+   interpretation are not the same claims as the companion's fixed-`n` affine-slice calculation.
+   The all-`n`, `B=E` form of Thm. 4.6 is a transparent specialization of the companion's stated
+   square-gap regime; Prop. 4.7 formalizes the companion's check-6b escape algebra rather than
+   claiming a new family. Any priority claim for the defect invariant or other additions should be
+   checked against the exact companion source, not inferred from the earlier audit summary.
 
 ## 7. Second pass: cover letters and practice (`channel-supp-augmented`)
 

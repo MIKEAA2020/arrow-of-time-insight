@@ -8,9 +8,10 @@ verify_claims.py -- reproducible verification suite for the adjudicated audit of
     "audit of arrow of time insight.txt" and the meta-review
     "claude audit of audit of time insight.txt".
 
-Every check below corresponds to a numbered claim in
-    audits/00_ADJUDICATED_AUDIT.md  and  paper/REVISED_PAPER.md
-and prints [PASS] / [FAIL] with the claim it certifies.
+The suite supplies finite arithmetic, numerical linear-algebra, and exact-instance checks
+for claims in audits/00_ADJUDICATED_AUDIT.md, audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md,
+and paper/REVISED_PAPER.md. A passing check certifies only the stated finite computation;
+it is not a formal proof of an analytic or category-level theorem.
 
 Run:  python3 verification/verify_claims.py
 Deps: numpy, sympy  (both pure-python-installable; no network use)
@@ -499,6 +500,16 @@ j1_converse = all(
     for d_E in range(3, 60, 2))                       # odd d_E: no j = 1 solution
 check("Prop 4.7 example (a)': at n = 1 the j = 1 escapes are exactly d_B = d_E/2 (d_E even)",
       j1_forward and j1_converse)
+# A concrete non-boundary match already appearing in the companion's general check-6b algebra.
+_dE_nb, _dB_nb, _n_nb, _j_nb = 15, 2, 1, 4
+_w_nb = _dE_nb * _dB_nb
+_c_nb = (_dE_nb**2 - 1) // _n_nb
+_dG_nb = _w_nb - _j_nb
+check("Prop 4.7 non-boundary escape: (d_E,d_B,n,j)=(15,2,1,4) gives c=224, d_G=26 and matched affine dimensions",
+      (_dE_nb**2 - 1) % _n_nb == 0 and _c_nb == _j_nb * (2 * _w_nb - _j_nb) and
+      _dG_nb > 0 and _dG_nb**2 == _w_nb**2 - _c_nb and
+      _dE_nb**2 * (_n_nb * _dB_nb**2 - 1) == _n_nb * _dG_nb**2 - 1 and
+      2 * _dB_nb != _dE_nb)
 
 # (b) B = E never escapes, for any n
 ok = True
@@ -569,7 +580,7 @@ check("companion route: (e-1)^2 < e^2 - e + 1 < e^2 for all e >= 2, and never a 
 section("L. THE OPEN-PROBLEMS DOCUMENT: EVALUATION AND VERIFICATION (S4)")
 # ======================================================================
 # Source: uploads/sonnet time open problems.txt (adjudicated in
-# audits/05_OPEN_PROBLEMS_EVALUATION.md).  Every checkable claim is re-derived here.
+# audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md).  Checks are finite certificates, not proofs of every claim.
 
 # ---------------------------------------------------------------- L1. the quadrilateral
 import itertools as _it
@@ -826,8 +837,8 @@ check("L4c overlap identity (Lemma 2, restated and re-proved): <psi|psi'> 1_E = 
 
 # ---------------------------------------------------------------- L5. the arithmetic counts of the source
 # (a) Instr_0 connectedness proof, B = E: State(V) would have to be affinely isomorphic to Chan(E,E),
-#     so d_V^2 = d_E^4 - d_E^2 + 1 (never a square); (b) the same count for general B is NOT escape-free
-#     (it is a square exactly on the paper's Pell boundary d_B = d_E/2); (c) the cg count
+#     so d_V^2 = d_E^4 - d_E^2 + 1 (never a square); (b) the same count for general B is escape-prone:
+#     d_B = d_E/2 gives one family, but it is not exhaustive (e.g. d_E=15, d_B=2, d_V=26); (c) the cg count
 #     d_R^2 = (d_E^2 d_B)^2 - (d_E^2 - 1) is never a square; (d) the source's B = C count
 #     d_R^2 = d_E^4 - d_E^2 + 1 is the same number.
 _is_sq = lambda v: math.isqrt(v) ** 2 == v
@@ -839,12 +850,14 @@ check("L5a' the source's B = C count d_R^2 = d_E^4 - d_E^2 + 1 is the same numbe
       "extreme POVMs on E: d_R^2 - 1 = d_E^2(d_E^2 - 1))",
       all(dE_ ** 2 * (dE_ ** 2 - 1) + 1 == dE_ ** 4 - dE_ ** 2 + 1 for dE_ in range(2, 100)))
 _kk = sp.symbols('k', positive=True)
-check("L5a'' ADJUDICATION (escape): for general B the Instr_0 count d_V^2 = d_E^2(d_B^2-1) + 1 IS a "
-      "square exactly on the paper's Pell boundary d_B = d_E/2 = k: d_V^2 = (2k^2-1)^2 -- so the "
-      "dimension route alone is escape-prone for general B and the source's general-B theorem must "
-      "(and does) use the irreducibility/genericity route instead",
+check("L5a'' ADJUDICATION (escape): the Instr_0 dimension count has the boundary family "
+      "d_B=d_E/2=k, with d_V=2k^2-1, but this is not exhaustive; the non-boundary triple "
+      "(d_E,d_B,d_V)=(15,2,26) also solves d_V^2=d_E^2(d_B^2-1)+1. Thus dimension counting alone "
+      "is escape-prone for general B; the source's general-B theorem must (and does) use its "
+      "separate irreducibility/genericity route",
       sp.simplify((2 * _kk) ** 2 * (_kk ** 2 - 1) + 1 - (2 * _kk ** 2 - 1) ** 2) == 0 and
-      all(_is_sq((2 * k_) ** 2 * (k_ ** 2 - 1) + 1) for k_ in range(2, 60)))
+      all(_is_sq((2 * k_) ** 2 * (k_ ** 2 - 1) + 1) for k_ in range(2, 60)) and
+      26**2 == 15**2 * (2**2 - 1) + 1 and 2 * 2 != 15)
 check("L5b cg count: d_R^2 = (d_E^2 d_B)^2 - (d_E^2 - 1) is never a square (d_E, d_B < 400, as in the "
       "source, plus the sandwich proof)",
       all(not _is_sq((e_ ** 2 * b_) ** 2 - (e_ ** 2 - 1)) for e_ in range(2, 400) for b_ in range(1, 400)))
@@ -1311,12 +1324,216 @@ check("L19 the Kraus-rank invariants also rule out direct sums: no (d_E, d_B, R,
       "matches dim State(M_R (+) M_S) = R^2 + S^2 - 2 and extreme-set dimension 2 max(R-1, S-1) "
       "simultaneously (search to 199)", _ds == [], f"solutions: {_ds[:3]}")
 
-# ---------------------------------------------------------------- L20. source's face-dimension claims (not relied upon)
-check("L20 the source's alternative 'face of dimension 2' invariant for non-separable Chan is NOT "
-      "verified here and is NOT needed: the Kraus-rank theorem (L3) already rules out affine "
-      "isomorphism with the normal state space of a Hilbert space of ANY dimension (an infinite-"
-      "dimensional space has infinite affine dimension, so it fails on dimension alone)",
-      True, "recorded as not-relied-upon in audits/05, Gate 1")
+# ---------------------------------------------------------------- L20. C.20: extreme-set dimensions and the finite-counit square gap
+# For k nonzero CP components, the normalization affine space has dimension k*a^2*b^2-a^2.
+# Independently realize a full-rank, linearly independent marginal tuple in its top stratum.
+def _c20_top_witness(a_, b_):
+    I_ = np.eye(a_)
+    hs = []
+    for i_ in range(a_ - 1):
+        H = np.zeros((a_, a_), complex); H[i_, i_] = 1; H[a_ - 1, a_ - 1] = -1
+        hs.append(H)
+    for i_ in range(a_):
+        for j_ in range(i_ + 1, a_):
+            H = np.zeros((a_, a_), complex); H[i_, j_] = H[j_, i_] = 1
+            hs.append(H)
+            H = np.zeros((a_, a_), complex); H[i_, j_] = 1j; H[j_, i_] = -1j
+            hs.append(H)
+    assert len(hs) == a_ * a_ - 1
+    delta = 1 / (100 * a_ ** 4)
+    effects = [I_ / (a_ * a_) + delta * H for H in hs]
+    effects.append(I_ / (a_ * a_) - delta * sum(hs, np.zeros((a_, a_), complex)))
+    marg_rank = np.linalg.matrix_rank(np.array([_hcoords(V, a_) for V in effects]), tol=1e-8)
+    min_ev = min(np.linalg.eigvalsh((V + V.conj().T) / 2).min() for V in effects)
+    sigma = np.eye(b_) / b_
+    choi = [np.kron(V.T, sigma) for V in effects]
+    tp = np.allclose(sum((_ptrace_out(J, a_, b_) for J in choi), np.zeros((a_, a_), complex)), I_, atol=1e-9)
+    pd = min(np.linalg.eigvalsh((J + J.conj().T) / 2).min() for J in choi)
+    return min_ev > 0 and marg_rank == a_ * a_ and tp and pd > 0
+
+_c20_witnesses = all(_c20_top_witness(a_, b_) for a_ in (1, 2, 3, 4) for b_ in (1, 2, 3))
+_c20_dim_formula = all(
+    (a_ ** 2 * a_ ** 2 * b_ ** 2 - a_ ** 2) == a_ ** 2 * (a_ ** 2 * b_ ** 2 - 1) and
+    all((k_ + 1) * a_ ** 2 * b_ ** 2 - a_ ** 2 > k_ * a_ ** 2 * b_ ** 2 - a_ ** 2
+        for k_ in range(1, a_ ** 2))
+    for a_ in (1, 2, 3, 4) for b_ in (1, 2, 3)
+)
+check("L20a C.20 top stratum: explicit positive definite TP Choi tuples have a^2 independent "
+      "marginals (a=1..4, b=1..3)", _c20_witnesses)
+check("L20b C.20 normalization affine dimension: k*a^2*b^2-a^2, maximized at k=a^2 to "
+      "a^2(a^2*b^2-1)", _c20_dim_formula and
+      all((a_ ** 2 * a_ ** 2 * b_ ** 2 - a_ ** 2) == a_ ** 2 * (a_ ** 2 * b_ ** 2 - 1)
+          for a_ in (1, 2, 3, 4) for b_ in (1, 2, 3)))
+_c20_square = all(
+    (e_ ** 2 * b_ - 1) ** 2 < e_ ** 4 * b_ ** 2 - e_ ** 2 + 1 < (e_ ** 2 * b_) ** 2
+    for e_ in range(2, 101) for b_ in range(1, 31)
+)
+_c20_two_slice = all(
+    (4 * (e_ ** 4 * b_ ** 2 - e_ ** 2 + 1) - 1) != (4 * e_ ** 4 * b_ ** 2 - e_ ** 2)
+    for e_ in range(2, 101) for b_ in range(1, 31)
+)
+check("L20c C.20 finite-counit obstruction: the one-slice value lies strictly between consecutive "
+      "squares, including b=1; the A=C and A=C^2 equations are incompatible (e=2..100,b=1..30)",
+      _c20_square and _c20_two_slice)
+
+# ---------------------------------------------------------------- L21. C.21: isometric-channel face dimensions
+# Exact real rank of C -> sum_{p,q} C[p,q] Q[q]^dag Q[p] on Herm(2).
+def _sym_herm_basis(n_):
+    out = []
+    for i_ in range(n_):
+        M = sp.zeros(n_); M[i_, i_] = 1; out.append(M)
+    for i_ in range(n_):
+        for j_ in range(i_ + 1, n_):
+            M = sp.zeros(n_); M[i_, j_] = M[j_, i_] = 1; out.append(M)
+            M = sp.zeros(n_); M[i_, j_] = sp.I; M[j_, i_] = -sp.I; out.append(M)
+    return out
+
+
+def _sym_hcoords(M):
+    n_ = M.rows
+    out = [sp.simplify(sp.re(M[i_, i_])) for i_ in range(n_)]
+    for i_ in range(n_):
+        for j_ in range(i_ + 1, n_):
+            out.extend([sp.simplify(sp.re(M[i_, j_])), sp.simplify(sp.im(M[i_, j_]))])
+    return out
+
+
+def _choi_support_trace_rank(Qs, dE_):
+    cols = []
+    for C_ in _sym_herm_basis(len(Qs)):
+        T_ = sp.zeros(dE_)
+        for p_ in range(len(Qs)):
+            for q_ in range(len(Qs)):
+                T_ += C_[p_, q_] * Qs[q_].conjugate().T * Qs[p_]
+        cols.append(sp.Matrix(_sym_hcoords(T_)))
+    return sp.Matrix.hstack(*cols).rank()
+
+
+def _c21_rank(dE_):
+    I_ = sp.eye(dE_)
+    vals = [1, -1] if dE_ == 2 else [1, -1, sp.I] + [1] * (dE_ - 3)
+    W_ = sp.diag(*vals)
+    assert W_.conjugate().T * W_ == I_
+    return _choi_support_trace_rank([I_, W_], dE_)
+
+_c21 = {d_: _c21_rank(d_) for d_ in range(2, 8)}
+check("L21a C.21 exact Kraus-support slice rank: nullity is 2 for d_E=2 and 1 for d_E=3..7",
+      all(4 - _c21[d_] == (2 if d_ == 2 else 1) for d_ in _c21), f"ranks={_c21}")
+check("L21b C.21 state-space face obstruction: k^2-1 is never 1 or 2 for finite k>=1",
+      all(k_ * k_ - 1 not in (1, 2) for k_ in range(1, 101)))
+
+# ---------------------------------------------------------------- L22. C.22: exact block-channel face rank for all finite dimension ratios
+# Use the paper's exact phase D=diag(i,1) and the common unit output v=(u0+u1)/sqrt(2).
+def _c22_data(dE_, dB_):
+    Q0 = sp.zeros(dB_, dE_); Q0[0, 0] = 1; Q0[1, 1] = 1
+    Q1 = sp.zeros(dB_, dE_); Q1[0, 0] = sp.I; Q1[1, 1] = 1
+    Qs = [Q0, Q1]
+    singletons = []
+    for j_ in range(2, dE_):
+        L = sp.zeros(dB_, dE_); L[0, j_] = 1 / sp.sqrt(2); L[1, j_] = 1 / sp.sqrt(2)
+        Qs.append(L); singletons.append(L)
+    family0 = [Q0] + singletons
+    family1 = [Q1] + singletons
+    tp0 = sum((K.conjugate().T * K for K in family0), sp.zeros(dE_)) == sp.eye(dE_)
+    tp1 = sum((K.conjugate().T * K for K in family1), sp.zeros(dE_)) == sp.eye(dE_)
+    qmat = sp.Matrix.hstack(*(sp.Matrix(K).reshape(dB_ * dE_, 1) for K in Qs))
+    qrank = qmat.rank()
+    return tp0, tp1, qrank, _choi_support_trace_rank(Qs, dE_)
+
+_c22 = {(e_, b_): _c22_data(e_, b_) for e_ in range(2, 8) for b_ in (2, 3, 5)}
+check("L22a C.22 endpoint channels are TP and the combined Kraus family has full support rank "
+      "(d_E=2..7; d_B=2,3,5)",
+      all(tp0 and tp1 and qr == e_ for (e_, _), (tp0, tp1, qr, _) in _c22.items()))
+check("L22b C.22 exact trace-constraint rank is d_E^2-2, hence the supported TP face has affine "
+      "dimension 2 for every tested pair including d_B<d_E",
+      all(rank_ == e_ ** 2 - 2 for (e_, _), (_, _, _, rank_) in _c22.items()),
+      f"nullities={sorted(set(e_**2-rank_ for (e_, _), (_, _, _, rank_) in _c22.items()))}")
+
+# ---------------------------------------------------------------- L23. C.23: scalar rank-one-program overlap equation
+# In the (p_theta,q_theta) basis, test c*I = gamma_P P_theta,theta' + gamma_Q Q_theta,theta'.
+def _scalar_overlap_rank(delta_):
+    c_, s_ = sp.cos(delta_), sp.sin(delta_)
+    M_ = sp.Matrix([[c_, 0, -1], [s_, 0, 0], [0, -s_, 0], [0, c_, -1]])
+    return M_.rank()
+
+_c23_distinct = all(_scalar_overlap_rank(delta_) == 3 for delta_ in (sp.pi / 6, sp.pi / 4, sp.pi / 3))
+_c23_same = _scalar_overlap_rank(sp.Integer(0)) == 2
+check("L23 C.23 scalar overlap: for distinct angles in (0,pi/2), sin(delta) forces gamma_P=gamma_Q=c=0; "
+      "at delta=0 the rank drops as expected", _c23_distinct and _c23_same)
+
+# ---------------------------------------------------------------- L24. C.19: generic off-slice Bell trace defect
+_c24_ok = True
+for d_ in range(2, 8):
+    tau_ = sp.diag(sp.Rational(2, d_ + 1), *([sp.Rational(1, d_ + 1)] * (d_ - 1)))
+    tau_mm_ = sp.eye(d_) / d_
+    _c24_ok = _c24_ok and sp.trace(tau_) == 1 and tau_ != tau_mm_
+    # Product X=|i><i| tensor a pure output state has Tr_B(X)=|i><i|.
+    _c24_ok = _c24_ok and sp.simplify(d_ * tau_[0, 0] - 1) != 0 and sp.simplify(d_ * tau_[1, 1] - 1) != 0
+    _c24_ok = _c24_ok and all(sp.simplify(d_ * sp.trace((sp.eye(d_) / d_) * P_) - 1) == 0
+                               for P_ in [sp.diag(*([1] + [0] * (d_ - 1))),
+                                          sp.diag(*([0, 1] + [0] * (d_ - 2)))])
+check("L24 C.19 exact trace functional: maximally mixed tau gives unit trace on the admissible slice, "
+      "while nonmaximally mixed tau gives off-slice product-state witnesses on both sides of 1 (d=2..7)",
+      _c24_ok)
+
+# ---------------------------------------------------------------- L25. C.11: D^omega source atoms and target orbit supports
+_c25_support = all(sum(1 for x_ in w_ if x_ != 0) == 2 and
+                    _indep([w_[i_] * _v[i_] for i_ in range(4) if w_[i_] != 0])
+                    for w_ in _w_vectors)
+_c25_rays = all(sp.simplify(_v[i_] - _v[j_]) != _Z2 for i_ in range(4) for j_ in range(i_ + 1, 4))
+# A multi-orbit probability vector is not midpoint-extreme: perturb two positive coordinates.
+_p0, _eps0 = sp.Rational(1, 3), sp.Rational(1, 6)
+_prob = [_p0, 1 - _p0]
+_prob_plus = [_p0 + _eps0, 1 - _p0 - _eps0]
+_prob_minus = [_p0 - _eps0, 1 - _p0 + _eps0]
+_c25_prob = all(x_ >= 0 for x_ in _prob_plus + _prob_minus) and [
+    sp.simplify((prob_plus_ + prob_minus_) / 2) for prob_plus_, prob_minus_ in
+    zip(_prob_plus, _prob_minus)
+] == _prob
+_simplex_grid = [(sp.Rational(j_, 4), sp.Rational(4 - j_, 4)) for j_ in range(5)]
+_c25_atom = all(
+    ((p_[0] + q_[0]) / 2, (p_[1] + q_[1]) / 2) != (1, 0) or (p_ == q_ == (1, 0))
+    for p_ in _simplex_grid for q_ in _simplex_grid
+)
+check("L25a C.11 D^omega exact quadrilateral: each target extreme has two independent supported "
+      "marginals on distinct rays", _c25_support and _c25_rays)
+check("L25b C.11 source midpoint geometry: a multi-orbit probability vector splits nontrivially, "
+      "while a one-orbit probability vector cannot split by positivity", _c25_prob and _c25_atom)
+
+# ---------------------------------------------------------------- L26. C.26: finite lookup processor is surjective but non-injective
+_Iq = np.eye(2, dtype=complex)
+_Zq = np.diag([1, -1]).astype(complex)
+_zeroq = np.zeros((2, 2), complex)
+_K0 = np.concatenate([_Iq, _zeroq], axis=1)
+_K1 = np.concatenate([_zeroq, _Zq], axis=1)
+_rho_plus = np.array([[0.5, 0.5], [0.5, 0.5]], complex)
+_rho_mix = np.diag([0.5, 0.5]).astype(complex)
+_tau_plus = _rho_plus.copy()
+
+def _lookup_output(rho_, tau_):
+    return rho_[0, 0] * tau_ + rho_[1, 1] * (_Zq @ tau_ @ _Zq.conj().T)
+
+_lookup_same = np.allclose(_K0.conj().T @ _K0 + _K1.conj().T @ _K1, np.eye(4))
+_lookup_outputs = (_lookup_output(_rho_plus, _tau_plus), _lookup_output(_rho_mix, _tau_plus))
+check("L26 C.26 finite instance: controlled identity/Z processor is CP and TP and basis programs "
+      "implement two distinct channels", _lookup_same and
+      np.allclose(_lookup_output(np.diag([1, 0]), _tau_plus), _tau_plus) and
+      not np.allclose(_lookup_output(np.diag([0, 1]), _tau_plus), _tau_plus))
+check("L26b C.26 finite instance: a coherent superposition and its dephased program state are distinct "
+      "but have the same processor output", not np.allclose(_rho_plus, _rho_mix) and
+      np.allclose(*_lookup_outputs))
+
+# ---------------------------------------------------------------- L27. keep Instr_0 and the strict grade-2 Choi slice separate
+_X1, _X2 = 3 * _A, 2 * _Bp - _A
+_Y1, _Y2 = _A, 2 * _Bp + _A
+_grade2_ok = (all(ev > 0 for M_ in (_X1, _X2, _Y1, _Y2) for ev in M_.eigenvals()) and
+              sp.simplify(_X1 + _X2 - _I2) == _Z2 and sp.simplify(_Y1 + _Y2 - _I2) == _Z2 and
+              sp.simplify((_X1 + _Y1) / 2 - 2 * _A) == _Z2 and
+              sp.simplify((_X2 + _Y2) / 2 - 2 * _Bp) == _Z2)
+check("L27a fixed grade-2 slice: two distinct TP positive pairs average componentwise to AB", _grade2_ok)
+check("L27b operation boundary: the fixed-grade average has two components, while an Instr_0 recorded "
+      "union of its two grade-2 inputs has four; this is not an Instr_0 split or a quotient theorem",
+      _grade2_ok and len([_X1, _X2]) + len([_Y1, _Y2]) == 4 and len([2 * _A, 2 * _Bp]) == 2)
 
 section("J. Terminology / metadata cross-checks (recorded facts)")
 # ======================================================================

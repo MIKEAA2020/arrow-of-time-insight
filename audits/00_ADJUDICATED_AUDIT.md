@@ -14,12 +14,13 @@ preserved).
 | **S2** | `uploads/claude audit of audit of time insight.txt` | meta-review adjudicating S1 (135 lines) |
 | **S3** | author's public record (not available to S1/S2) | Zenodo record behind ref. [1]; GitHub `MIKEAA2020` repos, incl. the companion verification suite `opfibration-merged-/verify_abaee_currying.py` (73 checks) |
 
-**Method.** Every arithmetic, convex-geometric, categorical and bibliographic claim was
-re-derived independently. All computational claims are reproducible via
-`verification/verify_claims.py` (111 checks, all passing; output in
-`verification/verification_log.txt`). Where S1/S2 disagree, the dispute is docketed in §3 with an
-explicit verdict. **Two of my own intermediate claims were falsified by my own checks and are
-corrected in place (§3, D5 and the note in §3.0).**
+**Method.** The original Rev. 2 audit re-derived its arithmetic, convex-geometric, categorical and
+bibliographic claims and ran 111 checks. The current Rev. 2.4 suite has since been extended and
+independently rerun (**196 checks passed, 0 failed**; see `verification/verification_log.txt`). These
+are finite computation certificates, not formal verification of every analytic or category-level
+argument. Where S1/S2 disagree, the dispute is docketed in §3 with an explicit verdict. **Two of my own
+intermediate claims were falsified by my own checks and are corrected in place (§3, D5 and the note in
+§3.0).**
 
 **Verdict vocabulary** (used consistently below):
 
@@ -59,13 +60,17 @@ corrected in place (§3, D5 and the note in §3.0).**
    (verified numerically) is **normalisation**: the trace-preserving constraint costs `d_A²d_E²`
    on the left and `d_A²` on the right; the mismatch *is* the "intercept" `−1` vs `−d_E²`.
 7. **Results added by this audit, with credits corrected in the second pass** (§4 and §9): the
-   **one-slice sharp proof** and the **per-`B` non-representability** are this audit's independent
-   derivations; the **quantum/classical `n`-threshold contrast** is new; `Instr` has **neither a
-   terminal nor an initial object** (new); **uniform-in-`n` non-representability at `B = E`** and the
-   **escape classification** are new (the latter is equivalent to the boundary analysis in the author's
-   companion); the **resolution of ref. [1]** is new. Items the reviews proposed that turn out to be
-   **already proved in the author's companions** (affine-dimension lemma, no-left-adjoint, classical
-   analogue, normalisation/intercept explanation) are now credited as such — see §9.
+   one-slice `Chan(E,E)` convex-body statement is isolated here as a grade-free theorem, using the
+   square-gap arithmetic also present in the companion; the literal-`Instr` **per-`B`
+   non-representability** is a separate category-level theorem. The **quantum/classical `n`-threshold
+   contrast** and `Instr`'s lack of terminal and initial objects were added here. The fixed-`n`,
+   `B=E` slice obstruction is an explicit specialization of the companion's pointwise square-gap
+   regime, not a new mechanism. Proposition 4.7 formalizes the companion supplement's general
+   check-6b square-escape factorization as an iff dimension-match criterion, including divisibility
+   and positive-dimension conditions; it is not a new escape family. The **resolution of ref. [1]** is
+   new. Items the reviews proposed that turn out to be **already proved in the author's companions**
+   (affine-dimension lemma, no-left-adjoint, classical analogue, normalisation/intercept explanation)
+   are credited as such — see §9.
 8. **Ref. [1] is misattributed.** `doi:10.5281/zenodo.20860298` resolves to Zenodo record
    **20860299 — a *software* deposit** ("MIKEAA2020/opfibration-supplement: Initial supplementary
    simulation", 2026-06-25, MIT, creator "MIKEAA2020"), not to the manuscript title/author cited.
@@ -190,36 +195,33 @@ the deterministic one" (§4.3) inverts what the computation shows: `n = 1` alone
 the contradiction comes from the intercept (`n = 0` direction), i.e. from *strictly more* than the
 `n = 1` shadow.
 
-### 2.5 The sharp form — one slice, one object, no grading (new here)
+### 2.5 The deterministic one-slice proof; strict `Instr` transfer is separate
 
-> **Theorem A.** Let `d_E ≥ 2`. Then the presheaf `A ↦ Instr(A⊗E, E)` is not representable.
-> Consequently `F_E = (−⊗E)` has no right adjoint on `Instr`, and `Instr` is not monoidal closed.
+> **Theorem A (Chan, one-slice form).** Let `d_E≥2`. The functor `−⊗E` has no right adjoint on
+> `Chan`.
 >
-> *Proof.* Suppose `R` is a right adjoint and let `Φ` be the bijection. By the triangle identity at
-> `ℂ`, `Φ⁻¹(g) = ε_E ∘ (g ⊗ id_E)` has `O(ε_E)·O(g) = O(g)` outcomes for `B = E`, so `Φ⁻¹` restricts
-> to `Instr_1(E,E) = Chan(E,E) ≅ Instr_1(ℂ,R(E)) = States(R(E))`. This map is affine (linear on Choi
-> matrices — section A of the verification log) and bijective, and both slices are convex with
-> nonempty relative interior (depolarising channel; maximally mixed state). By the lemma of §2.2,
-> `d_E²(d_E²−1) = d_R² − 1`, i.e. `d_R² = d_E⁴ − d_E² + 1`. But `(d_E²−1)² < d_E⁴ − d_E² + 1 < d_E⁴`
-> strictly for `d_E ≥ 2`, so it lies between consecutive squares and is **never** a square. ∎
+> *Proof.* If `R` were a right adjoint, its adjunction at `A=ℂ,B=E` would give an affine bijection
+> `Chan(E,E) ≅ Chan(ℂ,R(E)) = States(R(E))`. The inverse map is counit composition
+> `g↦ε_E∘(g⊗id_E)`, linear on Choi matrices, so Lemma 3.2 equates affine dimensions:
+> `d_E²(d_E²−1)=d_R²−1`, i.e. `d_R²=d_E⁴−d_E²+1`. But
+> `(d_E²−1)²<d_E⁴−d_E²+1<d_E⁴`, contradiction. ∎
 
-Two immediate corollaries, both proved by the *same* computation:
+This deterministic proof itself uses no outcome grading. To transfer its conclusion to the literal
+finite-tuple `Instr`, Proposition 4.9 is the separate, grade-dependent step: an `Instr` adjunction
+restricts to `Chan`. No analogous transfer is claimed for quotient categories.
 
-* **Theorem B (Chan, closes the [1] gap).** `−⊗E` has no right adjoint on `Chan` for `d_E > 1`.
-  (§1's "gap" was a **quantifier error**: the Diophantine equation does have solutions for special
-  `(d_B, d_E)` — infinitely many; it must hold for *every* `B`, and `B = E` kills it. S1: sonnet2
-  A5, sonnet3 B2, S2 §2B.1 — **SUSTAINED**. The relevant family is `(d_B,d_E,d_R) = (k,2k,2k²−1)`;
-  e.g. `(2,4,7)`, `(4,8,31)`; a box search reproduces S2's count of exactly **70** nontrivial
-  solutions with `d_E < 400, d_B < 60`.)
-* **Reduction (the logical direction the paper inverts).** If `F_E` has a right adjoint on `Instr`,
-  then (i) unit and counit are 1-outcome, so (ii) the `n = 1` slices correspond, and (iii) the
-  restricted data is a right adjoint on `Chan`. Hence **`Chan`-non-closure ⇒ `Instr`-non-closure**.
+> **Theorem 4.6 (standalone fixed-outcome convex-body result).** For every fixed `n≥1`,
+> `Instr_n(E,E)` is not affinely isomorphic to `Instr_n(ℂ,G)` for any finite-dimensional `G`.
+> This is a statement about the explicitly defined tuple-slice convex bodies, not categorical
+> representability in `Instr_0`, `Instr_cg`, `Instr_D`, `Instr_Q`, `D^ω`, or another quotient.
 
-**Why the one-slice proof matters practically.** It is insensitive to how outcome sets are modelled
-(tuples vs multisets vs quotient by relabelling), because the `n = 1` slice is *canonically* the
-same object in all models. It therefore disposes of the "Instr isn't a category / strictification"
-objections *without* repairing the foundations. It does **not** replace the grading route, which
-alone gives the per-`B` statement (§2.4).
+*Proof.* Put `e=d_E²`, `g=d_G²`; equality of affine dimensions would force
+`g=e²−(e−1)/n`, strictly between `(e−1)²` and `e²`. ∎
+
+The one-outcome instance is the same square gap; the fixed-`n` result assumes neither naturality nor
+an adjunction. The `Chan` one-slice theorem disposes of `Chan` non-closure. The full `Instr` per-`B`
+result remains the general-`m` intercept theorem (§2.4), and quotient categories are settled only by
+their separate proofs.
 
 ### 2.6 No left adjoint — both categories (S1: sonnet2 A7, sonnet3 C3.3 — SUSTAINED)
 
@@ -275,10 +277,12 @@ article [13]; the new element here is only the threshold comparison (quantum `n 
   irreversibility.
 * In the unitary groupoid `F_E` has **no** right adjoint as soon as `d_E ∤ d_B`, although everything
   there is reversible. So adjoint-existence is not irreversibility either way.
-* Bookkeeping (verified): `CPM(A⊗E,B)` and `CPM(A, E*⊗B)` have the same ambient dimension
-  `d_A²d_E²d_B²`; trace-preservation removes `d_A²d_E²` on the left but only `d_A²` on the right.
-  The difference `d_A²(d_E²−1)` *is* the intercept. Example `(d_A,d_E,d_B) = (2,2,3)`: `128` vs
-  `140`. The asymmetry behind it is **causality** — uniqueness of the discard/unit effect
+* Bookkeeping (verified): the full CP hom-spaces `CPM(A⊗E,B)` and `CPM(A,E*⊗B)` have equal ambient
+  dimension `d_A²d_E²d_B²`; their trace-preserving `Chan` slices have dimensions
+  `d_A²d_E²(d_B²−1)` and `d_A²(d_E²d_B²−1)`. Trace preservation removes `d_A²d_E²` on the left
+  but only `d_A²` on the right, so right minus left is `d_A²(d_E²−1)`, the intercept. Example
+  `(d_A,d_E,d_B)=(2,2,3)`: `128` vs `140`. The asymmetry behind it is **causality** — uniqueness
+  of the discard/unit effect
   (`ℂ` terminal in `Chan`) — which is exactly the Coecke–Lal/Kissinger–Uijlen territory the paper
   should cite instead of invoking time direction (S1: sonnet2 A8/E2, sonnet3 E2; S2 §3.4 —
   **SUSTAINED**). **Second pass:** the author's programme names this phenomenon the
@@ -307,10 +311,12 @@ derived (see D8). The honest replacements:
 
 ### 2.11 Two further results of the revision (second pass)
 
-* **Theorem 4.6 (uniform in `n`).** At `B = E` not even a single slice is representable: the dimension
-  count forces `d_G² = e² − (e−1)/n`, which for every `n ≥ 1` lies strictly between `(e−1)²` and `e²`.
-  This specialises the companion's pointwise proposition [13] to `B = E`, where its hypothesis
-  `2 d_E d_B − 1 > (e−1)/n` is automatic; the two-line proof is included for self-containedness (log §K).
+* **Theorem 4.6 (uniform in `n`).** For each fixed `n≥1`, the tuple-slice convex bodies
+  `Instr_n(E,E)` and `Instr_n(ℂ,G)` are not affinely isomorphic for any finite-dimensional `G`; this
+  is a standalone dimension statement, not categorical representability in a quotient category. The
+  dimension count forces `d_G² = e² − (e−1)/n`, between `(e−1)²` and `e²`. This specializes the
+  companion's fixed-outcome pointwise proposition [13] to `B=E`, where its hypothesis
+  `2 d_E d_B−1>(e−1)/n` is automatic (log §K).
 * **Proposition 4.7 (escapes) / Proposition 5.6 (defect).** See §4 item 7 above and the revision.
 ---
 
@@ -367,8 +373,9 @@ handled adequately") and grok3 ("handled correctly") wave it through.
   ("non-monoidal-closure" needs the relabelling quotient or a weak monoidal structure), while
   **S2's** point stands for the category and for `F_E` (strict endofunctor). Neither audit is wrong;
   they are about different structures, and the paper needs both facts separated.
-* The sharp one-slice proof (§2.5) is **model-independent** and settles the theorem even if the
-  foundations are left as in the manuscript.
+* The one-slice proof (§2.5) settles non-closure in `Chan` without outcome grading. Its transfer to
+  literal `Instr` uses Proposition 4.9; it is not model-independent across outcome quotients and does
+  not bypass the category foundations.
 
 **D6. Domain conditions / zero dimensions.** sonnet1 §2.4, sonnet2 A3, grok2 §8, S2 A4.
 **Verdict: SUSTAINED.** Exclude `dim = 0`; then `R(E) ≠ 0` follows automatically since
@@ -455,16 +462,21 @@ clash, no Choi convention, no Schrödinger-picture declaration.
 **D23. Is the instrument-body affine dimension new here?** The cover letter of a companion
 submission states the same formula `d_A²(n d_B² − 1)` for the body of finite-outcome instruments, and
 the companion article [13] proves the affine-dimension lemma and the left/right-adjoint theorems in the
-superchannel category. **Verdict: SUSTAINED (priority correction).** These are programme results; the
-revision credits them (§5.5 "Priorities") and reserves novelty for the instrument-level per-`B`
-theorem, its uniform-in-`n` sharpening, the escape classification and the defect invariant.
+superchannel category. Its fixed-outcome appendix gives the pointwise obstruction, and supplementary
+check 6b records the general square-escape factorization. **Verdict: SUSTAINED (priority correction).**
+The revision credits these formulae and mechanisms (§5.5 "Priorities"): Theorem 4.6 is the explicit
+`B=E` specialization, and Proposition 4.7 formalizes the check-6b factorization with divisibility and
+positive dimension stated explicitly, not a newly discovered escape family. The distinct category-level
+claim is the literal-`Instr` per-`B` theorem and its grade-dependent `Chan` reduction; Proposition 5.6
+is the specific instrument-slice defect refinement, while the general intercept principle is credited.
 
 **D24. The "escape" family.** The meta-review left open whether the pointwise statement survives small
 `d_B`; the companion's Proposition "Pointwise obstruction at fixed outcome number" answers it *with a
-hypothesis* (`2 d_E d_B − 1 > (e−1)/n`) and its check 6b enumerates the boundary family `d_B = d_E/2`.
-**Verdict: now complete in factorization form** (Prop. 4.7): escapes ⟺ `n | (d_E²−1)` and
-`(d_E²−1)/n = j(2 d_E d_B − j)`; the residual question (are non-degenerate escapes genuinely
-representable?) is genuinely open and stated as such.
+hypothesis* (`2 d_E d_B − 1 > (e−1)/n`), and supplementary check 6b records the general
+outside-hypothesis square-escape factorization, with `d_B=d_E/2` as its `j=1,n=1` boundary member.
+**Verdict: explicitly packaged in factorization form** (Prop. 4.7): dimension counts match ⟺
+`n | (d_E²−1)` and `(d_E²−1)/n = j(2 d_E d_B − j)`; the residual question (are non-degenerate
+matches affine-isomorphic or genuinely representable?) remains open and is stated as such.
 
 **D22. Model-dependence of the grading (outcome identification / coarse-graining).** Raised by
 sonnet1 §2.6 (strongly), sonnet2 A3 (as a modelling caveat), S2 §8 (as an open problem).
@@ -496,11 +508,14 @@ verbatim, which is exactly why the question survives.
    author's own programme (affine-dimension lemma, no-left-adjoint, classical analogue, the
    "Normalization-Defect (Intercept) Principle"), and one audit's open problem is already classified
    there.
-7. **The escape classification** (second pass; Prop. 4.7 of the revision): the pairs `(n, B)` at which
+7. **The fixed-`n` dimension-match locus** (Prop. 4.7 of the revision): the pairs `(n, B)` at which
    the dimension count *can* be matched are exactly those with `n | (d_E²−1)` and
-   `(d_E²−1)/n = j(2 d_E d_B − j)`; `B = E` never escapes, `B = ℂ` always does (genuinely,
-   degenerately), and the Pell family is the `j = 1, n = 1` boundary family. Whether the non-degenerate
-   escapes are *genuinely* representable is the sharp residual open problem (§6 below).
+   `(d_E²−1)/n = j(2 d_E d_B − j)`; `B = E` never matches, while `B = ℂ` has a genuine degenerate
+   body match at `n=1` (for other `n` the full conditions still apply); the Pell boundary is the
+   `j=1,n=1` case. Companion supplement check 6b already records the general square-escape
+   factorization; Prop. 4.7 makes the divisibility and positive-dimension conditions explicit and
+   separates dimension matching from affine isomorphism. Whether a non-degenerate match is genuinely
+   representable remains open (§6 below).
 8. **The opfibration, constructed** (§4.6 of the revision): Grothendieck construction over a poset of
    stage extensions with `E_{v∘u} ≅ E_u ⊗ E_v`; all fibres are the *same* category `Instr`; it is a
    bifibration **iff every `E_u ≅ ℂ`** — so the bifibration property is a property of the environment
@@ -557,9 +572,9 @@ verbatim, which is exactly why the question survives.
    D22 is a candidate, not a proof.
 2. **Which `(n,B)` escape the dimension count, and are the escapes genuinely representable?**
    *Resolved:* Prop. 4.7 classifies the escapes exactly (`n | (d_E²−1)` and
-   `(d_E²−1)/n = j(2 d_E d_B − j)`); `B = E` never escapes (Thm 4.6); `B = ℂ` always does and there the
-   representation is genuine but degenerate (both hom-sets are single points); the Pell family is the
-   `j = 1, n = 1` boundary family. *Still open:* whether a non-degenerate escape admits an `A`-natural
+   `(d_E²−1)/n = j(2 d_E d_B − j)`); `B = E` never escapes (Thm 4.6); `B = ℂ` has a genuine
+degenerate match at `n=1` (both hom-sets are single points); for general `n`, apply both conditions.
+The Pell family is the `j=1,n=1` boundary family. *Still open:* whether a non-degenerate escape admits an `A`-natural
    family of affine bijections — no dimension count can decide this (the classical case shows a matched
    dimension regime can still be obstructed by a vertex count).
 3. **Infinite-dimensional / measurable-outcome versions.** The mechanism (dimension count,
@@ -580,7 +595,7 @@ verbatim, which is exactly why the question survives.
 
 | Source | Correct (sustained) | Errors found | Overall |
 |---|---|---|---|
-| **sonnet1** | §2.1–2.2 (category), §2.3–2.5 (notation/zero-dim), §3 (Prop. 3.1 ✓), §4 (prime idle; pincer false; `n` discrete), §5.1–5.3 ✓, §6 ✓, §7 ✓, §9 ✓ | §1.1 "a right adjoint in one category neither implies nor excludes one in the other" — **wrong** (reduction, D1); §2.6 "largely a bookkeeping artifact" — **too strong** (sharp form is model-independent, D22); §1.1 "the deterministic obstruction remains unproven" — correct *about this paper*, superseded by the `B = E` fix and the companion suite | strongest single review on interpretation and on the [1] logic |
+| **sonnet1** | §2.1–2.2 (category), §2.3–2.5 (notation/zero-dim), §3 (Prop. 3.1 ✓), §4 (prime idle; pincer false; `n` discrete), §5.1–5.3 ✓, §6 ✓, §7 ✓, §9 ✓ | §1.1 "a right adjoint in one category neither implies nor excludes one in the other" — **wrong** (reduction, D1); §2.6 "largely a bookkeeping artifact" — **too strong** (Chan one-slice is grade-free; transfer to literal Instr uses Prop. 4.9, D22); §1.1 "the deterministic obstruction remains unproven" — correct *about this paper*, superseded by the `B = E` fix and the companion suite | strongest single review on interpretation and on the [1] logic |
 | **grok1** | §§2–4 arithmetic, interior point, tuple model | Endorses "pincer/strictly stronger/closes the gap"; calls §5–6 "cleanly separated" (contradicted line-level, D9/D10); "no errors found" understates D4; "strictification handled adequately" misses D5 | mathematically accurate on §§3–4, superseded on §1/§5/§6 |
 | **sonnet2** | A1 (lemma), A2 (naturality), A3–A4, A5 (one-line proof; quantifier error), A6 (direction), A7 (no left adjoint), A8 (normalisation, 128 vs 140), B, C1–C3, D, E | §D's objection to "scaling multiplicatively" (**D16**, too harsh); §C1's retrodiction theorem phrasing (**D19**); "the `n=2` slice and the grading are all unnecessary" — true for the theorem, not for the per-`B` statement (D1 nuance) | the most complete technical review |
 | **grok2** | §1 lemma sentence, §2 Diophantine reality, §3 naturality need, §4 monoidal gap, §5 [4], §6 figure, §7 §6 over-reach, §8 minor text | The only Diophantine example is trivial (**D14**); the proposed naturality sentence is confused (**D18**); "§5 remarks can stay exactly as written" (**wrong**, D9) | good local catches, wrong global verdict |
@@ -609,11 +624,17 @@ Corrections to *this document*:
    instrument-body dimension formula. §4 previously listed these among things "the reviews missed";
    they are better described as things the reviews could not know and the *revision must cite*, not
    claim.
-2. **New results, precisely delimited.** The revision's independent contributions: the instrument-level
-   per-`B` theorem (general-`m` intercept collapse), its uniform-in-`n` sharpening at `B = E`, the
-   escape classification, the defect invariant, "no terminal/initial object in `Instr`", the
+2. **Results and priorities, precisely delimited.** Relative to companions [8], [13], the distinct
+   category-level contribution is the literal-`Instr` per-`B` theorem (general-`m` intercept collapse)
+   and its grade-dependent relation to `Chan`; the standalone one-slice `Chan(E,E)` theorem and the
+   categorical `Chan` consequence are stated separately, using the same square-gap arithmetic already
+   present in the programme. The uniform-in-`n`, `B=E` fixed-slice result is a transparent specialization
+   of the companion's pointwise obstruction, and Prop. 4.7 formalizes its supplement's general
+   check-6b square-escape factorization rather than claiming a new family. The revision also adds the
+   specific instrument-slice defect refinement, "no terminal/initial object in `Instr`", the
    bifibration biconditional for the constructed opfibration, the semialgebraic-dimension remark, and
-   the corrected interpretation.
+   the corrected interpretation. These are comparisons to the cited programme, not claims of exhaustive
+   external priority.
 3. **The opfibration is no longer decorative**: the construction, the fibres and the biconditional are
    proved (with the coherence hypothesis made explicit); the original Cor. 4.3 survives only in that
    conditional form.
@@ -622,8 +643,8 @@ Corrections to *this document*:
 
 1. Fix the foundations: `[n]`-lex outcome sets; declare `⊗`; either construct the small opfibration
    (Grothendieck construction over environment upgrades) or delete the fibration claims.
-2. Insert the affine-dimension lemma (two lines) and/or use the sharp one-slice proof, which needs
-   neither the grading nor the tensor.
+2. Insert the affine-dimension lemma (two lines) and/or use the one-slice `Chan` proof, which needs
+   no outcome grading; transfer to literal `Instr` only by the separate grade argument (Prop. 4.9).
 3. Restate the theorem: (i) pointwise per `B` via the general-`m` intercept collapse; (ii) sharp
    `B = E` three-liner; (iii) `Chan` version + reduction; (iv) no left adjoint; (v) iff `d_E = 1`.
 4. Add the classical analogue and the CPM/normalisation comparison — these *are* the explanation.
@@ -640,35 +661,48 @@ Corrections to *this document*:
 ## 10. Third-pass addendum — the open-problems source note
 
 A further source arrived with Revision 2.3: `uploads/sonnet time open problems.txt`, a 832-line working
-note claiming to resolve the four open problems of §7.2. It is adjudicated **claim by claim** in
-`audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md` (statuses *correct / correct-after-repair / conditional /
-superseded / unverified / gap / residual gap*, each with evidence and an integration action), and its
-quantitative content is re-derived in `verification/verify_claims.py`, section **L** (checks L1–L20;
-suite total 182 checks, 0 FAIL).
+note. Its first-pass Rev. 2.3 disposition is preserved below as history, but several findings and scopes
+were corrected in Rev. 2.4. The current complete/close/companion/drop ledger is
+`audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md`; the updated Appendix C and §7.2 are in
+`paper/REVISED_PAPER.md`. The current suite's section L covers checks L1–L27; the full run is 196 PASS,
+0 FAIL (not formal proof of the analytic/category-level claims).
 
-Docket entries:
+**Historical Rev. 2.3 docket (superseded where noted below):**
 
 | D | Finding | Disposition |
 |---|---|---|
 | D25 | The note's part-1 `cg` theorem rests on "semialgebraic bookkeeping" its own §5 lists as unwritten, and its dimension step cannot see `B = ℂ` | **not used**; replaced by the quadrilateral proof (App. C.8) and, at the `Chan` level, by the Kraus-rank theorem (App. C.2); ledger C79 |
-| D26 | The note's `Instr_0` connectedness count `d_V² = d_E²(d_B²−1)+1` is **escape-prone** for general `B`: it *is* a square exactly on the Pell boundary `d_B = d_E/2` | corrected in App. C.10 by making C.2 the engine; recorded as row B4 of `audits/05`; ledger C74 |
+| D26 | The note's `Instr_0` connectedness count `d_V² = d_E²(d_B²−1)+1` is **escape-prone** for general `B`: `d_B=d_E/2` is one square family, but not exhaustive; `(d_E,d_B,d_V)=(15,2,26)` is a non-boundary square escape | corrected in App. C.10 by using the separate pair-sum/atomicity proof; see ledger C74 |
 | D27 | The note's infinities are unevenly justified (Arveson step and face-partition argument not re-derived; measurable-outcome `cg` needs a disintegration check; non-normal states only for finite-dimensional `E`) | two of its infinite-dimensional theorems are recorded as **conditional and unused** (R4); the measurable-outcome and non-normal cases are kept as residual gaps R2, R3; ledger C76, C81 |
 | D28 | The note's typed-completion counit is Bell post-selection, i.e. a *typed* morphism, trace-preserving only on the admissible slice | printed that way, with the off-slice trace defect computed (1.072/0.989/1.011 for three random examples; the note's "0.97" is one instance, not a theorem); `audits/05` Gate 3 table; ledger C78 |
 | D29 | The note's "findings that are true but unused": the face-of-dimension-2 invariant for non-separable `Chan`; the semialgebraic route; the source's `Thm 7` | recorded as unverified/unused (R6, R4) rather than promoted; nothing in the paper depends on them |
 | D30 | The note's priority-relevant content vs the author's companions | no new priority claim arises: the note's results are a *revision* of the manuscript's own open problems, and the companion overlaps (square-gap, intercept) were already delimited in §5.5 |
 
-Consequences for the manuscript: Appendix C (C.1–C.20) added with proofs; §7.2 rewritten from
-"open" to *closed / closed under hypotheses / open* with the residual gaps R1–R7 kept visible; §4.4 and
-Rem. 4.10 re-pointed at C.2–C.3; abstract, Appendix A and the reference list [15] updated. Nothing from
-the note is presented as a theorem unless it is re-derived here or printed with its hypotheses.
+**Rev. 2.4 reconciliation of the historical docket.** D25's claim that A4 could not see `B=ℂ` was
+incorrect: C.20 completes its finite-dimensional, finite-counit dimension argument and includes the
+one-slice square gap at `b=1`; C.8 remains the stronger arbitrary-register/countable-support proof.
+D26's warning about the source's dimension-count route remains valid, but C.10 now closes `Instr_0`
+using its own pair-sum/atomicity proof rather than C.2. D27 is split by actual hypotheses: C.5 proves
+the normal separable-register obstruction, C.23 closes finite-dimensional input for countably
+supported finitary `D`, while the intended measurable quotient, non-normal setting, non-separable
+graded partition proof, and infinite-input/non-separable/countable-counit `D` case remain open.
+D28 is stated as the generic trace-defect proposition C.19, with exact and numerical checks L17/L24.
+D29 is no longer “unused”: C.21 proves the isometric-face invariant in its `dim B≥d_E` scope, and
+C.22 separately proves the two-dimensional block-channel face for finite `d_E,d_B≥2`; L21/L22 add
+finite exact-rank checks. C.15–C.24 give a concrete typed affine-slice construction and balanced Caus
+companion, with no minimality or full-equivalence claim. The current residual list is R1–R6 in §7.2/C.27.
+
+Rev. 2.4 adds source-line adjudication, exact/numerical verifier coverage, and scope corrections; it does
+not promote the source note's unproved blanket inferences. The complete current ledger is
+`audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md`.
 
 ---
 
 ## Appendix A — Reproduction
 
 ```
-python3 verification/verify_claims.py          # 182 checks, all PASS
-cat verification/verification_log.txt          # captured output used throughout this audit
+python3 verification/verify_claims.py          # 196 checks, all PASS
+cat verification/verification_log.txt          # full output; finite checks, not formal proof
 ```
 
 ## Appendix B — Notation

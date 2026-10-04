@@ -1,4 +1,4 @@
-# Revision changelog — original manuscript → `paper/REVISED_PAPER.md` (Rev. 2)
+# Revision changelog — original manuscript → `paper/REVISED_PAPER.md` (Rev. 2.4)
 
 Every element of the original 6-page PDF is listed in order of appearance, with its verdict and the
 location of the replacement text. Verdict codes: **KEEP**, **FIX** (statement corrected), **MOVE**
@@ -6,7 +6,7 @@ location of the replacement text. Verdict codes: **KEEP**, **FIX** (statement co
 
 | # | Original (page/section) | Verdict | Replacement (Rev. 2) | Audit finding |
 |---|---|---|---|---|
-| 1 | Title "The Opfibration Ontology: …" | KEEP (recommend subtitle) | unchanged, with subtitle "(Rev. 2)" | — |
+| 1 | Title "The Opfibration Ontology: …" | KEEP (recommend subtitle) | unchanged, with current revision label "Rev. 2.4" | — |
 | 2 | Abstract: "no right adjoint whenever dim(E) > 1" | FIX (true; proof corrected) | Abstract; Thms 4.3, 4.4 | D1, D4 |
 | 3 | Abstract: "combines a discrete prime argument … with a continuous intercept argument" | FIX (primes idle; `n` discrete) | §4.1, Rem. 4.2; §4.2 | D2, D3 |
 | 4 | Abstract: "clarifying the precise sense in which universal, apparatus-independent retrodiction is impossible" | MOVE (was asserted; replace by the correct reading) | §6; §5.4 | D8 |
@@ -68,8 +68,8 @@ location of the replacement text. Verdict codes: **KEEP**, **FIX** (statement co
 | 55 | "No left adjoint" is already a theorem in the companion | CREDIT | Thm 4.12 keeps the shorter slice proof and cites [13] | D23 |
 | 56 | The classical analogue is already a theorem in the companion | CREDIT | Thm 5.2/Prop. 5.3 cite [13]; only the `n`-threshold is new | D23 |
 | 57 | The normalisation explanation is named in the companion | CREDIT | Prop. 5.1 cites the "Normalization-Defect (Intercept) Principle" | D23, §5.4 |
-| 58 | "No single slice at `B = E`" — new uniform-in-`n` statement | ADD | Thm 4.6 | new (log §K) |
-| 59 | Classification of all dimension-count escapes | ADD | Prop. 4.7 (+ the `B = ℂ` genuine escape, the Pell family as `j=1, n=1`) | new; equivalent to companion check 6b |
+| 58 | Fixed-outcome slice obstruction at `B = E` | ADD / PRIORITY SCOPE CORRECTION | Thm 4.6: for each `n`, `Instr_n(E,E)` is not affinely isomorphic to `Instr_n(ℂ,G)`; this is not categorical representability | explicit specialization of companion [13]'s pointwise square-gap regime; same mechanism, no independent novelty claim |
+| 59 | Fixed-`n` dimension-match locus | ADD / PRIORITY CORRECTION | Prop. 4.7 states the iff arithmetic condition, makes `n | (d_E²−1)` and `d_G>0` explicit, and records the degenerate `B=ℂ, n=1` match; `j≥2` examples are included | formalizes the general square-escape factorization already recorded in companion check 6b; no new escape-family claim |
 | 60 | The defect `δ_n`, quantified | ADD | Prop. 5.6 (minimal uniform defect `= e−1`, attained at `r = ev`; `n=1` escape costs `e−1` at `n=2`) | sonnet3 E6, sharpened |
 | 61 | Construct the opfibration (the audits' central complaint) | ADD | §4.6: Def. 4.14, Thm 4.15 (bifibration ⟺ every `E_u ≅ ℂ`), Rem. 4.16 | sonnet2 B / S2 §2B5 |
 | 62 | Figure 1 replaced by a correct, legible figure | ADD | `figures/causal_opfibration.svg` | sonnet1 §6.3, S2 §2B5 |
@@ -91,21 +91,37 @@ location of the replacement text. Verdict codes: **KEEP**, **FIX** (statement co
 
 ## Added-for-cause summary
 
-* **Revision 2.3**: the adjudicated resolutions of §7.2 (the cg quadrilateral, the Kraus-rank
-  theorem, record forgetting, and the typed completion `𝒯`), with all hypotheses and the seven
-  residual gaps printed; see Appendix C and `audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md`.
+* **Revision 2.3 → 2.4**: the first source-note pass was followed by a claim-by-claim correction in
+  the mandatory complete/close/companion/drop order. Rev. 2.4 separates category-specific proofs,
+  corrects the A4 `B=ℂ` scope, distinguishes the isometric and block-channel face invariants, adds the
+  finite-input/countable-counit `D` result, updates the Caus flatness comparison, and preserves six
+  residual gaps. The detailed ledger is `audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md`.
 * the repaired category definition and the weak/strict distinction for `⊗`; the affine-dimension
   lemma; the counit lemmas (triangle + counting); per-`B` non-representability; the one-slice sharp
   theorem; the reduction; the no-left-adjoint and no-terminal/initial results; the CPM comparison;
   the classical analogue and its `n`-threshold; recovery and Bayesian-inversion sections; the scope
   table, counter-models and open problems; the corrected reference list; computational certificates.
 | 71 | Working note supplied with the revision (the four §7.2 open problems) | ADD (adjudicated, not trusted) | `audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md` — claim table with status, evidence, integration action; self-declared limits kept open | new [15]; Gate 1 |
-| 72 | §7.2(1) coarse-graining quotient ("Unproved") | **FIX → CLOSED** | App. C: Def. C.6, Lemma C.7 (extremes, Carathéodory, countable outcomes), Thm. C.8 (quadrilateral `P_T`, β=(1,−1,2,−2), `½e₁₂⊕½e₃₄ = ¼e₃₄⊕⅜e₁₄⊕⅜e₂₃`), C.9 (simplex vs quadrilateral; ℚ-retraction), Thm. C.10 (`Instr_0`, literal), Prop. C.11 (`D^ω`), Thm. C.12 (finite-outcome `D`/`Q`) | checks L1–L2, L7, L10, L15–L18 |
+| 72 | §7.2(1) quotient categories (initially "Unproved") | **CLOSE BY CATEGORY AND SCOPE; RETAIN R1–R2** | App. C: C.8 `Instr_cg`; C.10 `Instr_0`; C.11 `D^ω`; C.12 finite-counit `D`/finite-outcome `Q`; C.23 countably supported counit only for finite-dimensional `E` in `D`. Countable `Q` is undefined by the finite rule. | checks L1–L2, L6–L7, L10, L15–L18, L23, L25 |
 | 73 | §4.4 remark: Pell pairs "see Open Problem 7.2" | **FIX → CLOSED** | Rem. 4.10 rewritten: the escape is not representable (Thm. C.2 + Cor. C.3) | check L5a″ |
 | 74 | §7.2(2) dimension escapes and representability | **FIX → CLOSED** | App. C.2 (Kraus strata `2Nr−r²−d_E²`, submersion rank `d_E²`, `dim Ext Chan = 2d_E²(d_B−1)`, escape table, two-algebra contradiction), Cor. C.3 (incl. direct sums), proof of the source's repair of its own escape-prone count | checks L3a–L3f, L19 |
-| 75 | §7.2(3) infinite-dimensional / measurable outcomes | **FIX → CLOSED UNDER HYPOTHESES + 2 gaps** | App. C.5 (record forgetting; the no-programming contradiction, hypothesis "register finite-dimensional **or separable**"), C.13 (scope table; the ℓ²(Chan) lookup-table processor), gaps R2 (measurable outcomes) and R3 (non-normal states) | checks L4c, L11, L17 |
+| 75 | §7.2(3) infinite-dimensional / measurable outcomes | **CLOSE UNDER REGISTER HYPOTHESIS + COMPANIONS; KEEP R2–R4** | App. C.5 proves the normal no-go for a separable program register; C.23 adds countable-counit `D` only for finite `E`; C.25 is a finite-dimensional ray-measure companion; C.26 proves a non-separable surjective, non-injective processor, not a representation. | checks L4c, L23, L26; R2–R4 |
 | 76 | §7.2(4) higher-order completions ("Prove, rather than assert") | **FIX → RESOLVED FOR FIRST-ORDER `E`** | App. C.15–C.19: the typed category `𝒯`, lemmas, Thm. C.16 `−⊗E ⊣ [E,−]` via (E0), Cor. C.17 (intercept = codim `d_E²−1`), Prop. C.18 (grade `𝔅_n`), C.19 (Bell-slice counit: exactly TP on the slice, defect off it) | checks L8a–L8c, L9a–L9b, L14, L17 |
-| 77 | §7.2(5) "Lean-sized" claims | **FIX (extended list)** | §7.2(6): Cor. C.3, Thms. C.8/C.10/C.12/C.16 added to the formalisation list; R7 | — |
+| 77 | §7.2 formalisation scope | **RETAIN AS OPEN** | §7.2(7), R6: finite checks supplement but do not replace proof-assistant verification of analytic/category-level arguments. | no formal proof-assistant checks |
 | 78 | The overlap identity of the note (Lemma 2) | ADD (re-proved, simplified) | App. C.1 Lemma C.1: `Λ_ψ†Λ_ψ' = ⟨ψ|ψ'⟩1_E`; the note's "contraction Γ" version is its corollary | check L4c |
-| 79 | Abstract and Appendix A | FIX | "Revision 2.3" sentence listing what is now resolved; certificate count 111 → **182**; new highlights paragraph for section L | Gate 5 |
+| 79 | Abstract, Appendix A, and Appendix C introduction | FIX (Rev. 2.4 scope correction) | Replaced blanket "resolves those open problems" and typed "minimality" claims with case-specific scopes and six residual gaps; suite/log regenerated to **196 checks, 0 failures**, with explicit notice that finite checks are not formal proof. | Rev. 2.4; L20a–L27b |
 | 80 | Reference list | ADD | [15]: the note as an unpublished working note, plus the three external works used in App. C (Arveson 1969; Nielsen–Chuang 1997; Kissinger–Uijlen 2017) | Gate 4 |
+| 81 | Source l.145–162: blanket all-variant pointwise claim | **SCOPE BY CATEGORY; NO QUOTIENT INFERENCE** | §7.2 and C.27/C.13 list separate proofs for `Chan`, literal graded `Instr`, `Instr_0`, `Instr_cg`, `Instr_D`, `Instr_Q`, and `D^ω`; Prop. 4.9 remains confined to Definition 2.2. | source ledger §1; rows C71–C86 |
+| 82 | Source A4, lines 29–38 | **COMPLETE AFTER REPAIR; FINITE SCOPE** | C.20 supplies semialgebraic strata/finite-permutation bookkeeping and finite-counit arithmetic, including `B=ℂ`; C.8 remains stronger for arbitrary `R` and countable support. | L20a–c; C83 |
+| 83 | Source B8 isometric face claim | **VERIFY WITH HYPOTHESIS** | C.21: finite `E`, `dim B≥d_E`, minimal face dimension 1 (`d_E≥3`) or 2 (`d_E=2`); separate from C.22. | L21a–b; C84 |
+| 84 | Block-channel face claim | **ADD AS SEPARATE STRUCTURAL COMPANION** | C.22: for every finite `d_E,d_B≥2`, the supported TP Choi slice is the minimal two-dimensional face; includes `d_B<d_E`. | exact ranks L22a–b; C85 |
+| 85 | Finitary `D` with countably supported counit | **CLOSE ONLY FOR FINITE INPUT** | C.23 handles finite-dimensional `E` and arbitrary `B,R`; C.14 support/response lemmas supply the finite-output obstruction. The infinite-input/non-separable case stays R1. | L23 checks only the scalar overlap matrix; C86 |
+| 86 | `𝒯`/`Caus` scope | **COMPANION; BALANCE LIMITATION** | C.24 follows the actual flatness condition (Kissinger–Uijlen, Def. 4.2) for balanced normalized slices; no all-slice equivalence or maximality claim. | R5; C87 |
+| 87 | Standard-Borel measurable outcomes | **COMPANION; QUOTIENT IDENTIFICATION OPEN** | C.25 constructs finite-dimensional ray-measure instruments and its own no-go; the intended labelled quotient remains R2. | C88 |
+| 88 | Non-separable processor | **LIMITATION, NOT REPRESENTATION** | C.26 constructs a normal lookup processor and proves non-injectivity; it supplies no hom-set bijection. | L26a–b; C89 |
+| 89 | Instrument pair-sum and grade boundary | **KEEP CATEGORY OPERATIONS DISTINCT** | `s1.py` now labels the componentwise fixed-grade convex-slice decomposition separately from the `Instr_0` recorded-union identity; it is not a quotient or Prop. 4.9 extension. | L27a–b |
+| 90 | Verification status and residual list | **UPDATE** | Independent full run: 196 checks passed, 0 failed; finite checks are not formal proofs. Six residual gaps R1–R6 remain in §7.2/C.27. | regenerated `verification/verification_log.txt` |
+| 91 | One-slice and fixed-outcome claims | **SCOPE CORRECTION** | Thm 4.5 is a standalone `Chan(E,E)` versus state-space affine obstruction; Thm 4.8 is the categorical `Chan` no-right-adjoint consequence; Prop. 4.9 is the separate grade transfer to literal `Instr`. Thm 4.6 is only a fixed-`n` affine convex-body obstruction `Instr_n(E,E) ≄ Instr_n(ℂ,G)`, not a quotient-category representability theorem. | final consistency review; README and audits aligned |
+| 92 | CPM comparison | **LABEL CORRECTION** | Prop. 5.1 now distinguishes equal ambient CP hom-space dimensions from the two `Chan` trace-preserving slice dimensions; the `140−128` difference is explicitly right minus left. | final mathematical consistency review |
+| 93 | Dimension-count escape wording | **SCOPE CORRECTION** | Prop. 4.7(c) is explicitly `n=1`; Prop. 5.6 attributes the `d_B=d_E/2` boundary only to the displayed Pell family, not to all escapes (degenerate `B=ℂ` is retained). | final mathematical consistency review |
+| 94 | Caus flatness source access | **VERIFY WITH ACCESS NOTE** | Definition 4.2 was checked in the full arXiv v6 HTML; direct PDF fetches from the cited cs.ru.nl host and arXiv PDF endpoint failed and are disclosed in the source ledger. | `audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md` §2.3 |

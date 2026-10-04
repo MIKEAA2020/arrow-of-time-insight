@@ -1,11 +1,9 @@
-VERIFICATION LOG -- adjudicated audit of "The Opfibration Ontology: Quantum Instruments,
-Irreversibility, and the Epistemic Asymptote" (A. Abaee), of its six reviews, the meta-review, and
-(with section L) the third-party open-problems note uploads/sonnet time open problems.txt.
-Adjudication of that note: audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md; its results are integrated, with
-hypotheses and residual gaps, as Appendix C of paper/REVISED_PAPER.md.
-Generated: 2026-10-04T20:06:12Z  |  Python 3.13.14  |  numpy 2.3.5  |  sympy 1.14.0
-Script: verification/verify_claims.py    Repo commit at generation: Gate 5 (Revision 2.3)
+VERIFICATION LOG — independent rerun of the adjudicated manuscript and source-claim finite checks.
+Source-claim ledger: audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md; scope and residual gaps: paper/REVISED_PAPER.md Appendix C and §7.2.
+Generated: 2026-10-04T23:49:46Z (UTC)  |  Python 3.13.14  |  numpy 2.3.5  |  sympy 1.14.0
+Script: verification/verify_claims.py  |  Base commit: 84c9fbd (working tree contains Rev. 2.4 edits)
 ================================================================================
+
 
 ==============================================================================
 A. PROPOSITION 3.1 -- affine dimension of the instrument slices
@@ -160,6 +158,7 @@ K. ESCAPES, THE UNIFORM-IN-n THEOREM, AND THE DEFECT (Thm 4.6, Prop 4.7, Prop 5.
 [PASS] Prop 4.7: brute-force escapes (g square) = factorised escapes (c = j(2w-j)), i.e. the classification is complete   -- 11 escapes for d_E<=8, d_B<=30; symmetric difference: []
 [PASS] Prop 4.7 example (a): the Pell family (d_B, d_E, d_G) = (k, 2k, 2k^2-1) is the j = 1 escape
 [PASS] Prop 4.7 example (a)': at n = 1 the j = 1 escapes are exactly d_B = d_E/2 (d_E even)
+[PASS] Prop 4.7 non-boundary escape: (d_E,d_B,n,j)=(15,2,1,4) gives c=224, d_G=26 and matched affine dimensions
 [PASS] Prop 4.7 example (b) / Thm 4.6: B = E admits no escape (e<=200)
 [PASS] Prop 4.7 example (c): B = C escapes with j = d_E-1, d_G = 1 for every d_E >= 2
 [PASS] Prop 4.7 example (c)': Instr_1(A, C) has affine dimension d_A^2(1*1-1) = 0 for every A, so both hom-sets are single points: the escape is genuine (though degenerate)
@@ -194,7 +193,7 @@ L. THE OPEN-PROBLEMS DOCUMENT: EVALUATION AND VERIFICATION (S4)
 [PASS] L4c overlap identity (Lemma 2, restated and re-proved): <psi|psi'> 1_E = sum_il <g_i|g'_l> K_i^dag K'_l, verified from a random Stinespring dilation, including with an independent unitary basis change on the second dilation
 [PASS] L5a Instr_0 square-gap (B = E): d_V^2 = d_E^4 - d_E^2 + 1 lies strictly between (d_E^2-1)^2 and d_E^4, hence is never a square (d_E <= 3000)
 [PASS] L5a' the source's B = C count d_R^2 = d_E^4 - d_E^2 + 1 is the same number (states of R versus extreme POVMs on E: d_R^2 - 1 = d_E^2(d_E^2 - 1))
-[PASS] L5a'' ADJUDICATION (escape): for general B the Instr_0 count d_V^2 = d_E^2(d_B^2-1) + 1 IS a square exactly on the paper's Pell boundary d_B = d_E/2 = k: d_V^2 = (2k^2-1)^2 -- so the dimension route alone is escape-prone for general B and the source's general-B theorem must (and does) use the irreducibility/genericity route instead
+[PASS] L5a'' ADJUDICATION (escape): the Instr_0 dimension count has the boundary family d_B=d_E/2=k, with d_V=2k^2-1, but this is not exhaustive; the non-boundary triple (d_E,d_B,d_V)=(15,2,26) also solves d_V^2=d_E^2(d_B^2-1)+1. Thus dimension counting alone is escape-prone for general B; the source's general-B theorem must (and does) use its separate irreducibility/genericity route
 [PASS] L5b cg count: d_R^2 = (d_E^2 d_B)^2 - (d_E^2 - 1) is never a square (d_E, d_B < 400, as in the source, plus the sandwich proof)
 [PASS] L5b' cg count (symbolic): (e^2 b - 1)^2 < (e^2 b)^2 - (e^2 - 1) < (e^2 b)^2, the gap below being e^2(2b-1) > 0 and the gap above e^2 - 1 > 0
 [PASS] L6a dyadic congruence: {E,2E} is NOT equivalent to {3E} (bounded reachability search plus invariant)
@@ -230,7 +229,21 @@ L. THE OPEN-PROBLEMS DOCUMENT: EVALUATION AND VERIFICATION (S4)
 [PASS] L17b Bell-slice counit is NOT trace-preserving off the slice: for generic (normalised, PSD) X on E* (x) B the trace differs from 1 (computed values for the three cases; the defect is example-dependent -- the source's '0.97' is one such instance, not a theorem)   -- off-slice traces: [0.7226, 0.9932, 1.0659]
 [PASS] L18 Instr_0 (no merging): with A + B' = C + D = 1/2 and A + D = 9/20, C + B' = 11/20 the identity holds LITERALLY, component by component: (1/2)*(2A) = A, (9/20)*(20/9)A = A, ... so the two multisets are equal as multisets of four components (no cancellation needed)   -- each component of the two sides is literally one of A, B', C, D; no merging is used
 [PASS] L19 the Kraus-rank invariants also rule out direct sums: no (d_E, d_B, R, S) with d_E, d_B >= 2 matches dim State(M_R (+) M_S) = R^2 + S^2 - 2 and extreme-set dimension 2 max(R-1, S-1) simultaneously (search to 199)   -- solutions: []
-[PASS] L20 the source's alternative 'face of dimension 2' invariant for non-separable Chan is NOT verified here and is NOT needed: the Kraus-rank theorem (L3) already rules out affine isomorphism with the normal state space of a Hilbert space of ANY dimension (an infinite-dimensional space has infinite affine dimension, so it fails on dimension alone)   -- recorded as not-relied-upon in audits/05, Gate 1
+[PASS] L20a C.20 top stratum: explicit positive definite TP Choi tuples have a^2 independent marginals (a=1..4, b=1..3)
+[PASS] L20b C.20 normalization affine dimension: k*a^2*b^2-a^2, maximized at k=a^2 to a^2(a^2*b^2-1)
+[PASS] L20c C.20 finite-counit obstruction: the one-slice value lies strictly between consecutive squares, including b=1; the A=C and A=C^2 equations are incompatible (e=2..100,b=1..30)
+[PASS] L21a C.21 exact Kraus-support slice rank: nullity is 2 for d_E=2 and 1 for d_E=3..7   -- ranks={2: 2, 3: 3, 4: 3, 5: 3, 6: 3, 7: 3}
+[PASS] L21b C.21 state-space face obstruction: k^2-1 is never 1 or 2 for finite k>=1
+[PASS] L22a C.22 endpoint channels are TP and the combined Kraus family has full support rank (d_E=2..7; d_B=2,3,5)
+[PASS] L22b C.22 exact trace-constraint rank is d_E^2-2, hence the supported TP face has affine dimension 2 for every tested pair including d_B<d_E   -- nullities=[2]
+[PASS] L23 C.23 scalar overlap: for distinct angles in (0,pi/2), sin(delta) forces gamma_P=gamma_Q=c=0; at delta=0 the rank drops as expected
+[PASS] L24 C.19 exact trace functional: maximally mixed tau gives unit trace on the admissible slice, while nonmaximally mixed tau gives off-slice product-state witnesses on both sides of 1 (d=2..7)
+[PASS] L25a C.11 D^omega exact quadrilateral: each target extreme has two independent supported marginals on distinct rays
+[PASS] L25b C.11 source midpoint geometry: a multi-orbit probability vector splits nontrivially, while a one-orbit probability vector cannot split by positivity
+[PASS] L26 C.26 finite instance: controlled identity/Z processor is CP and TP and basis programs implement two distinct channels
+[PASS] L26b C.26 finite instance: a coherent superposition and its dephased program state are distinct but have the same processor output
+[PASS] L27a fixed grade-2 slice: two distinct TP positive pairs average componentwise to AB
+[PASS] L27b operation boundary: the fixed-grade average has two components, while an Instr_0 recorded union of its two grade-2 inputs has four; this is not an Instr_0 split or a quotient theorem
 
 ==============================================================================
 J. Terminology / metadata cross-checks (recorded facts)
@@ -255,4 +268,4 @@ J. Terminology / metadata cross-checks (recorded facts)
 ==============================================================================
 SUMMARY
 ==============================================================================
-182 checks passed, 0 failed, 182 total
+197 checks passed, 0 failed, 197 total
