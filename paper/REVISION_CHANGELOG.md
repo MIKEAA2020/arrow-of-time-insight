@@ -91,8 +91,21 @@ location of the replacement text. Verdict codes: **KEEP**, **FIX** (statement co
 
 ## Added-for-cause summary
 
+* **Revision 2.3**: the adjudicated resolutions of §7.2 (the cg quadrilateral, the Kraus-rank
+  theorem, record forgetting, and the typed completion `𝒯`), with all hypotheses and the seven
+  residual gaps printed; see Appendix C and `audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md`.
 * the repaired category definition and the weak/strict distinction for `⊗`; the affine-dimension
   lemma; the counit lemmas (triangle + counting); per-`B` non-representability; the one-slice sharp
   theorem; the reduction; the no-left-adjoint and no-terminal/initial results; the CPM comparison;
   the classical analogue and its `n`-threshold; recovery and Bayesian-inversion sections; the scope
   table, counter-models and open problems; the corrected reference list; computational certificates.
+| 71 | Working note supplied with the revision (the four §7.2 open problems) | ADD (adjudicated, not trusted) | `audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md` — claim table with status, evidence, integration action; self-declared limits kept open | new [15]; Gate 1 |
+| 72 | §7.2(1) coarse-graining quotient ("Unproved") | **FIX → CLOSED** | App. C: Def. C.6, Lemma C.7 (extremes, Carathéodory, countable outcomes), Thm. C.8 (quadrilateral `P_T`, β=(1,−1,2,−2), `½e₁₂⊕½e₃₄ = ¼e₃₄⊕⅜e₁₄⊕⅜e₂₃`), C.9 (simplex vs quadrilateral; ℚ-retraction), Thm. C.10 (`Instr_0`, literal), Prop. C.11 (`D^ω`), Thm. C.12 (finite-outcome `D`/`Q`) | checks L1–L2, L7, L10, L15–L18 |
+| 73 | §4.4 remark: Pell pairs "see Open Problem 7.2" | **FIX → CLOSED** | Rem. 4.10 rewritten: the escape is not representable (Thm. C.2 + Cor. C.3) | check L5a″ |
+| 74 | §7.2(2) dimension escapes and representability | **FIX → CLOSED** | App. C.2 (Kraus strata `2Nr−r²−d_E²`, submersion rank `d_E²`, `dim Ext Chan = 2d_E²(d_B−1)`, escape table, two-algebra contradiction), Cor. C.3 (incl. direct sums), proof of the source's repair of its own escape-prone count | checks L3a–L3f, L19 |
+| 75 | §7.2(3) infinite-dimensional / measurable outcomes | **FIX → CLOSED UNDER HYPOTHESES + 2 gaps** | App. C.5 (record forgetting; the no-programming contradiction, hypothesis "register finite-dimensional **or separable**"), C.13 (scope table; the ℓ²(Chan) lookup-table processor), gaps R2 (measurable outcomes) and R3 (non-normal states) | checks L4c, L11, L17 |
+| 76 | §7.2(4) higher-order completions ("Prove, rather than assert") | **FIX → RESOLVED FOR FIRST-ORDER `E`** | App. C.15–C.19: the typed category `𝒯`, lemmas, Thm. C.16 `−⊗E ⊣ [E,−]` via (E0), Cor. C.17 (intercept = codim `d_E²−1`), Prop. C.18 (grade `𝔅_n`), C.19 (Bell-slice counit: exactly TP on the slice, defect off it) | checks L8a–L8c, L9a–L9b, L14, L17 |
+| 77 | §7.2(5) "Lean-sized" claims | **FIX (extended list)** | §7.2(6): Cor. C.3, Thms. C.8/C.10/C.12/C.16 added to the formalisation list; R7 | — |
+| 78 | The overlap identity of the note (Lemma 2) | ADD (re-proved, simplified) | App. C.1 Lemma C.1: `Λ_ψ†Λ_ψ' = ⟨ψ|ψ'⟩1_E`; the note's "contraction Γ" version is its corollary | check L4c |
+| 79 | Abstract and Appendix A | FIX | "Revision 2.3" sentence listing what is now resolved; certificate count 111 → **182**; new highlights paragraph for section L | Gate 5 |
+| 80 | Reference list | ADD | [15]: the note as an unpublished working note, plus the three external works used in App. C (Arveson 1969; Nielsen–Chuang 1997; Kissinger–Uijlen 2017) | Gate 4 |

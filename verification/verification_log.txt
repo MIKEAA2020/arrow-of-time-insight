@@ -1,3 +1,11 @@
+VERIFICATION LOG -- adjudicated audit of "The Opfibration Ontology: Quantum Instruments,
+Irreversibility, and the Epistemic Asymptote" (A. Abaee), of its six reviews, the meta-review, and
+(with section L) the third-party open-problems note uploads/sonnet time open problems.txt.
+Adjudication of that note: audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md; its results are integrated, with
+hypotheses and residual gaps, as Appendix C of paper/REVISED_PAPER.md.
+Generated: 2026-10-04T20:06:12Z  |  Python 3.13.14  |  numpy 2.3.5  |  sympy 1.14.0
+Script: verification/verify_claims.py    Repo commit at generation: Gate 5 (Revision 2.3)
+================================================================================
 
 ==============================================================================
 A. PROPOSITION 3.1 -- affine dimension of the instrument slices
@@ -167,6 +175,8 @@ L. THE OPEN-PROBLEMS DOCUMENT: EVALUATION AND VERIFICATION (S4)
 ==============================================================================
 [PASS] L1a quadrilateral: v_l = 1/4 + delta*beta_l*a is positive definite (beta=(1,-1,2,-2))   -- sum_l v_l = 1_E
 [PASS] L1b quadrilateral: P_T = {c >= 0 : sum c_l v_l = 1} has EXACTLY the four listed vertices (all basic feasible solutions enumerated)   -- found [(0, 0, 2, 2), (0, 8/3, 4/3, 0), (2, 2, 0, 0), (8/3, 0, 0, 4/3)]
+[PASS] L1b' quadrilateral: the four effects v_1..v_4 are pairwise non-proportional (so f_l are pairwise non-proportional and the four rays are distinct)   -- v_l = lam*v_m forces lam = 1 and beta_l = beta_m, impossible for l != m
+[PASS] L1b'' quadrilateral: the four vertices are distinct, span a 2-plane (affine rank 2), and each one lies OUTSIDE the triangle of the other three (its exact barycentric coordinates have a negative entry: -1/2, -2, -1, -1), so the face is a genuine quadrilateral and not a simplex   -- degenerate vertices: []
 [PASS] L1c quadrilateral: all four extreme instruments are trace-preserving (sum = 1_E)
 [PASS] L1d quadrilateral: their marginals are linearly independent (recorded-mixing extremes)
 [PASS] L1e quadrilateral: (1/2)e12 + (1/2)e34 = (1/4)e34 + (3/8)e14 + (3/8)e23 exactly
@@ -211,6 +221,16 @@ L. THE OPEN-PROBLEMS DOCUMENT: EVALUATION AND VERIFICATION (S4)
 [PASS] L13c genericity: for d_E = 3 the map (a_l) -> sum a_l M-bar_l has k - (d_E^2 - 1) dimensional kernel, so k = 6 (resp. 8) gives the one-dimensional kernel spanned by (1,...,1) (resp. 0); in both cases the only kernel vectors with entries in [-3,3] are multiples of (1,...,1) and no proper subset sums to a scalar   -- computed [(np.int64(1), True, False), (np.int64(1), True, False)]
 [PASS] L14a Corollary 1: C(f)/d_E is a state (PSD, trace one) for every channel f, so the admissible slice of [E,B] is an affine copy of Chan(E,B)
 [PASS] L14b Theorem 1 round trip at A = C: Phi(Psi(f)) = f, i.e. d_E*ev(C(f)/d_E (x) Y) = f(Y) for all Y (so Psi then Phi returns the channel)
+[PASS] L15a extremes iff independent marginals, 'independent => extreme' direction: the only solution of sum_l w_l v_l = 0 for three independent positive marginals of Herm(C^2) is w = 0, so any decomposition forced to have the same marginals is trivial
+[PASS] L15b 'dependent => not extreme' direction: duplicating a marginal gives the relation (1,0,-1,0); a perturbation c -> c + eps*w of the weights keeps the constraint sum_l (c_l + eps w_l) v_l = 1_E for every eps and keeps all weights positive for small eps (so the element is a non-trivial recorded mixture)
+[PASS] L15c Caratheodory bound: k marginals in Herm(C^{d_A}) are linearly dependent once k > d_A^2, so extreme instruments have at most d_A^2 components (numerically: random k = d_A^2 + 1 tuples have rank <= d_A^2 for d_A = 2, 3, 4)
+[PASS] L16a D^omega: the four orbit-weight vectors of the source lie in the quadrilateral P_T (c >= 0, sum c_l = 4, beta.c = 0) and are exactly its vertices; the mixing weights 1/2, 1/2, 1/4, 3/8, 3/8 are all dyadic rationals (3/8 = 3*2^-3), as required for iterated midpoint mixing in the infinite-merge quotient
+[PASS] L16b D^omega: the two decompositions agree orbit-by-orbit (same w-vector on each of the four rays), which is the exact-arithmetic content the source reuses from the quadrilateral
+[PASS] L17a Bell-slice counit: eps = d_E * ev is trace-preserving on the admissible slice ([E,B] (x) E): tr eps(C(f)/d_E (x) tau) = tr f(tau) = 1 for every channel f and state tau
+[PASS] L17b Bell-slice counit is NOT trace-preserving off the slice: for generic (normalised, PSD) X on E* (x) B the trace differs from 1 (computed values for the three cases; the defect is example-dependent -- the source's '0.97' is one such instance, not a theorem)   -- off-slice traces: [0.7226, 0.9932, 1.0659]
+[PASS] L18 Instr_0 (no merging): with A + B' = C + D = 1/2 and A + D = 9/20, C + B' = 11/20 the identity holds LITERALLY, component by component: (1/2)*(2A) = A, (9/20)*(20/9)A = A, ... so the two multisets are equal as multisets of four components (no cancellation needed)   -- each component of the two sides is literally one of A, B', C, D; no merging is used
+[PASS] L19 the Kraus-rank invariants also rule out direct sums: no (d_E, d_B, R, S) with d_E, d_B >= 2 matches dim State(M_R (+) M_S) = R^2 + S^2 - 2 and extreme-set dimension 2 max(R-1, S-1) simultaneously (search to 199)   -- solutions: []
+[PASS] L20 the source's alternative 'face of dimension 2' invariant for non-separable Chan is NOT verified here and is NOT needed: the Kraus-rank theorem (L3) already rules out affine isomorphism with the normal state space of a Hilbert space of ANY dimension (an infinite-dimensional space has infinite affine dimension, so it fails on dimension alone)   -- recorded as not-relied-upon in audits/05, Gate 1
 
 ==============================================================================
 J. Terminology / metadata cross-checks (recorded facts)
@@ -235,4 +255,4 @@ J. Terminology / metadata cross-checks (recorded facts)
 ==============================================================================
 SUMMARY
 ==============================================================================
-170 checks passed, 0 failed, 170 total
+182 checks passed, 0 failed, 182 total

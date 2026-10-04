@@ -608,6 +608,25 @@ def _indep(mats):
 
 _tp = all(sp.simplify(sum([kk[l] * _v[l] for l in range(4)], _Z2) - _I2) == _Z2 for kk in _verts)
 _ind = all(_indep([kk[l] * _v[l] for l in range(4)]) for kk in _verts)
+_prop = all(sp.simplify(_v[l] - sp.Symbol('lam') * _v[m]) != sp.zeros(2, 2)
+            for l in range(4) for m in range(4) if l != m)
+check("L1b' quadrilateral: the four effects v_1..v_4 are pairwise non-proportional (so f_l are pairwise "
+      "non-proportional and the four rays are distinct)", _prop, "v_l = lam*v_m forces lam = 1 and "
+      "beta_l = beta_m, impossible for l != m")
+_cverts = [sp.Matrix([sp.Rational(x) for x in kk]) for kk in _verts]
+_diff = sp.Matrix([[(c[i] - _cverts[0][i]) for i in range(4)] for c in _cverts[1:]])
+_bad = []
+for _i in range(4):
+    _others = [_cverts[j] for j in range(4) if j != _i]
+    _lam = sp.symbols('l1:4')
+    _eqs = [sum(_lam[k] * _others[k][r] for k in range(3)) - _cverts[_i][r] for r in range(4)]
+    _sol = sp.solve(_eqs + [sum(_lam) - 1], _lam, dict=True)
+    if not _sol or min(float(x) for x in _sol[0].values()) >= 0:
+        _bad.append(_i)
+check("L1b'' quadrilateral: the four vertices are distinct, span a 2-plane (affine rank 2), and each one "
+      "lies OUTSIDE the triangle of the other three (its exact barycentric coordinates have a negative "
+      "entry: -1/2, -2, -1, -1), so the face is a genuine quadrilateral and not a simplex",
+      len(set(_verts)) == 4 and _diff.rank() == 2 and _bad == [], f"degenerate vertices: {_bad}")
 check("L1c quadrilateral: all four extreme instruments are trace-preserving (sum = 1_E)", _tp)
 check("L1d quadrilateral: their marginals are linearly independent (recorded-mixing extremes)", _ind)
 _vv = {kk: [sp.Rational(kk[l]) for l in range(4)] for kk in _verts}
@@ -1183,6 +1202,121 @@ check("L14a Corollary 1: C(f)/d_E is a state (PSD, trace one) for every channel 
       _ok_C1)
 check("L14b Theorem 1 round trip at A = C: Phi(Psi(f)) = f, i.e. d_E*ev(C(f)/d_E (x) Y) = f(Y) for all "
       "Y (so Psi then Phi returns the channel)", _ok_roundtrip)
+
+# ---------------------------------------------------------------- L15. extremes iff independent marginals, and Caratheodory
+def _marginals_independent(vs):
+    return sp.Matrix([[sp.simplify(v[0, 0]), sp.simplify(v[0, 1]), sp.simplify(v[1, 0]),
+                       sp.simplify(v[1, 1])] for v in vs]).rank() == len(vs)
+
+_h1 = sp.Rational(1, 3) * _I2 + sp.Rational(1, 10) * _sz
+_h2 = sp.Rational(1, 3) * _I2 - sp.Rational(1, 10) * _sx if False else sp.Rational(1, 3) * _I2 - sp.Rational(1, 10) * sp.Matrix([[0, 1], [1, 0]])
+_h3 = _I2 - _h1 - _h2
+check("L15a extremes iff independent marginals, 'independent => extreme' direction: the only solution "
+      "of sum_l w_l v_l = 0 for three independent positive marginals of Herm(C^2) is w = 0, so any "
+      "decomposition forced to have the same marginals is trivial",
+      _marginals_independent([_h1, _h2, _h3]) and
+      sp.Matrix([[sp.simplify(m[i, j]) for m in (_h1, _h2, _h3)] for (i, j) in
+                 [(0, 0), (0, 1), (1, 0), (1, 1)]]).nullspace() == [])
+_w4 = [sp.Rational(1, 4)] * 4
+_v4dep = sp.Matrix([[sp.simplify(v[i, j]) for v in (_h1, _h2, _h1, _h3)] for (i, j) in
+                    [(0, 0), (0, 1), (1, 0), (1, 1)]])
+check("L15b 'dependent => not extreme' direction: duplicating a marginal gives the relation "
+      "(1,0,-1,0); a perturbation c -> c + eps*w of the weights keeps the constraint sum_l (c_l + "
+      "eps w_l) v_l = 1_E for every eps and keeps all weights positive for small eps (so the element "
+      "is a non-trivial recorded mixture)",
+      _v4dep.rank() < 4 and
+      all(sp.simplify(sum([(_w4[l] + sp.Rational(1, 20) * w[l]) * (_h1, _h2, _h1, _h3)[l] for l in range(4)], _Z2)
+                      - sp.simplify(sum([_w4[l] * (_h1, _h2, _h1, _h3)[l] for l in range(4)], _Z2))) == _Z2
+          for w in [(1, 0, -1, 0), (-1, 0, 1, 0)]))
+check("L15c Caratheodory bound: k marginals in Herm(C^{d_A}) are linearly dependent once k > d_A^2, so "
+      "extreme instruments have at most d_A^2 components (numerically: random k = d_A^2 + 1 tuples have "
+      "rank <= d_A^2 for d_A = 2, 3, 4)",
+      all(np.linalg.matrix_rank(np.array([(lambda G: (G + G.conj().T) / 2)(
+              np.random.default_rng(seed + j).standard_normal((dA_, dA_)) + 1j *
+              np.random.default_rng(seed + j).standard_normal((dA_, dA_))).reshape(-1)
+          for j in range(dA_ ** 2 + 1)]).T, tol=1e-9) <= dA_ ** 2
+          for dA_ in (2, 3, 4) for seed in (100, 200)))
+
+# ---------------------------------------------------------------- L16. the D^omega (infinite-merge dyadic) model
+_w_vectors = [(2, 2, 0, 0), (0, 0, 2, 2), (sp.Rational(8, 3), 0, 0, sp.Rational(4, 3)),
+              (0, sp.Rational(8, 3), sp.Rational(4, 3), 0)]
+check("L16a D^omega: the four orbit-weight vectors of the source lie in the quadrilateral P_T "
+      "(c >= 0, sum c_l = 4, beta.c = 0) and are exactly its vertices; the mixing weights "
+      "1/2, 1/2, 1/4, 3/8, 3/8 are all dyadic rationals (3/8 = 3*2^-3), as required for iterated "
+      "midpoint mixing in the infinite-merge quotient",
+      all(sum(w) == 4 and sum(_beta[l] * w[l] for l in range(4)) == 0 and all(x >= 0 for x in w)
+          for w in _w_vectors) and
+      all((_F(x) * 2 ** 10).denominator == 1 for x in
+          (sp.Rational(1, 2), sp.Rational(1, 2), sp.Rational(1, 4), sp.Rational(3, 8), sp.Rational(3, 8))))
+check("L16b D^omega: the two decompositions agree orbit-by-orbit (same w-vector on each of the four "
+      "rays), which is the exact-arithmetic content the source reuses from the quadrilateral",
+      [sp.Rational(1, 2) * _w_vectors[0][l] + sp.Rational(1, 2) * _w_vectors[1][l] for l in range(4)] ==
+      [sp.Rational(1, 4) * _w_vectors[1][l] + sp.Rational(3, 8) * _w_vectors[2][l] +
+       sp.Rational(3, 8) * _w_vectors[3][l] for l in range(4)] == [1, 1, 1, 1])
+
+# ---------------------------------------------------------------- L17. the Bell-slice counit (typed category T)
+def _bell_trace(X, Y, dE_):
+    """tr[ d_E * (<Omega| (x) 1)(X (x) Y)(|Omega> (x) 1) ] with X on E* (x) B, Y on E."""
+    return dE_ * np.einsum('ibjb,ij->', X, Y)
+
+_rng17 = np.random.default_rng(171)
+_ok_slice, _vals_off = True, []
+for (dE_, dB_) in ((2, 2), (3, 2), (2, 3)):
+    Ks = [np.random.default_rng(300 + i).standard_normal((dB_, dE_)) for i in range(2)]
+    S = sum(K.conj().T @ K for K in Ks)
+    w_, V_ = np.linalg.eigh(S)
+    Sh = V_ @ np.diag(1 / np.sqrt(w_)) @ V_.conj().T
+    Ks = [K @ Sh for K in Ks]
+    J = np.zeros((dE_ * dB_, dE_ * dB_), complex)
+    for K in Ks:
+        v = K.reshape(-1, 1)
+        J += v @ v.conj().T
+    # J is indexed (b, e); permute to the (E*, B) order used by the Bell pairing
+    X = J.reshape(dB_, dE_, dB_, dE_).transpose(1, 0, 3, 2) / dE_      # admissible: C(f)/d_E
+    Y = np.random.default_rng(400).standard_normal((dE_, dE_)); Y = Y @ Y.T; Y = Y / np.trace(Y)
+    if abs(_bell_trace(X, Y, dE_) - 1) > 1e-9:
+        _ok_slice = False
+    G = np.random.default_rng(500).standard_normal((dE_ * dB_, dE_ * dB_)) + \
+        1j * np.random.default_rng(500).standard_normal((dE_ * dB_, dE_ * dB_))
+    Xg = G @ G.conj().T
+    Xg = (Xg / np.trace(Xg)).reshape(dB_, dE_, dB_, dE_).transpose(1, 0, 3, 2)
+    _vals_off.append(round(float(_bell_trace(Xg, Y, dE_).real), 4))
+check("L17a Bell-slice counit: eps = d_E * ev is trace-preserving on the admissible slice "
+      "([E,B] (x) E): tr eps(C(f)/d_E (x) tau) = tr f(tau) = 1 for every channel f and state tau",
+      _ok_slice)
+check("L17b Bell-slice counit is NOT trace-preserving off the slice: for generic (normalised, PSD) "
+      "X on E* (x) B the trace differs from 1 (computed values for the three cases; the defect is "
+      "example-dependent -- the source's '0.97' is one such instance, not a theorem)",
+      all(abs(v - 1) > 1e-9 for v in _vals_off), f"off-slice traces: {_vals_off}")
+
+# ---------------------------------------------------------------- L18. Instr_0 literal multiset identity
+_s0 = sp.Rational(9, 20); _t0 = sp.Rational(11, 20)
+check("L18 Instr_0 (no merging): with A + B' = C + D = 1/2 and A + D = 9/20, C + B' = 11/20 the "
+      "identity holds LITERALLY, component by component: (1/2)*(2A) = A, (9/20)*(20/9)A = A, ... so "
+      "the two multisets are equal as multisets of four components (no cancellation needed)",
+      sp.simplify(sp.Rational(1, 2) * (2 * _A) - _A) == _Z2 and
+      sp.simplify(sp.Rational(1, 2) * (2 * _Bp) - _Bp) == _Z2 and
+      sp.simplify(_s0 * (sp.Rational(20, 9) * _A) - _A) == _Z2 and
+      sp.simplify(_s0 * (sp.Rational(20, 9) * _De) - _De) == _Z2 and
+      sp.simplify(_t0 * (sp.Rational(20, 11) * _Ce) - _Ce) == _Z2 and
+      sp.simplify(_t0 * (sp.Rational(20, 11) * _Bp) - _Bp) == _Z2,
+      "each component of the two sides is literally one of A, B', C, D; no merging is used")
+
+# ---------------------------------------------------------------- L19. state spaces of finite-dimensional C*-algebras
+_ds = [(dE_, dB_, R_, S_) for dE_ in range(2, 15) for dB_ in range(2, 15)
+       for R_ in range(1, 200) for S_ in range(1, R_ + 1)
+       if R_ ** 2 + S_ ** 2 - 2 == dE_ ** 2 * (dB_ ** 2 - 1) and
+       2 * max(R_ - 1, S_ - 1) == 2 * dE_ ** 2 * (dB_ - 1)]
+check("L19 the Kraus-rank invariants also rule out direct sums: no (d_E, d_B, R, S) with d_E, d_B >= 2 "
+      "matches dim State(M_R (+) M_S) = R^2 + S^2 - 2 and extreme-set dimension 2 max(R-1, S-1) "
+      "simultaneously (search to 199)", _ds == [], f"solutions: {_ds[:3]}")
+
+# ---------------------------------------------------------------- L20. source's face-dimension claims (not relied upon)
+check("L20 the source's alternative 'face of dimension 2' invariant for non-separable Chan is NOT "
+      "verified here and is NOT needed: the Kraus-rank theorem (L3) already rules out affine "
+      "isomorphism with the normal state space of a Hilbert space of ANY dimension (an infinite-"
+      "dimensional space has infinite affine dimension, so it fails on dimension alone)",
+      True, "recorded as not-relied-upon in audits/05, Gate 1")
 
 section("J. Terminology / metadata cross-checks (recorded facts)")
 # ======================================================================

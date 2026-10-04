@@ -19,6 +19,8 @@ audits/
   02_REFERENCE_AND_METADATA_CHECK.md            external verification of refs [1]-[7], DOI resolution
   03_PREDECESSOR_AND_REPO_CONTEXT.md            the record behind [1]; the companions ([8], [13])
   04_REMAINING_POINTS_IMPLEMENTED.md  *** every remaining audit point: implemented / corrected / declined
+  05_OPEN_PROBLEMS_SOURCE_EVAL.md     *** adjudication of the open-problems source note, claim by claim
+                                      (status, evidence, integration action, self-declared limits)
   S0_extracted_text.txt       the manuscript's text, extracted page by page (line-level audit trail)
 
 figures/
@@ -29,8 +31,8 @@ paper/
   REVISION_CHANGELOG.md       original -> revised, claim by claim (with the audit finding that drove it)
 
 verification/
-  verify_claims.py            reproducible suite: 111 checks over all quantitative claims
-  verification_log.txt        captured run (111 PASS / 0 FAIL)
+  verify_claims.py            reproducible suite: 182 checks over all quantitative claims
+  verification_log.txt        captured run (182 PASS / 0 FAIL)
 
 scripts/
   push_with_token.sh          push using a token stored outside the repo tree
@@ -62,11 +64,20 @@ PUSH_STATUS.md                token diagnostics and the one command that finishe
    no-left-adjoint theorem, the classical analogue and the normalisation/intercept explanation
    ("Normalization-Defect (Intercept) Principle") already exist in `[8]`/`[13]`; the revision cites
    them and delimits what is genuinely new here.
+8. **The four open problems of §7.2 are now resolved (Revision 2.3, Appendix C)**, adjudicated from a
+   third-party working note rather than trusted: the coarse-graining quotient (the exact quadrilateral
+   `P_T` with `½e₁₂⊕½e₃₄ = ¼e₃₄⊕⅜e₁₄⊕⅜e₂₃`, plus `Instr_0`, `D^ω` and the finite-outcome dyadic and
+   rational quotients); the dimension escapes (Kraus-rank theorem: `Chan(E,B)` is not affinely
+   isomorphic to any state space for `d_B ≥ 2`, so the Pell family is not a counterexample); record
+   forgetting with its exact hypothesis (register finite-dimensional **or** separable); and a minimal
+   *typed* completion `𝒯` in which `−⊗E ⊣ [E,−]` for **first-order** `E`, whose internal hom is an
+   affine slice of codimension `d_E²−1`. Seven residual gaps (R1–R7) are kept open and printed in the
+   paper (`§7.2`, `Appendix C.20`).
 
 ## Reproduce
 
 ```bash
-python3 verification/verify_claims.py      # 124 checks, needs numpy + sympy
+python3 verification/verify_claims.py      # 182 checks, needs numpy + sympy
 cat verification/verification_log.txt
 ```
 

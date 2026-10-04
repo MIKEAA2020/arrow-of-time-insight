@@ -637,10 +637,37 @@ Corrections to *this document*:
 
 ---
 
+## 10. Third-pass addendum — the open-problems source note
+
+A further source arrived with Revision 2.3: `uploads/sonnet time open problems.txt`, a 832-line working
+note claiming to resolve the four open problems of §7.2. It is adjudicated **claim by claim** in
+`audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md` (statuses *correct / correct-after-repair / conditional /
+superseded / unverified / gap / residual gap*, each with evidence and an integration action), and its
+quantitative content is re-derived in `verification/verify_claims.py`, section **L** (checks L1–L20;
+suite total 182 checks, 0 FAIL).
+
+Docket entries:
+
+| D | Finding | Disposition |
+|---|---|---|
+| D25 | The note's part-1 `cg` theorem rests on "semialgebraic bookkeeping" its own §5 lists as unwritten, and its dimension step cannot see `B = ℂ` | **not used**; replaced by the quadrilateral proof (App. C.8) and, at the `Chan` level, by the Kraus-rank theorem (App. C.2); ledger C79 |
+| D26 | The note's `Instr_0` connectedness count `d_V² = d_E²(d_B²−1)+1` is **escape-prone** for general `B`: it *is* a square exactly on the Pell boundary `d_B = d_E/2` | corrected in App. C.10 by making C.2 the engine; recorded as row B4 of `audits/05`; ledger C74 |
+| D27 | The note's infinities are unevenly justified (Arveson step and face-partition argument not re-derived; measurable-outcome `cg` needs a disintegration check; non-normal states only for finite-dimensional `E`) | two of its infinite-dimensional theorems are recorded as **conditional and unused** (R4); the measurable-outcome and non-normal cases are kept as residual gaps R2, R3; ledger C76, C81 |
+| D28 | The note's typed-completion counit is Bell post-selection, i.e. a *typed* morphism, trace-preserving only on the admissible slice | printed that way, with the off-slice trace defect computed (1.072/0.989/1.011 for three random examples; the note's "0.97" is one instance, not a theorem); `audits/05` Gate 3 table; ledger C78 |
+| D29 | The note's "findings that are true but unused": the face-of-dimension-2 invariant for non-separable `Chan`; the semialgebraic route; the source's `Thm 7` | recorded as unverified/unused (R6, R4) rather than promoted; nothing in the paper depends on them |
+| D30 | The note's priority-relevant content vs the author's companions | no new priority claim arises: the note's results are a *revision* of the manuscript's own open problems, and the companion overlaps (square-gap, intercept) were already delimited in §5.5 |
+
+Consequences for the manuscript: Appendix C (C.1–C.20) added with proofs; §7.2 rewritten from
+"open" to *closed / closed under hypotheses / open* with the residual gaps R1–R7 kept visible; §4.4 and
+Rem. 4.10 re-pointed at C.2–C.3; abstract, Appendix A and the reference list [15] updated. Nothing from
+the note is presented as a theorem unless it is re-derived here or printed with its hypotheses.
+
+---
+
 ## Appendix A — Reproduction
 
 ```
-python3 verification/verify_claims.py          # 111 checks, all PASS
+python3 verification/verify_claims.py          # 182 checks, all PASS
 cat verification/verification_log.txt          # captured output used throughout this audit
 ```
 
