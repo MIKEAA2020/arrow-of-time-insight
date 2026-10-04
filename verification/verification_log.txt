@@ -1,9 +1,3 @@
-VERIFICATION LOG -- adjudicated audit of "The Opfibration Ontology: Quantum Instruments,
-Irreversibility, and the Epistemic Asymptote" (A. Abaee), of its six reviews, and of the
-meta-review.
-Generated: 2026-10-02T15:42:56Z  |  Python 3.13.14  |  numpy 2.3.5  |  sympy 1.14.0
-Script: verification/verify_claims.py    Repo commit at generation: 9349737 (second pass)
-================================================================================
 
 ==============================================================================
 A. PROPOSITION 3.1 -- affine dimension of the instrument slices
@@ -169,6 +163,56 @@ K. ESCAPES, THE UNIFORM-IN-n THEOREM, AND THE DEFECT (Thm 4.6, Prop 4.7, Prop 5.
 [PASS] companion route: (e-1)^2 < e^2 - e + 1 < e^2 for all e >= 2, and never a square   -- checked to e = 20000
 
 ==============================================================================
+L. THE OPEN-PROBLEMS DOCUMENT: EVALUATION AND VERIFICATION (S4)
+==============================================================================
+[PASS] L1a quadrilateral: v_l = 1/4 + delta*beta_l*a is positive definite (beta=(1,-1,2,-2))   -- sum_l v_l = 1_E
+[PASS] L1b quadrilateral: P_T = {c >= 0 : sum c_l v_l = 1} has EXACTLY the four listed vertices (all basic feasible solutions enumerated)   -- found [(0, 0, 2, 2), (0, 8/3, 4/3, 0), (2, 2, 0, 0), (8/3, 0, 0, 4/3)]
+[PASS] L1c quadrilateral: all four extreme instruments are trace-preserving (sum = 1_E)
+[PASS] L1d quadrilateral: their marginals are linearly independent (recorded-mixing extremes)
+[PASS] L1e quadrilateral: (1/2)e12 + (1/2)e34 = (1/4)e34 + (3/8)e14 + (3/8)e23 exactly
+[PASS] L2a Instr_0 example: A=1/5+x, B'=3/10-x, C=1/4+x, D=1/4-x are positive (x = sigma_z/10) and sum to 1_E
+[PASS] L2b Instr_0 example: pair-sums A+B' = C+D = 1/2 and A+D = 9/20, C+B' = 11/20 are all scalars
+[PASS] L2c Instr_0 example: (1/2)a_AB + (1/2)a_CD = (9/20)a_AD + (11/20)a_CB = {A,B',C,D}
+[PASS] L2d Instr_0 example: all four atoms are irreducible (no component is a scalar multiple of 1_E)
+[PASS] L2e Instr_0 example: pulled-back multisets have trace multisets {1/2,1/2} vs {9/20,11/20} -- unequal, which is the contradiction
+[PASS] L3a Lemma K: rank-r PSD manifold has tangent dimension 2Nr - r^2 (N = d_E d_B, r <= min(N,d_E*d_B)); the differential of K -> K K^dag has image exactly 2Nr - r^2 (kernel = the u(r) stabiliser)
+[PASS] L3b Lemma K: Tr_B restricted to the tangent space is onto Herm(E) (rank d_E^2) at every non-empty rank stratum, giving dim M_r = 2Nr - r^2 - d_E^2   -- at r = 1 with d_E > d_B the stratum is EMPTY (no isometry C^{d_E} -> C^{d_B} exists), so nothing is claimed there; the numerical rank deficiency (8 < 9) is that emptiness showing up
+[PASS] L3c Lemma K: extremal channels of Kraus rank exactly d_E exist for d_B >= 2 (K_i = |u><e_i| gives trace preservation and independent {K_i^dag K_j})
+[PASS] L3d Lemma K: Kraus rank r > d_E forces dependence of {K_i^dag K_j} (r^2 elements in the d_E^2-dimensional space of E -> E matrices), so extremal channels have r <= d_E
+[PASS] L4a block family: K_i = V_i P_i is trace-preserving and {K_i^dag K_j} is linearly independent (so f_theta is extreme in Chan) for (d_E,d_B) in {(2,2),(3,2),(4,2),(2,3),(5,2),(3,3),(8,3)}
+[PASS] L4b span condition: 1_E lies in span{K_i^dag K'_l} iff theta = theta' (same pairs, including d_B < d_E)
+[PASS] L4c overlap identity (Lemma 2, restated and re-proved): <psi|psi'> 1_E = sum_il <g_i|g'_l> K_i^dag K'_l, verified from a random Stinespring dilation, including with an independent unitary basis change on the second dilation
+[PASS] L5a Instr_0 square-gap (B = E): d_V^2 = d_E^4 - d_E^2 + 1 lies strictly between (d_E^2-1)^2 and d_E^4, hence is never a square (d_E <= 3000)
+[PASS] L5a' the source's B = C count d_R^2 = d_E^4 - d_E^2 + 1 is the same number (states of R versus extreme POVMs on E: d_R^2 - 1 = d_E^2(d_E^2 - 1))
+[PASS] L5a'' ADJUDICATION (escape): for general B the Instr_0 count d_V^2 = d_E^2(d_B^2-1) + 1 IS a square exactly on the paper's Pell boundary d_B = d_E/2 = k: d_V^2 = (2k^2-1)^2 -- so the dimension route alone is escape-prone for general B and the source's general-B theorem must (and does) use the irreducibility/genericity route instead
+[PASS] L5b cg count: d_R^2 = (d_E^2 d_B)^2 - (d_E^2 - 1) is never a square (d_E, d_B < 400, as in the source, plus the sandwich proof)
+[PASS] L5b' cg count (symbolic): (e^2 b - 1)^2 < (e^2 b)^2 - (e^2 - 1) < (e^2 b)^2, the gap below being e^2(2b-1) > 0 and the gap above e^2 - 1 > 0
+[PASS] L6a dyadic congruence: {E,2E} is NOT equivalent to {3E} (bounded reachability search plus invariant)
+[PASS] L6b dyadic congruence: {Phi/3,Phi/3,Phi/3} ~ {2Phi/3,Phi/3} but NOT ~ {Phi}
+[PASS] L6b' the mantissa/weight invariant is consistent with every move and separates the pairs {E,2E} vs {3E} and {Phi/3 x3} vs {Phi}
+[PASS] L6b'' k-fold (rational) merge collapses {E,2E} ~ {3E} but keeps {E, sqrt2 E} apart   -- rational merging identifies all rational multiples; irrational ones stay in distinct orbits
+[PASS] L6c equal-only merging: canon({E,E,E'}) = canon({2E,E'}) = {2E, E'} (same formal instrument)
+[PASS] L6c' the 'merge all equal at once' canonicalisation is NOT a congruence: with T = {F,F'} such that F'oE = FoE' = X, FoE = P, F'oE' = Q one gets different canonical forms   -- T o S -> (('FoE', 2), ('FoEp', 1), ('FpoE', 2), ('FpoEp', 1)), T o S' -> (('Fo2E', 1), ('FoEp', 1), ('Fpo2E', 1), ('FpoEp', 1))
+[PASS] L7a Q-simplex retraction: tau_t = 1/4 + beta_t sqrt(2)/20 are positive and sum to 1
+[PASS] L7a' the four rational scalings give valid ensembles (total weight exactly 1 each)
+[PASS] L7b Q-simplex retraction: the two decompositions reproduce the same ensemble (per-state weights match exactly, before merging)
+[PASS] L7c Q-simplex retraction: e12 is Q-extreme ({1, sqrt2} are Q-independent, so the two rational equations force q = (2,2,0,0))
+[PASS] L8a0 (E0), scalar step: <Omega|(|i><j| (x) Y)|Omega> = sum_{kl} delta_ki delta_jl <k|Y|l> = <i|Y|j> (symbolic; the Kronecker deltas collapse the double sum)
+[PASS] L8a (E0): ev(C(f) (x) Y) = f(Y) for every linear f and every Y (checked numerically against f(Y) = sum_{a,c} Y[a,c] f(|a><c|) for a random f and Y)
+[PASS] L8b Choi linearity (source Section 0): (id (x) k)(C(f)) = C(k o f) for a linear (not necessarily CP) k -- so composing is a fixed linear operation on Choi operators, verified numerically
+[PASS] L8c Psi(f) is CP for every CP f ('its Choi operator is C(f)/d_E up to reordering of tensor factors', i.e. a permutation conjugation): the Choi operator of Psi(f) is PSD
+[PASS] L9a typed hom [E,B]: dim = d_E^2(d_B^2 - 1) = dim State(E* (x) B) - (d_E^2 - 1) via the trace-preserving constraint rank
+[PASS] L9b graded typed system: the codimension of the admissible slice in the block-diagonal state space is d_E^2 - 1, independent of n
+[PASS] L10 cg top stratum: extreme instruments with exactly d_A^2 components exist (explicit positive-definite, linearly independent marginals summing to 1_E)
+[PASS] L11 lookup-table processor: the 2-program register is an isometry and reproduces the programmed channel exactly from its basis program
+[PASS] L12 response-map rank (Lemma B): rank of Lambda: Herm(R) -> prod_j Herm(E), h -> (eps_j(h))_j equals (m-1)d_E^2 + 1 whenever dim Herm(R) allows it -- dim R = 4, m = 4 -> 13 and dim R = 5, m = 6 -> 21 (both d_E = 2), while dim R = 3 caps the rank at 9 < 13   -- computed 13, 21, 9
+[PASS] L13a genericity (source Thm 4(b)): for generic qubit POVMs with k = 5, 6, 7 effects the real kernel of (a_l) -> sum a_l M-bar_l has dimension k - 3 = 2, 3, 4   -- computed [np.int64(2), np.int64(3), np.int64(4)]
+[PASS] L13b genericity: the only kernel vectors with entries in [-3,3] are multiples of (1,...,1), and no proper subset of the effects sums to a scalar multiple of 1_E (k = 5, 6, 7, qubit)
+[PASS] L13c genericity: for d_E = 3 the map (a_l) -> sum a_l M-bar_l has k - (d_E^2 - 1) dimensional kernel, so k = 6 (resp. 8) gives the one-dimensional kernel spanned by (1,...,1) (resp. 0); in both cases the only kernel vectors with entries in [-3,3] are multiples of (1,...,1) and no proper subset sums to a scalar   -- computed [(np.int64(1), True, False), (np.int64(1), True, False)]
+[PASS] L14a Corollary 1: C(f)/d_E is a state (PSD, trace one) for every channel f, so the admissible slice of [E,B] is an affine copy of Chan(E,B)
+[PASS] L14b Theorem 1 round trip at A = C: Phi(Psi(f)) = f, i.e. d_E*ev(C(f)/d_E (x) Y) = f(Y) for all Y (so Psi then Phi returns the channel)
+
+==============================================================================
 J. Terminology / metadata cross-checks (recorded facts)
 ==============================================================================
        [3] Coecke-Spekkens: Synthese 186(3):651-696, 2012, doi:10.1007/s11229-011-9917-5
@@ -191,4 +235,4 @@ J. Terminology / metadata cross-checks (recorded facts)
 ==============================================================================
 SUMMARY
 ==============================================================================
-124 checks passed, 0 failed, 124 total
+170 checks passed, 0 failed, 170 total

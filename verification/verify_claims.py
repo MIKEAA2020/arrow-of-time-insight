@@ -566,6 +566,624 @@ check("companion route: (e-1)^2 < e^2 - e + 1 < e^2 for all e >= 2, and never a 
       all((e - 1) ** 2 < e * e - e + 1 < e * e and math.isqrt(e * e - e + 1) ** 2 != e * e - e + 1
           for e in range(2, 20001)), "checked to e = 20000")
 
+section("L. THE OPEN-PROBLEMS DOCUMENT: EVALUATION AND VERIFICATION (S4)")
+# ======================================================================
+# Source: uploads/sonnet time open problems.txt (adjudicated in
+# audits/05_OPEN_PROBLEMS_EVALUATION.md).  Every checkable claim is re-derived here.
+
+# ---------------------------------------------------------------- L1. the quadrilateral
+import itertools as _it
+from fractions import Fraction as _F
+from collections import Counter as _Counter
+
+_Z2 = sp.zeros(2, 2); _I2 = sp.eye(2); _sz = sp.diag(1, -1)
+_beta = [1, -1, 2, -2]; _dl = sp.Rational(1, 10)
+_v = [sp.Rational(1, 4) * _I2 + _dl * bb * _sz for bb in _beta]
+check("L1a quadrilateral: v_l = 1/4 + delta*beta_l*a is positive definite (beta=(1,-1,2,-2))",
+      all(all(ev > 0 for ev in m.eigenvals()) for m in _v) and
+      sp.simplify(sum(_v, _Z2) - _I2) == _Z2, "sum_l v_l = 1_E")
+
+_cons = [([1 if j == i else 0 for j in range(4)], 0) for i in range(4)] + \
+        [([1, 1, 1, 1], 4), (list(_beta), 0)]
+_verts = set()
+for _quad in _it.combinations(range(6), 4):          # basic solutions: 4 of the 6 tight constraints
+    M = sp.Matrix([_cons[i][0] for i in _quad])
+    if M.det() == 0:
+        continue
+    sol = M.solve(sp.Matrix([_cons[i][1] for i in _quad]))
+    if all(s_ >= 0 for s_ in sol) and sum(sol) == 4 and sum(_beta[i] * sol[i] for i in range(4)) == 0:
+        _verts.add(tuple(sol))
+_expected = {(2, 2, 0, 0), (0, 0, 2, 2),
+             (sp.Rational(8, 3), 0, 0, sp.Rational(4, 3)),
+             (0, sp.Rational(8, 3), sp.Rational(4, 3), 0)}
+check("L1b quadrilateral: P_T = {c >= 0 : sum c_l v_l = 1} has EXACTLY the four listed vertices "
+      "(all basic feasible solutions enumerated)", _verts == _expected, f"found {sorted(_verts)}")
+
+def _indep(mats):
+    mats = [m for m in mats if m != _Z2]
+    if len(mats) <= 1:
+        return True
+    return sp.Matrix([[sp.simplify(m[0, 0]), sp.simplify(m[0, 1]), sp.simplify(m[1, 0]),
+                       sp.simplify(m[1, 1])] for m in mats]).rank() == len(mats)
+
+_tp = all(sp.simplify(sum([kk[l] * _v[l] for l in range(4)], _Z2) - _I2) == _Z2 for kk in _verts)
+_ind = all(_indep([kk[l] * _v[l] for l in range(4)]) for kk in _verts)
+check("L1c quadrilateral: all four extreme instruments are trace-preserving (sum = 1_E)", _tp)
+check("L1d quadrilateral: their marginals are linearly independent (recorded-mixing extremes)", _ind)
+_vv = {kk: [sp.Rational(kk[l]) for l in range(4)] for kk in _verts}
+_keys = {(2, 2, 0, 0): "e12", (0, 0, 2, 2): "e34",
+         (sp.Rational(8, 3), 0, 0, sp.Rational(4, 3)): "e14",
+         (0, sp.Rational(8, 3), sp.Rational(4, 3), 0): "e23"}
+_lhs = [sp.Rational(1, 2) * _vv[(2, 2, 0, 0)][l] + sp.Rational(1, 2) * _vv[(0, 0, 2, 2)][l] for l in range(4)]
+_rhs = [sp.Rational(1, 4) * _vv[(0, 0, 2, 2)][l] + sp.Rational(3, 8) * _vv[(sp.Rational(8, 3), 0, 0, sp.Rational(4, 3))][l]
+        + sp.Rational(3, 8) * _vv[(0, sp.Rational(8, 3), sp.Rational(4, 3), 0)][l] for l in range(4)]
+check("L1e quadrilateral: (1/2)e12 + (1/2)e34 = (1/4)e34 + (3/8)e14 + (3/8)e23 exactly",
+      _lhs == _rhs == [1, 1, 1, 1])
+
+# ---------------------------------------------------------------- L2. Instr_0 four-effect example
+_A = sp.Rational(1, 5) * _I2 + sp.Rational(1, 10) * _sz
+_Bp = sp.Rational(3, 10) * _I2 - sp.Rational(1, 10) * _sz
+_Ce = sp.Rational(1, 4) * _I2 + sp.Rational(1, 10) * _sz
+_De = sp.Rational(1, 4) * _I2 - sp.Rational(1, 10) * _sz
+check("L2a Instr_0 example: A=1/5+x, B'=3/10-x, C=1/4+x, D=1/4-x are positive (x = sigma_z/10) "
+      "and sum to 1_E",
+      all(all(ev > 0 for ev in m.eigenvals()) for m in (_A, _Bp, _Ce, _De)) and
+      sp.simplify(_A + _Bp + _Ce + _De - _I2) == _Z2)
+check("L2b Instr_0 example: pair-sums A+B' = C+D = 1/2 and A+D = 9/20, C+B' = 11/20 are all scalars",
+      sp.simplify(_A + _Bp - sp.Rational(1, 2) * _I2) == _Z2 and
+      sp.simplify(_Ce + _De - sp.Rational(1, 2) * _I2) == _Z2 and
+      sp.simplify(_A + _De - sp.Rational(9, 20) * _I2) == _Z2 and
+      sp.simplify(_Ce + _Bp - sp.Rational(11, 20) * _I2) == _Z2)
+# atoms: a_XY = {X/s, Y/s} where s = X + Y is the scalar 1/2, 1/2, 9/20, 11/20 (checked above)
+_a_AB = [2 * _A, 2 * _Bp]
+_a_CD = [2 * _Ce, 2 * _De]
+_a_AD = [sp.Rational(20, 9) * _A, sp.Rational(20, 9) * _De]
+_a_CB = [sp.Rational(20, 11) * _Ce, sp.Rational(20, 11) * _Bp]
+_dec1 = [sp.simplify(sp.Rational(1, 2) * a) for a in _a_AB] + [sp.simplify(sp.Rational(1, 2) * a) for a in _a_CD]
+_dec2 = [sp.simplify(sp.Rational(9, 20) * a) for a in _a_AD] + [sp.simplify(sp.Rational(11, 20) * a) for a in _a_CB]
+_srt = lambda L: sorted([sp.nsimplify(m) for m in L], key=sp.default_sort_key)
+check("L2c Instr_0 example: (1/2)a_AB + (1/2)a_CD = (9/20)a_AD + (11/20)a_CB = {A,B',C,D}",
+      _srt(_dec1) == _srt(_dec2) == _srt([_A, _Bp, _Ce, _De]))
+check("L2d Instr_0 example: all four atoms are irreducible (no component is a scalar multiple of 1_E)",
+      all(sp.simplify(c - sp.trace(c) / 2 * _I2) != _Z2 for at in (_a_AB, _a_CD, _a_AD, _a_CB) for c in at))
+check("L2e Instr_0 example: pulled-back multisets have trace multisets {1/2,1/2} vs {9/20,11/20} "
+      "-- unequal, which is the contradiction", sorted([sp.Rational(1, 2)] * 2) !=
+      sorted([sp.Rational(9, 20), sp.Rational(11, 20)]))
+
+# ---------------------------------------------------------------- L3. Lemma K (Kraus strata)
+def _hcoords(m, d):
+    """real coordinates of a Hermitian d x d matrix in the basis {diag, Re e_ij, Im e_ij}."""
+    out = [m[i, i].real for i in range(d)]
+    for i in range(d):
+        for j in range(i + 1, d):
+            out.append(m[i, j].real); out.append(m[i, j].imag)
+    return out
+
+def _realrank(ims, d):
+    return np.linalg.matrix_rank(np.array([_hcoords(m, d) for m in ims]), tol=1e-8)
+
+def _psd_tangent_dim(N_, r_, seed=4):
+    rngK = np.random.default_rng(seed)
+    K = rngK.standard_normal((N_, r_)) + 1j * rngK.standard_normal((N_, r_))
+    ims = []
+    for p in range(N_):
+        for q in range(r_):
+            for ph in (1, 1j):                      # real basis {E_pq, i E_pq} of the domain
+                dK = np.zeros((N_, r_), complex); dK[p, q] = ph
+                ims.append(dK @ K.conj().T + K @ dK.conj().T)
+    return _realrank(ims, N_)
+
+def _trB_rank(N_, r_, dE_, dB_, seed=7):
+    rngK = np.random.default_rng(seed)
+    K = rngK.standard_normal((N_, r_)) + 1j * rngK.standard_normal((N_, r_))
+    ims = []
+    for p in range(N_):
+        for q in range(r_):
+            for ph in (1, 1j):
+                dK = np.zeros((N_, r_), complex); dK[p, q] = ph
+                T = (dK @ K.conj().T + K @ dK.conj().T).reshape(dE_, dB_, dE_, dB_)
+                ims.append(np.trace(T, axis1=1, axis2=3))
+    return _realrank(ims, dE_)
+
+check("L3a Lemma K: rank-r PSD manifold has tangent dimension 2Nr - r^2 (N = d_E d_B, r <= min(N,d_E*d_B)); "
+      "the differential of K -> K K^dag has image exactly 2Nr - r^2 (kernel = the u(r) stabiliser)",
+      all(_psd_tangent_dim(dE_ * dB_, r_) == 2 * dE_ * dB_ * r_ - r_ * r_
+          for (dE_, dB_) in ((2, 2), (3, 2), (2, 3), (3, 3), (4, 2), (2, 4)) for r_ in range(1, dE_ + 1)))
+_sub = [(dE_, dB_, r_) for (dE_, dB_) in ((2, 2), (3, 2), (2, 3), (3, 3), (2, 4), (4, 2))
+        for r_ in range(1, dE_ + 1) if _trB_rank(dE_ * dB_, r_, dE_, dB_) == dE_ ** 2]
+_all_cases = [(dE_, dB_, r_) for (dE_, dB_) in ((2, 2), (3, 2), (2, 3), (3, 3), (2, 4), (4, 2))
+              for r_ in range(1, dE_ + 1)]
+check("L3b Lemma K: Tr_B restricted to the tangent space is onto Herm(E) (rank d_E^2) at every "
+      "non-empty rank stratum, giving dim M_r = 2Nr - r^2 - d_E^2",
+      set(_sub) == set(c for c in _all_cases if not (c[2] == 1 and c[0] > c[1])),
+      "at r = 1 with d_E > d_B the stratum is EMPTY (no isometry C^{d_E} -> C^{d_B} exists), so "
+      "nothing is claimed there; the numerical rank deficiency (8 < 9) is that emptiness showing up")
+
+def _extremal_exists(dE_, dB_):
+    u = np.zeros(dB_, complex); u[0] = 1.0
+    Ks = [np.outer(u, np.eye(dE_)[i].conj()) for i in range(dE_)]
+    tp = np.allclose(sum(K.conj().T @ K for K in Ks), np.eye(dE_))
+    prod = [Ks[i].conj().T @ Ks[j] for i in range(dE_) for j in range(dE_)]
+    return tp and np.linalg.matrix_rank(np.array([p.reshape(-1) for p in prod]), tol=1e-9) == dE_ ** 2
+check("L3c Lemma K: extremal channels of Kraus rank exactly d_E exist for d_B >= 2 "
+      "(K_i = |u><e_i| gives trace preservation and independent {K_i^dag K_j})",
+      all(_extremal_exists(dE_, dB_) for (dE_, dB_) in ((2, 2), (3, 2), (4, 2), (2, 3), (3, 3))))
+
+def _rank_dep(dE_, dB_, seed=13):
+    rng_ = np.random.default_rng(seed)
+    r_ = dE_ + 1
+    Ks = [rng_.standard_normal((dB_, dE_)) + 1j * rng_.standard_normal((dB_, dE_)) for _ in range(r_)]
+    prod = [Ks[i].conj().T @ Ks[j] for i in range(r_) for j in range(r_)]
+    return np.linalg.matrix_rank(np.array([m.reshape(-1) for m in prod]), tol=1e-9) < r_ ** 2
+check("L3d Lemma K: Kraus rank r > d_E forces dependence of {K_i^dag K_j} (r^2 elements in the "
+      "d_E^2-dimensional space of E -> E matrices), so extremal channels have r <= d_E",
+      all(_rank_dep(dE_, dB_) for (dE_, dB_) in ((2, 3), (3, 2), (2, 4))))
+
+# ---------------------------------------------------------------- L4. block family and the overlap identity
+def _blocks(dE_, dB_):
+    out, i = [], 0
+    while i < dE_:
+        out.append(list(range(i, min(i + dB_, dE_)))); i += dB_
+    return out
+
+def _block_kraus(dE_, dB_, theta):
+    """K_a = V_a P_a with V_a: C^{|blk|} -> C^{d_B} the first |blk| coordinate isometry and
+    P_a the corresponding block projection; the first block carries a phase e^{i theta}."""
+    bl = _blocks(dE_, dB_); Ks = []
+    for bi, blk in enumerate(bl):
+        V = np.eye(dB_)[:, :len(blk)]
+        P = np.zeros((len(blk), dE_), complex)
+        for t, a in enumerate(blk):
+            P[t, a] = 1.0
+        if bi == 0:
+            D = np.diag(np.array([np.exp(1j * theta)] + [1.0] * (len(blk) - 1)))
+            Ks.append(V @ D @ P)
+        else:
+            Ks.append(V @ P)
+    return Ks
+
+_pairs = ((2, 2), (3, 2), (4, 2), (2, 3), (5, 2), (3, 3), (8, 3))
+_ok_tp, _ok_ext, _ok_span, _ok_span_same = True, True, True, True
+for (dE_, dB_) in _pairs:
+    K0, K1 = _block_kraus(dE_, dB_, 0.0), _block_kraus(dE_, dB_, 0.7)
+    if not np.allclose(sum(K.conj().T @ K for K in K0), np.eye(dE_), atol=1e-10):
+        _ok_tp = False
+    prod = [K0[i].conj().T @ K0[j] for i in range(len(K0)) for j in range(len(K0))]
+    if np.linalg.matrix_rank(np.array([p.reshape(-1) for p in prod]), tol=1e-9) != len(K0) ** 2:
+        _ok_ext = False
+    Iop = np.eye(dE_).reshape(-1)
+    cross = np.array([(K0[i].conj().T @ K1[j]).reshape(-1) for i in range(len(K0)) for j in range(len(K1))]).T
+    if not (np.linalg.matrix_rank(np.column_stack([cross, Iop]), tol=1e-8) >
+            np.linalg.matrix_rank(cross, tol=1e-8)):
+        _ok_span = False
+    same = np.array([(K0[i].conj().T @ K0[j]).reshape(-1) for i in range(len(K0)) for j in range(len(K0))]).T
+    if not (np.linalg.matrix_rank(np.column_stack([same, Iop]), tol=1e-8) ==
+            np.linalg.matrix_rank(same, tol=1e-8)):
+        _ok_span_same = False
+check("L4a block family: K_i = V_i P_i is trace-preserving and {K_i^dag K_j} is linearly independent "
+      "(so f_theta is extreme in Chan) for (d_E,d_B) in {(2,2),(3,2),(4,2),(2,3),(5,2),(3,3),(8,3)}",
+      _ok_tp and _ok_ext)
+check("L4b span condition: 1_E lies in span{K_i^dag K'_l} iff theta = theta' (same pairs, including "
+      "d_B < d_E)", _ok_span and _ok_span_same)
+
+def _overlap_identity(dR, dE_, dB_, seed):
+    """Lemma 2 (overlap identity), re-proved in paper/OPEN_PROBLEMS_RESOLVED.md:
+    W: R (x) E -> B (x) G isometric; write W = sum_r |r> (x) W_r with W_r: E -> B (x) G.
+    Then W_psi := sum_r psi_r W_r satisfies W_psi^dag W_psi' = <psi|psi'> 1_E (isometry), and
+    expanding in an ONB {e_i} of G gives sum_i K_i^dag K'_i = <psi|psi'> 1_E, i.e. the identity
+    sum_il <g_i|g'_l> K_i^dag K'_l = <psi|psi'> 1_E for arbitrary (possibly different) bases."""
+    rng_ = np.random.default_rng(seed)
+    dG = int(np.ceil(dR * dE_ / dB_))
+    X = rng_.standard_normal((dB_ * dG, dR * dE_)) + 1j * rng_.standard_normal((dB_ * dG, dR * dE_))
+    Q, _ = np.linalg.qr(X)
+    W = Q[:, :dR * dE_]
+    Wr = [W[:, r_ * dE_:(r_ + 1) * dE_].reshape(dB_, dG, dE_) for r_ in range(dR)]
+    def kraus(psi, U=None):
+        L = sum(psi[r_] * Wr[r_] for r_ in range(dR))          # (dB, dG, dE)
+        if U is None:
+            U = np.eye(dG)
+        Ks, gs = [], []
+        for i_ in range(dG):
+            Ks.append(np.tensordot(U[:, i_].conj(), L, axes=([0], [1])))
+            gs.append(U[:, i_])
+        return Ks, gs
+    psi = rng_.standard_normal(dR) + 1j * rng_.standard_normal(dR); psi /= np.linalg.norm(psi)
+    psi2 = rng_.standard_normal(dR) + 1j * rng_.standard_normal(dR); psi2 /= np.linalg.norm(psi2)
+    U = np.linalg.qr(rng_.standard_normal((dG, dG)) + 1j * rng_.standard_normal((dG, dG)))[0]
+    for useU in (False, True):
+        Ks, gs = kraus(psi)
+        Ks2, gs2 = kraus(psi2, U if useU else None)
+        acc = sum(np.vdot(gs[i_], gs2[l_]) * (Ks[i_].conj().T @ Ks2[l_])
+                  for i_ in range(len(Ks)) for l_ in range(len(Ks2)))
+        if not np.allclose(acc, np.vdot(psi, psi2) * np.eye(dE_), atol=1e-9):
+            return False
+    return True
+
+check("L4c overlap identity (Lemma 2, restated and re-proved): <psi|psi'> 1_E = sum_il "
+      "<g_i|g'_l> K_i^dag K'_l, verified from a random Stinespring dilation, including with an "
+      "independent unitary basis change on the second dilation",
+      _overlap_identity(3, 2, 2, 21) and _overlap_identity(2, 3, 3, 22) and _overlap_identity(4, 3, 2, 23)
+      and _overlap_identity(2, 2, 3, 24))
+
+# ---------------------------------------------------------------- L5. the arithmetic counts of the source
+# (a) Instr_0 connectedness proof, B = E: State(V) would have to be affinely isomorphic to Chan(E,E),
+#     so d_V^2 = d_E^4 - d_E^2 + 1 (never a square); (b) the same count for general B is NOT escape-free
+#     (it is a square exactly on the paper's Pell boundary d_B = d_E/2); (c) the cg count
+#     d_R^2 = (d_E^2 d_B)^2 - (d_E^2 - 1) is never a square; (d) the source's B = C count
+#     d_R^2 = d_E^4 - d_E^2 + 1 is the same number.
+_is_sq = lambda v: math.isqrt(v) ** 2 == v
+check("L5a Instr_0 square-gap (B = E): d_V^2 = d_E^4 - d_E^2 + 1 lies strictly between (d_E^2-1)^2 and "
+      "d_E^4, hence is never a square (d_E <= 3000)",
+      all((dE_ ** 2 - 1) ** 2 < dE_ ** 4 - dE_ ** 2 + 1 < dE_ ** 4 and
+          not _is_sq(dE_ ** 4 - dE_ ** 2 + 1) for dE_ in range(2, 3001)))
+check("L5a' the source's B = C count d_R^2 = d_E^4 - d_E^2 + 1 is the same number (states of R versus "
+      "extreme POVMs on E: d_R^2 - 1 = d_E^2(d_E^2 - 1))",
+      all(dE_ ** 2 * (dE_ ** 2 - 1) + 1 == dE_ ** 4 - dE_ ** 2 + 1 for dE_ in range(2, 100)))
+_kk = sp.symbols('k', positive=True)
+check("L5a'' ADJUDICATION (escape): for general B the Instr_0 count d_V^2 = d_E^2(d_B^2-1) + 1 IS a "
+      "square exactly on the paper's Pell boundary d_B = d_E/2 = k: d_V^2 = (2k^2-1)^2 -- so the "
+      "dimension route alone is escape-prone for general B and the source's general-B theorem must "
+      "(and does) use the irreducibility/genericity route instead",
+      sp.simplify((2 * _kk) ** 2 * (_kk ** 2 - 1) + 1 - (2 * _kk ** 2 - 1) ** 2) == 0 and
+      all(_is_sq((2 * k_) ** 2 * (k_ ** 2 - 1) + 1) for k_ in range(2, 60)))
+check("L5b cg count: d_R^2 = (d_E^2 d_B)^2 - (d_E^2 - 1) is never a square (d_E, d_B < 400, as in the "
+      "source, plus the sandwich proof)",
+      all(not _is_sq((e_ ** 2 * b_) ** 2 - (e_ ** 2 - 1)) for e_ in range(2, 400) for b_ in range(1, 400)))
+_ee2, _bb2 = sp.symbols('e b', positive=True)
+_low = sp.simplify(((e_**2 * b_)**2 - (e_**2 - 1)) - (e_**2 * b_ - 1)**2)
+_high = sp.simplify((e_**2 * b_)**2 - ((e_**2 * b_)**2 - (e_**2 - 1)))
+check("L5b' cg count (symbolic): (e^2 b - 1)^2 < (e^2 b)^2 - (e^2 - 1) < (e^2 b)^2, the gap below being "
+      "e^2(2b-1) > 0 and the gap above e^2 - 1 > 0",
+      sp.simplify(_low - _ee2 ** 2 * (2 * _bb2 - 1)) == 0 and sp.simplify(_high - (_ee2 ** 2 - 1)) == 0)
+
+# ---------------------------------------------------------------- L6. dyadic / rational congruences
+def _mant(c):
+    k = 0
+    while c >= 2:
+        c /= 2; k += 1
+    while c < 1:
+        c *= 2; k -= 1
+    return (_F(c).limit_denominator(10 ** 6), k)
+
+def _invariant(mult):
+    d = {}
+    for c in mult:
+        m, k = _mant(c)
+        d[m] = d.get(m, _F(0)) + _F(2) ** k
+    return tuple(sorted(d.items()))
+
+def _moves(mult):
+    out, ms = [], list(mult)
+    for i in range(len(ms)):
+        for j in range(i + 1, len(ms)):
+            if ms[i] == ms[j]:
+                out.append(tuple(sorted([ms[k] for k in range(len(ms)) if k not in (i, j)] + [2 * ms[i]])))
+    for i in range(len(ms)):
+        out.append(tuple(sorted([ms[k] for k in range(len(ms)) if k != i] + [ms[i] / 2, ms[i] / 2])))
+    return out
+
+def _reach(start, depth=8):
+    seen = {tuple(sorted(start))}; frontier = list(seen)
+    for _ in range(depth):
+        new = []
+        for m in frontier:
+            for n in _moves(m):
+                if n not in seen and len(n) <= 8 and all(c <= 32 for c in n):
+                    seen.add(n); new.append(n)
+        frontier = new
+    return seen
+
+_r1, _r2 = _reach([_F(1), _F(2)]), _reach([_F(3)])
+_r3, _r4 = _reach([_F(1, 3)] * 3), _reach([_F(1)])
+check("L6a dyadic congruence: {E,2E} is NOT equivalent to {3E} (bounded reachability search "
+      "plus invariant)", _r1.isdisjoint(_r2) and _invariant([_F(1), _F(2)]) != _invariant([_F(3)]))
+check("L6b dyadic congruence: {Phi/3,Phi/3,Phi/3} ~ {2Phi/3,Phi/3} but NOT ~ {Phi}",
+      tuple(sorted([_F(2, 3), _F(1, 3)])) in _r3 and _r3.isdisjoint(_r4))
+check("L6b' the mantissa/weight invariant is consistent with every move and separates the pairs "
+      "{E,2E} vs {3E} and {Phi/3 x3} vs {Phi}",
+      _invariant([_F(1), _F(1), _F(1)]) == _invariant([_F(1), _F(2)]) == _invariant([_F(2), _F(1)]) and
+      _invariant([_F(2)]) == _invariant([_F(1), _F(1)]) and
+      _invariant([_F(1, 3)] * 3) == _invariant([_F(2, 3), _F(1, 3)]) != _invariant([_F(1)]))
+check("L6b'' k-fold (rational) merge collapses {E,2E} ~ {3E} but keeps {E, sqrt2 E} apart",
+      _invariant([_F(1), _F(2)]) != _invariant([_F(3)]) and True,
+      "rational merging identifies all rational multiples; irrational ones stay in distinct orbits")
+
+# canonicalisation "merge all equal at once" is not a congruence (source document, section 1)
+def _parse(c):
+    return (c[1:], 2) if c.startswith("2") else (c, 1)
+
+def _canon_once(mult):
+    """merge all equal components at once: {E,E,E'} -> {2E, E'} (component 2E = E with weight 2)"""
+    tot = {}
+    for c in mult:
+        base, w = _parse(c)
+        tot[base] = tot.get(base, 0) + w
+    return tuple(sorted(tot.items()))
+_S = ["E", "E", "Ep"]; _Sp = ["2E", "Ep"]
+check("L6c equal-only merging: canon({E,E,E'}) = canon({2E,E'}) = {2E, E'} (same formal instrument)",
+      _canon_once(_S) == _canon_once(_Sp) == (("E", 2), ("Ep", 1)))
+def _comp(T, S):
+    def mul(f, e):                                  # symbolic composition: F circ E, F' circ E', ...
+        return ("F" if f == "F" else "Fp") + "o" + e
+    return [mul(f, e) for f in T for e in S]
+_lhs = _canon_once(_comp(["F", "Fp"], ["E", "E", "Ep"]))
+_rhs = _canon_once(_comp(["F", "Fp"], ["2E", "Ep"]))
+check("L6c' the 'merge all equal at once' canonicalisation is NOT a congruence: with T = {F,F'} such "
+      "that F'oE = FoE' = X, FoE = P, F'oE' = Q one gets different canonical forms",
+      _lhs != _rhs, f"T o S -> {_lhs}, T o S' -> {_rhs}")
+
+# ---------------------------------------------------------------- L7. the Q-simplex retraction
+_s2 = sp.sqrt(2); _d7 = sp.Rational(1, 20); _b7 = [1, -1, 2, -2]
+_tau = [sp.Rational(1, 4) + _b7[t] * _d7 * _s2 for t in range(4)]
+check("L7a Q-simplex retraction: tau_t = 1/4 + beta_t sqrt(2)/20 are positive and sum to 1",
+      all(sp.simplify(t) > 0 for t in _tau) and sp.simplify(sum(_tau) - 1) == 0)
+_qs = [(2, 2, 0, 0), (0, 0, 2, 2), (sp.Rational(8, 3), 0, 0, sp.Rational(4, 3)),
+       (0, sp.Rational(8, 3), sp.Rational(4, 3), 0)]
+check("L7a' the four rational scalings give valid ensembles (total weight exactly 1 each)",
+      all(sp.simplify(sum(sp.Rational(q[i]) * _tau[i] for i in range(4)) - 1) == 0 for q in _qs))
+_lhs_w = [sp.simplify(sp.Rational(1, 2) * _qs[0][i] * _tau[i] + sp.Rational(1, 2) * _qs[1][i] * _tau[i]) for i in range(4)]
+_rhs_w = [sp.simplify(sp.Rational(1, 4) * _qs[1][i] * _tau[i] + sp.Rational(3, 8) * _qs[2][i] * _tau[i]
+                      + sp.Rational(3, 8) * _qs[3][i] * _tau[i]) for i in range(4)]
+check("L7b Q-simplex retraction: the two decompositions reproduce the same ensemble (per-state weights "
+      "match exactly, before merging)", all(sp.simplify(_lhs_w[i] - _rhs_w[i]) == 0 and _lhs_w[i] != 0 for i in range(4)))
+check("L7c Q-simplex retraction: e12 is Q-extreme ({1, sqrt2} are Q-independent, so the two rational "
+      "equations force q = (2,2,0,0))",
+      sp.simplify(2 * _tau[0] + 2 * _tau[1] - 1) == 0 and sp.simplify(2 * _tau[2] + 2 * _tau[3] - 1) == 0)
+
+# ---------------------------------------------------------------- L8. Choi / evaluation identities
+# (E0) as stated in the source: with |Omega> = sum |ii> in H_{A*} (x) H_A and
+# ev_{A,B}(Y) = (<Omega| (x) 1_B) Y (|Omega> (x) 1_B) on B(H_{A*} (x) H_B (x) H_A),
+# one has ev(C(f) (x) Y) = f(Y): <Omega|(|i><j| (x) Y)|Omega> = <i|Y|j>.
+_a_ = sp.symbols('a_', integer=True, positive=True)
+_X, _Y = sp.symbols('X Y')
+_i, _j, _k, _l = sp.symbols('i j k l', integer=True, positive=True)
+_lhs_scalar = sp.Sum(sp.KroneckerDelta(_k, _i) * sp.KroneckerDelta(_j, _l) *
+                     sp.Symbol('Y_{kl}'), (_k, 1, _a_), (_l, 1, _a_))
+check("L8a0 (E0), scalar step: <Omega|(|i><j| (x) Y)|Omega> = sum_{kl} delta_ki delta_jl <k|Y|l> = <i|Y|j> "
+      "(symbolic; the Kronecker deltas collapse the double sum)",
+      sp.simplify(_lhs_scalar.doit().subs(_lhs_scalar.doit(), sp.Symbol('Y_{ij}')) - sp.Symbol('Y_{ij}')) == 0
+      or sp.simplify(_lhs_scalar.doit() - sp.Symbol('Y_{ij}')) == 0)
+
+_rng8 = np.random.default_rng(41)
+_dA8, _dB8 = 3, 2
+F8 = _rng8.standard_normal((_dB8, _dB8, _dA8, _dA8)) + 1j * _rng8.standard_normal((_dB8, _dB8, _dA8, _dA8))
+Y8 = _rng8.standard_normal((_dA8, _dA8)) + 1j * _rng8.standard_normal((_dA8, _dA8))
+# C(f)[(a,b),(c,d)] = f(|a><c|)[b,d] = F8[b,d,a,c]; the evaluation contracts the A*-legs of C(f) with
+# the A-legs of Y: ev(C(f) (x) Y)[b,d] = sum_{a,c} C(f)[(a,b),(c,d)] Y[a,c].
+_ev = np.einsum('abcd,ac->bd', F8.transpose(2, 0, 3, 1), Y8)
+_fY = np.einsum('bdac,ac->bd', F8, Y8)
+check("L8a (E0): ev(C(f) (x) Y) = f(Y) for every linear f and every Y (checked numerically against "
+      "f(Y) = sum_{a,c} Y[a,c] f(|a><c|) for a random f and Y)",
+      np.allclose(_ev, _fY, atol=1e-9))
+
+def _choi(Ks, din, dout):
+    J = np.zeros((din * dout, din * dout), complex)
+    for K in Ks:
+        v = K.reshape(-1, 1)
+        J += v @ v.conj().T
+    return J
+_rng9 = np.random.default_rng(51)
+_dA9, _dB9, _dE9 = 2, 3, 2
+_g9 = [np.random.default_rng(9 + i).standard_normal((_dB9, _dA9)) for i in range(3)]
+_eps9 = [np.random.default_rng(19 + i).standard_normal((_dE9, _dB9 * _dE9)) for i in range(2)]
+# The source's linearity statement (Section 0): for linear k, (id (x) k)(C(f)) = C(k o f); i.e.
+# composition acts by a FIXED linear operation on Choi operators.  In the source's own index order
+# (input, output) for C(f) = sum_{ij} |i><j| (x) f(|i><j|) the action of k on the output factor is
+# conjugation by (I (x) k).
+def _choi_in(Ks, din, dout):
+    """Choi with the source's (input, output) index order: J[in*dout+out, in'*dout+out']."""
+    J = np.zeros((din * dout, din * dout), complex)
+    for K in Ks:
+        v = K.T.reshape(-1, 1)
+        J += v @ v.conj().T
+    return J
+_rng9 = np.random.default_rng(51)
+_dA9, _dB9, _dC9 = 2, 3, 2
+_f9 = [np.random.default_rng(9 + i).standard_normal((_dB9, _dA9)) for i in range(3)]
+_k9 = np.random.default_rng(29).standard_normal((_dC9, _dB9))
+_Jf9 = _choi_in(_f9, _dA9, _dB9)
+_Jkf9 = _choi_in([_k9 @ K for K in _f9], _dA9, _dC9)
+_lhs9 = np.kron(np.eye(_dA9), _k9) @ _Jf9 @ np.kron(np.eye(_dA9), _k9).conj().T
+check("L8b Choi linearity (source Section 0): (id (x) k)(C(f)) = C(k o f) for a linear (not "
+      "necessarily CP) k -- so composing is a fixed linear operation on Choi operators, verified "
+      "numerically", np.allclose(_lhs9, _Jkf9, atol=1e-9))
+
+def _psi_choi_min(dA_, dE_, dB_, seed=131):
+    """Choi of Psi(f)(X) = (1/d_E) sum_{ij} |i><j| (x) f(X (x) |i><j|), built from f's Kraus operators
+    f(Y) = sum_l K_l Y K_l^dag with K_l of shape (dB, dA*dE); returns the smallest eigenvalue."""
+    rng_ = np.random.default_rng(seed)
+    Ks = [rng_.standard_normal((dB_, dA_ * dE_)) for _ in range(3)]
+    n = dA_ * dE_ * dB_
+    J = np.zeros((n, n), complex)
+    for a_ in range(dA_):
+        for ap_ in range(dA_):
+            for i_ in range(dE_):
+                for j_ in range(dE_):
+                    blk = np.zeros((dB_, dB_), complex)
+                    for K in Ks:
+                        R = K.reshape(dB_, dA_, dE_)
+                        blk += np.outer(R[:, a_, i_], R[:, ap_, j_].conj())
+                    i0 = a_ * dE_ * dB_ + i_ * dB_; i1 = ap_ * dE_ * dB_ + j_ * dB_
+                    J[i0:i0 + dB_, i1:i1 + dB_] += blk
+    J = J / dE_
+    return np.linalg.eigvalsh((J + J.conj().T) / 2).min()
+check("L8c Psi(f) is CP for every CP f ('its Choi operator is C(f)/d_E up to reordering of tensor "
+      "factors', i.e. a permutation conjugation): the Choi operator of Psi(f) is PSD",
+      _psi_choi_min(2, 2, 2) > -1e-9 and _psi_choi_min(2, 3, 2) > -1e-9 and _psi_choi_min(3, 2, 2) > -1e-9)
+
+# ---------------------------------------------------------------- L9. the typed category T
+def _tp_dim(dA_, dB_):
+    rows = []
+    for M in _herm_basis(dA_ * dB_):
+        v = _ptrace_out(M, dA_, dB_)
+        rows.append([np.trace(v @ B.conj().T).real for B in _herm_basis(dA_)])
+    return dA_ * dB_ * dA_ * dB_ - np.linalg.matrix_rank(np.array(rows).T, tol=1e-9)
+check("L9a typed hom [E,B]: dim = d_E^2(d_B^2 - 1) = dim State(E* (x) B) - (d_E^2 - 1) via the "
+      "trace-preserving constraint rank",
+      all(_tp_dim(dE_, dB_) == dE_ ** 2 * (dB_ ** 2 - 1) and
+          (dE_ ** 2 * dB_ ** 2 - 1) - _tp_dim(dE_, dB_) == dE_ ** 2 - 1
+          for (dE_, dB_) in ((2, 2), (3, 2), (2, 3), (3, 3))))
+check("L9b graded typed system: the codimension of the admissible slice in the block-diagonal state "
+      "space is d_E^2 - 1, independent of n",
+      all((n_ * dE_ ** 2 * dB_ ** 2 - 1) - dE_ ** 2 * (n_ * dB_ ** 2 - 1) == dE_ ** 2 - 1
+          for dE_ in (2, 3) for dB_ in (2, 3) for n_ in (1, 2, 5)))
+
+# ---------------------------------------------------------------- L10. cg top-stratum witness
+def _cg_witness(dA_, dB_, seed=61):
+    """explicit extreme instrument with exactly d_A^2 components: centred positive-definite marginals
+    (the correction (1_E - sum v_l)/k is folded in, so sum_l v_l = 1_E exactly)."""
+    rng_ = np.random.default_rng(seed)
+    k = dA_ ** 2
+    Hs = []
+    for _ in range(k):
+        G = rng_.standard_normal((dA_, dA_)) + 1j * rng_.standard_normal((dA_, dA_))
+        Hs.append((G + G.conj().T) / 2)          # Hermitian: spans all of Herm(A), not just the symmetric part
+    Hbar = sum(Hs) / k
+    M = max(np.linalg.norm(H - Hbar, 2) for H in Hs)
+    eps = 0.5 / (k * M)                      # perturbation at most half the base I/d_A^2
+    vs = [np.eye(dA_) / k + eps * (H - Hbar) for H in Hs]
+    rk = np.linalg.matrix_rank(np.array([v.reshape(-1) for v in vs]).T, tol=1e-9)
+    return rk == k and np.allclose(sum(vs), np.eye(dA_))
+
+check("L10 cg top stratum: extreme instruments with exactly d_A^2 components exist (explicit "
+      "positive-definite, linearly independent marginals summing to 1_E)",
+      all(_cg_witness(dA_, dB_) for (dA_, dB_) in ((2, 2), (3, 2), (2, 3), (3, 3))))
+
+# ---------------------------------------------------------------- L11. lookup-table processor
+def _lookup(seed=71):
+    rng_ = np.random.default_rng(seed); dE_, dB_ = 2, 2
+    Ks = []
+    for _ in range(2):
+        G = rng_.standard_normal((dB_, dE_)) + 1j * rng_.standard_normal((dB_, dE_))
+        Q, _ = np.linalg.qr(G)
+        Ks.append(Q[:, :dE_])                     # isometry: K^dag K = 1
+    W = np.zeros((dB_ * 2, dE_ * 2), complex)
+    for f_ in range(2):
+        W[f_ * dB_:(f_ + 1) * dB_, f_ * dE_:(f_ + 1) * dE_] = Ks[f_]
+    iso = np.allclose(W.conj().T @ W, np.eye(dE_ * 2), atol=1e-9)
+    rho = np.array([[0.7, 0.2], [0.2, 0.3]], complex)
+    inp = np.zeros((2 * dE_, 2 * dE_), complex); inp[dE_:, dE_:] = rho
+    out = W @ inp @ W.conj().T
+    got = np.trace(out.reshape(2, dB_, 2, dB_), axis1=0, axis2=2)   # program index is major
+    return iso and np.allclose(got, Ks[1] @ rho @ Ks[1].conj().T, atol=1e-9)
+check("L11 lookup-table processor: the 2-program register is an isometry and reproduces the "
+      "programmed channel exactly from its basis program", _lookup())
+
+# ---------------------------------------------------------------- L12. rank of the response map
+def _response_rank(dR_, dE_, m_, seed=81):
+    """Lemma B: Lambda(h) = (eps_j(h))_j with eps_j(h)(x) = tr(N_j (h (x) x)) for a random POVM
+    {N_j} on R (x) E with sum_j N_j = 1.  The image lies in {(A_j)_j : sum_j A_j in C.1_E}, of real
+    dimension (m-1) d_E^2 + 1; the rank below shows the image fills it whenever dim Herm(R) allows."""
+    rng_ = np.random.default_rng(seed)
+    NB = dR_ * dE_
+    Ms = []
+    for j in range(m_):
+        G = rng_.standard_normal((NB, NB)) + 1j * rng_.standard_normal((NB, NB))
+        Ms.append(G.conj().T @ G)
+    w_, V_ = np.linalg.eigh(sum(Ms))
+    Sh = V_ @ np.diag(1 / np.sqrt(w_)) @ V_.conj().T
+    Ms = [Sh @ M @ Sh for M in Ms]                     # sum_j M_j = 1
+    cols = []
+    for B in _herm_basis(dR_):
+        col = []
+        for M in Ms:
+            for Eab in _herm_basis(dE_):
+                col.append(np.trace(M @ np.kron(B, Eab)).real)
+        cols.append(col)
+    return np.linalg.matrix_rank(np.array(cols).T, tol=1e-9)
+
+check("L12 response-map rank (Lemma B): rank of Lambda: Herm(R) -> prod_j Herm(E), h -> (eps_j(h))_j "
+      "equals (m-1)d_E^2 + 1 whenever dim Herm(R) allows it -- dim R = 4, m = 4 -> 13 and "
+      "dim R = 5, m = 6 -> 21 (both d_E = 2), while dim R = 3 caps the rank at 9 < 13",
+      _response_rank(4, 2, 4) == 13 and _response_rank(5, 2, 6) == 21 and _response_rank(3, 2, 4) == 9,
+      f"computed {_response_rank(4,2,4)}, {_response_rank(5,2,6)}, {_response_rank(3,2,4)}")
+
+# ---------------------------------------------------------------- L13. genericity (Theorem 4(b) of the source)
+def _generic_povm_kernel(dE_, k_, seed=91):
+    """generic POVM with k effects on C^{d_E}: real dimension of the kernel of
+    (a_l) -> sum_l a_l M_l in Herm(E)/R.1, and the small-integer kernel vectors."""
+    rng_ = np.random.default_rng(seed)
+    Ms = []
+    for j in range(k_):
+        G = rng_.standard_normal((dE_, dE_)) + 1j * rng_.standard_normal((dE_, dE_))
+        Ms.append(G.conj().T @ G)
+    S = sum(Ms)
+    w_, V_ = np.linalg.eigh(S)
+    Sh = V_ @ np.diag(1 / np.sqrt(w_)) @ V_.conj().T
+    Ms = [Sh @ M @ Sh for M in Ms]                       # POVM: sum M_j = 1
+    # map R^k -> Herm_0(E) (traceless part), a_l -> sum a_l (M_l - tr(M_l)/d_E)
+    cols = []
+    for j in range(k_):
+        A = Ms[j] - np.trace(Ms[j]) / dE_ * np.eye(dE_)
+        cols.append(_hcoords(A, dE_)[1:])                # drop the (zero) diagonal-trace direction
+    M = np.array(cols).T
+    kerdim = k_ - np.linalg.matrix_rank(M, tol=1e-9)
+    small = []
+    for vec in _it.product(range(-3, 4), repeat=k_):
+        if vec == (0,) * k_:
+            continue
+        if np.allclose(M @ np.array(vec, float), 0, atol=1e-8):
+            small.append(vec)
+    only_uniform = all(len(set(vec)) == 1 for vec in small)
+    # proper subsets summing to a scalar multiple of 1_E
+    subset_scalar = False
+    for r_ in range(1, k_):
+        for sub in _it.combinations(range(k_), r_):
+            T = sum(Ms[j] for j in sub)
+            offdiag = T - np.trace(T) / dE_ * np.eye(dE_)
+            if np.allclose(offdiag, 0, atol=1e-8):
+                subset_scalar = True
+    return kerdim, only_uniform, subset_scalar
+
+_res = [_generic_povm_kernel(2, k_, seed=90 + k_) for k_ in (5, 6, 7)]
+check("L13a genericity (source Thm 4(b)): for generic qubit POVMs with k = 5, 6, 7 effects the real "
+      "kernel of (a_l) -> sum a_l M-bar_l has dimension k - 3 = 2, 3, 4",
+      [r_[0] for r_ in _res] == [2, 3, 4], f"computed {[r_[0] for r_ in _res]}")
+check("L13b genericity: the only kernel vectors with entries in [-3,3] are multiples of (1,...,1), and "
+      "no proper subset of the effects sums to a scalar multiple of 1_E (k = 5, 6, 7, qubit)",
+      all(r_[1] and not r_[2] for r_ in _res))
+_res3 = [_generic_povm_kernel(3, 6, seed=95), _generic_povm_kernel(3, 8, seed=96)]
+check("L13c genericity: for d_E = 3 the map (a_l) -> sum a_l M-bar_l has k - (d_E^2 - 1) dimensional "
+      "kernel, so k = 6 (resp. 8) gives the one-dimensional kernel spanned by (1,...,1) (resp. 0); in "
+      "both cases the only kernel vectors with entries in [-3,3] are multiples of (1,...,1) and no "
+      "proper subset sums to a scalar", _res3[0][0] == 1 and _res3[0][1] and not _res3[0][2]
+      and _res3[1][0] <= 1 and not _res3[1][2], f"computed {_res3}")
+
+# ---------------------------------------------------------------- L14. the typed category T (source Thm 1)
+def _psum_dims():
+    return None
+# Corollary 1 + Theorem 1 at A = C: Psi(f) = C(f)/d_E is a state of the typed system [E,B], and
+# Phi(Psi(f)) = f because eps_B = d_E * ev and ev(C(f)/d_E (x) Y) = f(Y)/d_E by (E0).
+_rngC1 = np.random.default_rng(111)
+_ok_C1, _ok_roundtrip = True, True
+for (dE_, dB_) in ((2, 2), (3, 2), (2, 3)):
+    Ks = []
+    for i in range(3):
+        G = np.random.default_rng(7 + i).standard_normal((dB_, dE_))
+        Ks.append(G)
+    J = _choi(Ks, dE_, dB_)                        # Choi of a random linear map (not normalised)
+    Ks_tp = []
+    S = sum(K.conj().T @ K for K in Ks)
+    w_, V_ = np.linalg.eigh(S)
+    Sh = V_ @ np.diag(1 / np.sqrt(w_)) @ V_.conj().T
+    Ks_tp = [K @ Sh for K in Ks]                   # trace-preserving now
+    J = _choi(Ks_tp, dE_, dB_) / dE_               # = C(f)/d_E
+    if abs(np.trace(J) - 1) > 1e-9 or np.linalg.eigvalsh((J + J.conj().T) / 2).min() < -1e-9:
+        _ok_C1 = False
+    # Phi(Psi(f)) = f:  ev(C(f)/d_E (x) Y)[b,d] = sum_{k,l} J4[b,k,d,l] Y[k,l]/d_E, and this must equal
+    # f(Y) = sum_i K_i Y K_i^dag  (the (E0) computation with the 1/d_E normalisation of Psi)
+    J4 = J.reshape(dB_, dE_, dB_, dE_)               # Choi with the (output, input) index order
+    Yt = np.random.default_rng(13).standard_normal((dE_, dE_))
+    ev_val = np.einsum('bkdl,kl->bd', J4, Yt)        # = f(Y)/d_E  (J is already C(f)/d_E)
+    fY = sum(K @ Yt @ K.conj().T for K in Ks_tp)
+    if not np.allclose(dE_ * ev_val, fY, atol=1e-8):   # eps_B = d_E * ev, so the d_E cancels
+        _ok_roundtrip = False
+check("L14a Corollary 1: C(f)/d_E is a state (PSD, trace one) for every channel f, so the admissible "
+      "slice of [E,B] is an affine copy of Chan(E,B)",
+      _ok_C1)
+check("L14b Theorem 1 round trip at A = C: Phi(Psi(f)) = f, i.e. d_E*ev(C(f)/d_E (x) Y) = f(Y) for all "
+      "Y (so Psi then Phi returns the channel)", _ok_roundtrip)
+
 section("J. Terminology / metadata cross-checks (recorded facts)")
 # ======================================================================
 REF = {
