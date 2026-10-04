@@ -1,7 +1,18 @@
-# Push status — updated 2026-10-02
+# Push status — updated 2026-10-04
 
-**Status: DONE. Both commits of this audit are on `main` of
+**Status: DONE. All commits of this audit are on `main` of
 https://github.com/MIKEAA2020/arrow-of-time-insight** (`scripts/push_with_token.sh`, exit 0).
+
+| Batch | Commits | Result |
+|---|---|---|
+| audit + second pass | `cf32451` … `5628f5b` | pushed 2026-10-02 |
+| Revision 2.3 (open-problems adjudication) | `1ed8a8c`, `94defd4`, `f3e0cfe` | pushed 2026-10-04: `5628f5b..f3e0cfe HEAD -> main` |
+
+Remote tree verified through the GitHub API at `f3e0cfe`: 29 files, including `audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md`.
+Backup export refreshed after the push: `backup/push/arrow-of-time-insight.bundle`
+sha256 `0e9ab420a164f27376451ed22d3ee4d8c38458e53ee266015dbca36d88cf60c8`, patch
+sha256 `8acf0d21bd49dfa9e55db4f2f0d40a3c268632e3aaf4e412aced99a5a3afaebe` (maximal history makes the
+patch large; the bundle is the canonical transfer artefact).
 
 ## Timeline
 
