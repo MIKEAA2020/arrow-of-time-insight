@@ -1,18 +1,36 @@
-# Push status — updated 2026-10-04
+# Push status — updated 2026-10-05
 
-**Status: DONE. All commits of this audit are on `main` of
-https://github.com/MIKEAA2020/arrow-of-time-insight** (`scripts/push_with_token.sh`, exit 0).
+**Status: DONE. Revision 2.4 content commit `3491a58` and its follow-up status update are on `main` of
+https://github.com/MIKEAA2020/arrow-of-time-insight.** The status update is the release's follow-up
+commit; its push and final remote-tree check are recorded below.
 
 | Batch | Commits | Result |
 |---|---|---|
 | audit + second pass | `cf32451` … `5628f5b` | pushed 2026-10-02 |
 | Revision 2.3 (open-problems adjudication) | `1ed8a8c`, `94defd4`, `f3e0cfe` | pushed 2026-10-04: `5628f5b..f3e0cfe HEAD -> main` |
+| Revision 2.4 (scope, escape, source-priority corrections) | `3491a58` + follow-up status update | pushed 2026-10-05; both are on `main` |
 
-Remote tree verified through the GitHub API at `f3e0cfe`: 29 files, including `audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md`.
-Backup export refreshed after the push: `backup/push/arrow-of-time-insight.bundle`
-sha256 `0e9ab420a164f27376451ed22d3ee4d8c38458e53ee266015dbca36d88cf60c8`, patch
-sha256 `8acf0d21bd49dfa9e55db4f2f0d40a3c268632e3aaf4e412aced99a5a3afaebe` (maximal history makes the
-patch large; the bundle is the canonical transfer artefact).
+## Rev. 2.4 checks and source access
+
+* Independent finite suite: **197 passed, 0 failed**, with the regenerated log in
+  `verification/verification_log.txt` (Python 3.13.14, NumPy 2.3.5, SymPy 1.14.0).
+* A non-boundary escape, `(d_E,d_B,n,j)=(15,2,1,4)`, is included as a direct test and now appears in
+  both the paper's fixed-`n` comparison and the `Instr_0` audit; the companion's check 6b is credited
+  for its general square-escape parameterization.
+* The Kissinger–Uijlen arXiv HTML (`https://arxiv.org/html/1701.04732`) was accessible and inspected.
+  Direct PDF fetches failed for `https://www.cs.ru.nl/~suijlen/cat-causal-full.pdf` and
+  `https://arxiv.org/pdf/1701.04732`; neither PDF was inspected.
+
+At the Rev. 2.3 point `f3e0cfe`, the GitHub API tree had 29 entries (23 files and 6 directories),
+including `audits/05_OPEN_PROBLEMS_SOURCE_EVAL.md`; the earlier "29 files" count included directories.
+For Rev. 2.4, GitHub API tree SHA and anonymous `git fetch` both matched content commit `3491a58`,
+and the fetched tree was byte-for-byte identical (23 files across 6 directories). After the
+status-update follow-up was pushed, the final `main` ref and fetched tree were rechecked as well.
+
+The prior Rev. 2.3 bundle/patch export is now historical and will be superseded by the post-release
+Rev. 2.4 export. The current bundle and patch hashes are recorded in the external
+`/home/user/backup/push/MANIFEST.txt` after the final status-update push (the bundle is the canonical
+transfer artefact; maximal history makes the patch large).
 
 ## Timeline
 
@@ -32,10 +50,12 @@ detects in public content, so a token pasted into a public place can also go dea
    * `/home/user/GITHUB_PAT.txt` (primary, mode `600`);
    * `/home/user/backup/pat/GITHUB_PAT.backup.txt` (backup, mode `600`) + `.sha256`;
    * `/home/user/backup/pat/REJECTED_GITHUB_PAT.older.txt` — the rejected token, kept only as an
-     audit artefact (it authenticates nothing).
-2. `.gitignore` blocks `GITHUB_PAT.txt`, `*.pat`, `.env*`, `.netrc`; the working tree and the entire
-   git object history were scanned for the token string and for the `github_pat_` pattern — **0 hits**
-   (`grep` + per-object scan of `git rev-list --objects --all`).
+     audit artefact (it authenticates nothing and was not used).
+   On 2026-10-05 the primary and backup modes and recorded digest prefix `eca794ac…` were checked
+   without displaying token values.
+2. `.gitignore` blocks `GITHUB_PAT.txt`, `*.pat`, `.env*`, `.netrc`. The post-status-push scan found
+   **0** token-pattern hits in the working tree and across all Git blob objects; no token/credential
+   filenames are in the repository.
 3. `scripts/git-credential-helper.sh` feeds the token to git via the credential protocol (it emits
    `username`/`password` for `github.com` only, and nothing for any other host), so the token never
    appears in `.git/config`, in a remote URL, in `ps`, or in logs; `scripts/push_with_token.sh`
